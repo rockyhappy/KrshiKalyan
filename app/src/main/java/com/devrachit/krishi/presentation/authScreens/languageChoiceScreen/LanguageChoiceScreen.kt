@@ -51,7 +51,7 @@ fun LanguageChoiceScreen(navController: NavController) {
     }
 
     val onGoButtonClick : () -> Unit = {
-        navController.navigate(AuthScreens.LoginScreen.route)
+        navController.navigate(AuthScreens.RegisterScreen.route)
     }
 
     LaunchedEffect(key1 = true) {
