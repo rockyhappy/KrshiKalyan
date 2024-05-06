@@ -14,7 +14,6 @@ fun loginScreen( navController: NavController) {
         text ="Login Screen",
         modifier = Modifier
             .clickable {
-                viewModel.click("Hindi")
                 navController.navigate("RegisterScreen") {
                     popUpTo("LoginScreen") {
                         inclusive = true

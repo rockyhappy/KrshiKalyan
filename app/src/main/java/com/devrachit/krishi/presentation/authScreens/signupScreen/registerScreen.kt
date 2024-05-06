@@ -14,7 +14,6 @@ fun registerScreen(navController: NavController) {
     val viewModel: SignupViewModel = hiltViewModel()
     Text(
         text =viewModel.sharedViewModel.language.collectAsStateWithLifecycle().value ,
-//        text="gjsk",
         modifier = Modifier.clickable {
             navController.navigate("LoginScreen") {
                 popUpTo("RegisterScreen") {

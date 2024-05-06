@@ -13,7 +13,4 @@ class LoginViewModel @Inject constructor(
     val sharedViewModel: SharedViewModel,
     val dataStore: DataStore<Preferences>
 ): ViewModel(){
-    fun click(text:String){
-        sharedViewModel.setLanguage(text)
-    }
 }
