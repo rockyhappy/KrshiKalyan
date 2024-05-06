@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Krishi Kalyan</string>
+    <string name= "language">Language Choice</string>
+    <string name= "english">English</string>
+    <string name= "hindi">Hindi</string>
+    <string name= "language2">भाषा चयन</string>
 </resources>

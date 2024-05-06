@@ -27,6 +27,7 @@ import com.devrachit.krishi.R
 import com.devrachit.krishi.navigation.authNavHost
 import com.devrachit.krishi.ui.theme.KrishiTheme
 import com.devrachit.krishi.ui.theme.primaryVariantColor
+import com.devrachit.krishi.ui.theme.primaryVariantColor1
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -35,10 +36,10 @@ class Auth : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            window.statusBarColor = primaryVariantColor.toArgb()
+            window.statusBarColor = primaryVariantColor1.toArgb()
             window.navigationBarColor = primaryVariantColor.toArgb()
             WindowCompat.setDecorFitsSystemWindows(window, false)
-            WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = true
+            WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = false
             KrishiTheme {
                 Column(
                     modifier = Modifier

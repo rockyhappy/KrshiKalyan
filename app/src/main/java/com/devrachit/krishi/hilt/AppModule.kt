@@ -18,10 +18,8 @@ import javax.inject.Singleton
 @InstallIn(ViewModelComponent::class)
 class AppModule {
 
-//    @ViewModelScoped
-    @Singleton
-    @Provides
-    fun provideSharedViewModel(): SharedViewModel = SharedViewModel()
+//    @Provides
+//    fun provideSharedViewModel(): SharedViewModel = SharedViewModel()
 
 
 
