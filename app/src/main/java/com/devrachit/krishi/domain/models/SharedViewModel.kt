@@ -26,7 +26,7 @@ class SharedViewModel @Inject constructor(){
 
     fun setLanguage(language: String){
         _language.value = language
-        Log.d("language",language)
+        Log.d("language",_language.value)
     }
     fun getLanguage(): String{
         return language.value

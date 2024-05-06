@@ -13,6 +13,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,25 +40,23 @@ fun LanguageChoiceScreen(navController: NavController) {
 
     val viewModel: LanguageChoiceViewModel = hiltViewModel()
     val data : SaveToDataStore = hiltViewModel()
+
     val onEnglishClick: () -> Unit = {
         viewModel.sharedViewModel.setLanguage("English")
-        viewModel.viewModelScope.launch {
-            data.save("language", "English")
-        }
+        viewModel.setLanguage("English")
     }
     val onHindiClick: () -> Unit = {
         viewModel.sharedViewModel.setLanguage("Hindi")
-        viewModel.viewModelScope.launch {
-            data.save("language", "Hindi")
-        }
+        viewModel.setLanguage("Hindi")
     }
 
     val onGoButtonClick : () -> Unit = {
         navController.navigate(AuthScreens.LoginScreen.route)
     }
 
-    LaunchedEffect(key1=true) {
+    LaunchedEffect(key1 = true) {
         val lang=readFromDataStore(viewModel.dataStore,  "language")
+        Log.d("Language", lang?:"")
         if(lang=="English" || lang=="Hindi"){
             viewModel.sharedViewModel.setLanguage(lang)
         }
