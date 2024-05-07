@@ -41,11 +41,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.devrachit.krishi.common.constants.customFontFamily
 import com.devrachit.krishi.datastore.SaveToDataStore
+import com.devrachit.krishi.navigation.AuthScreens
 import com.devrachit.krishi.presentation.authScreens.languageChoiceScreen.components.GoButton
 import com.devrachit.krishi.presentation.authScreens.languageChoiceScreen.components.Heading
 import com.devrachit.krishi.presentation.authScreens.languageChoiceScreen.components.ImageLogo
@@ -54,6 +56,8 @@ import com.devrachit.krishi.presentation.authScreens.languageChoiceScreen.compon
 import com.devrachit.krishi.presentation.authScreens.signupScreen.components.BackBoxSignup2
 import com.devrachit.krishi.presentation.authScreens.signupScreen.components.CustomDropdown
 import com.devrachit.krishi.presentation.authScreens.signupScreen.components.SignupButton
+import com.devrachit.krishi.presentation.authScreens.signupScreen.components.SwitchWithIconExample
+import com.devrachit.krishi.presentation.authScreens.signupScreen.components.clickableWithoutRipple
 import com.devrachit.krishi.presentation.authScreens.signupScreen.components.errorFeild
 import com.devrachit.krishi.ui.theme.errorColor
 import com.devrachit.krishi.ui.theme.gray
@@ -69,9 +73,16 @@ fun registerScreen(navController: NavController) {
     val tempAddressState = remember { mutableStateOf(TextFieldValue()) }
     val permAddressState = remember { mutableStateOf(TextFieldValue()) }
     val identificationNumberState = remember { mutableStateOf(TextFieldValue()) }
-
+    val context = LocalContext.current
     val SignupClicked: () -> Unit = {
 
+    }
+    val onLoginClicked: () -> Unit = {
+        navController.navigate(AuthScreens.LoginScreen.route){
+            popUpTo(AuthScreens.RegisterScreen.route){
+                inclusive = true
+            }
+        }
     }
 
 
@@ -209,6 +220,7 @@ fun registerScreen(navController: NavController) {
             var selectedIndex by remember { mutableStateOf(0) }
             Box(
                 modifier=Modifier.fillMaxWidth()
+                    .align(Alignment.TopCenter)
             )
             {
                 CustomDropdown(
@@ -243,22 +255,40 @@ fun registerScreen(navController: NavController) {
                 ),
             )
             errorFeild(text = "Error Fields", modifier = Modifier.padding(top = 970.dp))
+            var checked by remember { mutableStateOf(true) }
+            SwitchWithIconExample(modifier = Modifier.padding(top = 1020.dp, start=30.dp), checked, onCheckedChange = { checked = it })
+            Text(
+                text= if(viewModel.sharedViewModel.language.collectAsStateWithLifecycle().value == "English")
+                    if(checked)"Borrower"
+                    else "Lender"
+                else
+                if(checked)"उधार लेने वाला"
+                else "उधार देने वाला",
+                modifier = Modifier.padding(top = 1030.dp, start=100.dp),
+                fontFamily = customFontFamily,
+                color = Color.Black,
+                fontSize = 16.sp,
+                textAlign = TextAlign.Center
+            )
 
             SignupButton(
                 text = if(viewModel.sharedViewModel.language.collectAsStateWithLifecycle().value == "English") "SignUp" else "साइन अप",
                 onClick = { SignupClicked() },
                 modifier = Modifier
-                    .padding(top = 1050.dp, start = 16.dp, end = 16.dp)
+                    .padding(top = 1110.dp, start = 16.dp, end = 16.dp)
                     .fillMaxWidth()
                 )
-        }
-        Box(
-            modifier= Modifier
-                .height(170.dp)
-                .padding(top = 630.dp)
-                .fillMaxWidth()
-                .background(Color.White)
+            Text(
+                text=if(viewModel.sharedViewModel.language.collectAsStateWithLifecycle().value == "English") "Already have an account? Click Here" else "पहले से ही खाता है? यहाँ क्लिक करें",
+                modifier = Modifier
+                    .padding(top = 1210.dp, start = 16.dp, end = 16.dp, bottom = 40.dp)
+                    .fillMaxWidth()
+                    .clickable { onLoginClicked() },
+//                    .clickableWithoutRipple(onLoginClicked),
+                textAlign = TextAlign.Center,
+                fontFamily = customFontFamily
 
-        )
+            )
+        }
     }
 }
