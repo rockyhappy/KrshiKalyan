@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "46085725995",
+    "project_id": "krishi-57dd6",
+    "storage_bucket": "krishi-57dd6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:46085725995:android:1668ba804f215ee89a6f6e",
+        "android_client_info": {
+          "package_name": "com.devrachit.krishi"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEEN0MWPwnoX6ZrnCuJZCsiOydOHS7Mbo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

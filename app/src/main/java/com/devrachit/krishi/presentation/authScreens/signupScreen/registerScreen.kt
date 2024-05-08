@@ -286,7 +286,8 @@ fun registerScreen(navController: NavController) {
                     .clickable { onLoginClicked() },
 //                    .clickableWithoutRipple(onLoginClicked),
                 textAlign = TextAlign.Center,
-                fontFamily = customFontFamily
+                fontFamily = customFontFamily,
+                fontSize = 12.sp
 
             )
         }

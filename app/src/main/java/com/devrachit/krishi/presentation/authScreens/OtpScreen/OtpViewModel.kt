@@ -1,4 +1,4 @@
-package com.devrachit.krishi.presentation.authScreens.loginScreen
+package com.devrachit.krishi.presentation.authScreens.OtpScreen
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.datastore.core.DataStore
@@ -8,12 +8,12 @@ import com.devrachit.krishi.domain.models.SharedViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
-@HiltViewModel
-class LoginViewModel @Inject constructor(
 
+@HiltViewModel
+class OtpViewModel @Inject constructor(
     val sharedViewModel: SharedViewModel,
     val dataStore: DataStore<Preferences>
-): ViewModel(){
-    val nameValid = mutableStateOf(true)
+) : ViewModel(){
     val numberValid = mutableStateOf(true)
+
 }

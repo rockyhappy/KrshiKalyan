@@ -5,6 +5,13 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.createDataStore
 import com.devrachit.krishi.domain.models.SharedViewModel
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.firestore
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.storage
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,7 +28,13 @@ class AppModule {
 //    @Provides
 //    fun provideSharedViewModel(): SharedViewModel = SharedViewModel()
 
+    @Provides
+    fun provideAuth(): FirebaseAuth = Firebase.auth
+    @Provides
+    fun provideFirestore(): FirebaseFirestore = Firebase.firestore
 
+    @Provides
+    fun provideStorage(): FirebaseStorage = Firebase.storage
 
     @Provides
     fun provideDataStore(@ApplicationContext context: Context): DataStore<Preferences> {
