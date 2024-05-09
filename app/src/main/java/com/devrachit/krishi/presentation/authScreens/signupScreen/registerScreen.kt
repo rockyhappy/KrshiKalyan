@@ -45,7 +45,11 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewModelScope
 import com.devrachit.krishi.common.constants.customFontFamily
+import com.devrachit.krishi.common.util.address
+import com.devrachit.krishi.common.util.isLongAndLettersOnly
+import com.devrachit.krishi.common.util.isNumbersOnlyAndLengthTen
 import com.devrachit.krishi.datastore.SaveToDataStore
 import com.devrachit.krishi.navigation.AuthScreens
 import com.devrachit.krishi.presentation.authScreens.languageChoiceScreen.components.GoButton
@@ -62,6 +66,8 @@ import com.devrachit.krishi.presentation.authScreens.signupScreen.components.err
 import com.devrachit.krishi.ui.theme.errorColor
 import com.devrachit.krishi.ui.theme.gray
 import com.devrachit.krishi.ui.theme.primaryVariantColor1
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @ExperimentalMaterial3Api
 @Composable
@@ -73,13 +79,58 @@ fun registerScreen(navController: NavController) {
     val tempAddressState = remember { mutableStateOf(TextFieldValue()) }
     val permAddressState = remember { mutableStateOf(TextFieldValue()) }
     val identificationNumberState = remember { mutableStateOf(TextFieldValue()) }
+    val otpNumberState = remember { mutableStateOf(TextFieldValue()) }
+    var isButtonEnabled by remember { mutableStateOf(true) }
+    var timerValue by remember { mutableStateOf(60) }
+    var isTimerRunning by remember { mutableStateOf(false) }
     val context = LocalContext.current
     val SignupClicked: () -> Unit = {
+        viewModel.verifyOTP(otpNumberState.value.text.toString())
+    }
 
+    val sendOtp: () -> Unit = {
+
+        var flag = true
+        if (nameState.value.text.isLongAndLettersOnly())
+            viewModel.nameValid.value = true
+        else {
+            viewModel.nameValid.value = false
+            flag = false
+        }
+
+        if (numberState.value.text.isNumbersOnlyAndLengthTen())
+            viewModel.numberValid.value = true
+        else {
+            viewModel.numberValid.value = false
+            flag = false
+        }
+
+        if (tempAddressState.value.text.address() && permAddressState.value.text.address()) {
+            viewModel.tempAddressValid.value = true
+            viewModel.permAddressValid.value = true
+        } else {
+            viewModel.tempAddressValid.value = false
+            viewModel.permAddressValid.value = false
+            flag = false
+        }
+        if (flag == true) {
+            viewModel.sendOTP(context, numberState.value.text.toString())
+            isButtonEnabled = false
+            isTimerRunning = true
+            viewModel.viewModelScope.launch {
+                while (timerValue > 0) {
+                    delay(1000) // Wait for one second
+                    timerValue--
+                }
+                isButtonEnabled = true
+                isTimerRunning = false
+                timerValue = 60 // Reset timer value
+            }
+        }
     }
     val onLoginClicked: () -> Unit = {
-        navController.navigate(AuthScreens.LoginScreen.route){
-            popUpTo(AuthScreens.RegisterScreen.route){
+        navController.navigate(AuthScreens.LoginScreen.route) {
+            popUpTo(AuthScreens.RegisterScreen.route) {
                 inclusive = true
             }
         }
@@ -215,11 +266,26 @@ fun registerScreen(navController: NavController) {
             )
             errorFeild(text = "Error Fields", modifier = Modifier.padding(top = 770.dp))
 
-            val options = listOf("Aadhar", "Voter ID", "Driving License","Ration Number" , "Passport", "PAN Card")
-            val options1 = listOf("आधार", "मतदाता पहचान पत्र", "ड्राइविंग लाइसेंस","राशन संख्या", "पासपोर्ट", "पैन कार्ड")
+            val options = listOf(
+                "Aadhar",
+                "Voter ID",
+                "Driving License",
+                "Ration Number",
+                "Passport",
+                "PAN Card"
+            )
+            val options1 = listOf(
+                "आधार",
+                "मतदाता पहचान पत्र",
+                "ड्राइविंग लाइसेंस",
+                "राशन संख्या",
+                "पासपोर्ट",
+                "पैन कार्ड"
+            )
             var selectedIndex by remember { mutableStateOf(0) }
             Box(
-                modifier=Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
                     .align(Alignment.TopCenter)
             )
             {
@@ -240,7 +306,7 @@ fun registerScreen(navController: NavController) {
                     .fillMaxWidth(),
                 label = {
                     Text(
-                        text = if (viewModel.sharedViewModel.language.collectAsStateWithLifecycle().value == "English") options[selectedIndex] else options1[selectedIndex] +" " + "नंबर",
+                        text = if (viewModel.sharedViewModel.language.collectAsStateWithLifecycle().value == "English") options[selectedIndex] else options1[selectedIndex] + " " + "नंबर",
                         fontFamily = customFontFamily
                     )
                 },
@@ -256,32 +322,74 @@ fun registerScreen(navController: NavController) {
             )
             errorFeild(text = "Error Fields", modifier = Modifier.padding(top = 970.dp))
             var checked by remember { mutableStateOf(true) }
-            SwitchWithIconExample(modifier = Modifier.padding(top = 1020.dp, start=30.dp), checked, onCheckedChange = { checked = it })
+            SwitchWithIconExample(
+                modifier = Modifier.padding(top = 1020.dp, start = 30.dp),
+                checked,
+                onCheckedChange = { checked = it })
             Text(
-                text= if(viewModel.sharedViewModel.language.collectAsStateWithLifecycle().value == "English")
-                    if(checked)"Borrower"
+                text = if (viewModel.sharedViewModel.language.collectAsStateWithLifecycle().value == "English")
+                    if (checked) "Borrower"
                     else "Lender"
                 else
-                if(checked)"उधार लेने वाला"
-                else "उधार देने वाला",
-                modifier = Modifier.padding(top = 1030.dp, start=100.dp),
+                    if (checked) "उधार लेने वाला"
+                    else "उधार देने वाला",
+                modifier = Modifier.padding(top = 1030.dp, start = 100.dp),
                 fontFamily = customFontFamily,
                 color = Color.Black,
                 fontSize = 16.sp,
                 textAlign = TextAlign.Center
             )
-
+            OutlinedTextField(
+                value = otpNumberState.value,
+                onValueChange = { otpNumberState.value = it },
+                shape = RoundedCornerShape(16.dp),
+                singleLine = true,
+                modifier = Modifier
+                    .padding(top = 1100.dp, start = 16.dp, end = 16.dp)
+                    .fillMaxWidth(),
+                label = {
+                    Text(
+                        text = if (viewModel.sharedViewModel.language.collectAsStateWithLifecycle().value == "English") "OTP" else "ओटीपी",
+                        fontFamily = customFontFamily
+                    )
+                },
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = if (viewModel.otpNumberState.value) primaryVariantColor1 else errorColor,
+                    focusedLabelColor = if (viewModel.otpNumberState.value) primaryVariantColor1 else errorColor,
+                    cursorColor = if (viewModel.otpNumberState.value) primaryVariantColor1 else errorColor,
+                    unfocusedBorderColor = if (viewModel.otpNumberState.value) gray else errorColor,
+                    unfocusedLabelColor = if (viewModel.otpNumberState.value) gray else errorColor,
+                    focusedTextColor = if (viewModel.otpNumberState.value) Color.Black else errorColor,
+                    unfocusedTextColor = if (viewModel.otpNumberState.value) Color.Black else errorColor
+                ),
+                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = androidx.compose.ui.text.input.KeyboardType.Number)
+            )
+            errorFeild(text = "Error Fields", modifier = Modifier.padding(top = 1170.dp))
             SignupButton(
-                text = if(viewModel.sharedViewModel.language.collectAsStateWithLifecycle().value == "English") "SignUp" else "साइन अप",
+                text = if (viewModel.sharedViewModel.language.collectAsStateWithLifecycle().value == "English") {
+                    if (isTimerRunning) "Resend OTP in $timerValue seconds"
+                    else "Get OTP"
+                } else {
+                    if (isTimerRunning) "सेकंड में ओटीपी पुनः भेजें $timerValue"
+                    else "ओटीपी प्राप्त करें"
+                },
+                onClick = { sendOtp() },
+                modifier = Modifier
+                    .padding(top = 1210.dp, start = 16.dp, end = 16.dp)
+                    .fillMaxWidth(),
+                enabled = isButtonEnabled
+            )
+            SignupButton(
+                text = if (viewModel.sharedViewModel.language.collectAsStateWithLifecycle().value == "English") "SignUp" else "साइन अप",
                 onClick = { SignupClicked() },
                 modifier = Modifier
-                    .padding(top = 1110.dp, start = 16.dp, end = 16.dp)
+                    .padding(top = 1310.dp, start = 16.dp, end = 16.dp)
                     .fillMaxWidth()
-                )
+            )
             Text(
-                text=if(viewModel.sharedViewModel.language.collectAsStateWithLifecycle().value == "English") "Already have an account? Click Here" else "पहले से ही खाता है? यहाँ क्लिक करें",
+                text = if (viewModel.sharedViewModel.language.collectAsStateWithLifecycle().value == "English") "Already have an account? Click Here" else "पहले से ही खाता है? यहाँ क्लिक करें",
                 modifier = Modifier
-                    .padding(top = 1210.dp, start = 16.dp, end = 16.dp, bottom = 40.dp)
+                    .padding(top = 1410.dp, start = 16.dp, end = 16.dp, bottom = 40.dp)
                     .fillMaxWidth()
                     .clickable { onLoginClicked() },
 //                    .clickableWithoutRipple(onLoginClicked),
@@ -290,6 +398,7 @@ fun registerScreen(navController: NavController) {
                 fontSize = 12.sp
 
             )
+
         }
     }
 }

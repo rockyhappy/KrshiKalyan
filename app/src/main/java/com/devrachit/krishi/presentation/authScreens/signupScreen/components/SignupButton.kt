@@ -16,7 +16,12 @@ import com.devrachit.krishi.common.constants.customFontFamily
 import com.devrachit.krishi.ui.theme.primaryVariantColor1
 
 @Composable
-fun SignupButton(text: String, onClick: () -> Unit, modifier : Modifier = Modifier) {
+fun SignupButton(
+    text: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true
+) {
     OutlinedButton(
         onClick = { onClick.invoke() },
         modifier = modifier
@@ -28,12 +33,13 @@ fun SignupButton(text: String, onClick: () -> Unit, modifier : Modifier = Modifi
             contentColor = Color.Black,
             containerColor = primaryVariantColor1
         ),
-        border = ButtonDefaults.outlinedButtonBorder
+        border = ButtonDefaults.outlinedButtonBorder,
+        enabled = enabled
 
     ) {
         Text(
             text = text,
-            color = Color.White,
+            color = if(enabled) Color.White else Color.Black,
             fontFamily = customFontFamily,
             fontSize = 16.sp
         )
