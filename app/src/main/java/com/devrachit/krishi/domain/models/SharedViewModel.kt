@@ -44,5 +44,17 @@ class SharedViewModel @Inject constructor(){
         return user.value
     }
 
+
+    private val _isUserLoggedIn = MutableStateFlow(false)
+    var isUserLoggedIn = _isUserLoggedIn.asStateFlow()
+
+    fun setUserLoggedIn(value: Boolean){
+        _isUserLoggedIn.value = value
+    }
+
+    fun getUserLoggedIn(): Boolean{
+        return isUserLoggedIn.value
+    }
+
 }
 

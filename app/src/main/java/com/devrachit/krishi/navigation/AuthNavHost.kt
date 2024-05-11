@@ -15,7 +15,7 @@ import com.devrachit.krishi.presentation.authScreens.signupScreen.registerScreen
 fun authNavHost(navHostController: NavHostController) {
     NavHost(
         navController = navHostController,
-        startDestination = AuthScreens.RegisterScreen.route
+        startDestination = AuthScreens.LanguageChoiceScreen.route
     ) {
         composable(AuthScreens.LoginScreen.route) {
             loginScreen(navController = navHostController)

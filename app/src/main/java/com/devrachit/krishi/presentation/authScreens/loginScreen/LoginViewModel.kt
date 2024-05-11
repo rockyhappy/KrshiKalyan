@@ -32,7 +32,9 @@ class LoginViewModel @Inject constructor(
 ): ViewModel(){
     val nameValid = mutableStateOf(true)
     val numberValid = mutableStateOf(true)
+    val otpValid= mutableStateOf(true)
     val verificationToken = mutableStateOf<String>("")
+
 
     fun sendOTP(context: Context, phoneNumber: String)
     {
@@ -74,6 +76,7 @@ class LoginViewModel @Inject constructor(
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Log.d("phoneBook", "signInWithCredential:success")
+                    sharedViewModel.setUserLoggedIn(true)
                 } else {
                     Log.d("phoneBook", "signInWithCredential:failure", task.exception)
                 }

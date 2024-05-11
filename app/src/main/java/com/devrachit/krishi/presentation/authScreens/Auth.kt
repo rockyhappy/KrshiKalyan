@@ -41,27 +41,10 @@ class Auth : ComponentActivity() {
             WindowCompat.setDecorFitsSystemWindows(window, false)
             WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = false
             KrishiTheme {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(color = primaryVariantColor),
-                    horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally,
-                    verticalArrangement = androidx.compose.foundation.layout.Arrangement.Center
 
-                ) {
-//                    Image(painter = painterResource(id = R.drawable.peasant), contentDescription =null )
-//                    Text(
-//                        text = stringResource(id = R.string.app_name),
-//                        color = Color.Black,
-//                        fontSize = 30.sp,
-//                        fontFamily = FontFamily(Font(R.font.font1)),
-//                        fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
-//                        fontStyle = FontStyle.Normal,
-//                        modifier=Modifier.padding(20.dp)
-//                    )
                     val navController = rememberNavController()
                     authNavHost(navController)
-                }
+
             }
         }
     }
