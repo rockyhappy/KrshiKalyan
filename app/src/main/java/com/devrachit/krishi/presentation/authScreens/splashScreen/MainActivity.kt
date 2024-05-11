@@ -102,7 +102,7 @@ class MainActivity : ComponentActivity() {
                 val auth = Firebase.auth
                 if(auth.currentUser!=null)
                 {
-                    val intent = Intent(this@MainActivity, Auth::class.java)
+                    val intent = Intent(this@MainActivity, DashboardActivity::class.java)
                     startActivity(intent)
                     finish()
                 }

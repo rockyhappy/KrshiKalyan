@@ -22,6 +22,8 @@ import com.google.firebase.storage.FirebaseStorage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -44,10 +46,14 @@ class SignupViewModel @Inject constructor(
     val identificationNumberValid = mutableStateOf(true)
     val verificationToken = mutableStateOf<String>("")
     val otpNumberState = mutableStateOf(true)
+
+    private val _loading = MutableStateFlow(false)
+    val loading = _loading.asStateFlow()
     fun sendOTP(context: Context, phoneNumber: String) {
         Log.d("phoneBook",phoneNumber)
         viewModelScope.launch {
             try{
+                _loading.value = true
                 val callback = object: PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
                     override fun onVerificationCompleted(credential: PhoneAuthCredential) {
                         Log.d("phoneBook","verification completed")
@@ -71,6 +77,7 @@ class SignupViewModel @Inject constructor(
                     .setCallbacks(callback)
                     .build()
                 PhoneAuthProvider.verifyPhoneNumber(options)
+                _loading.value = false
             }
             catch(e: Exception){
                 Log.d("phoneBook",e.toString())
@@ -83,6 +90,7 @@ class SignupViewModel @Inject constructor(
     fun verifyOTP( otp: String) {
         viewModelScope.launch{
             try{
+                _loading.value = true
                 val credential = PhoneAuthProvider.getCredential(verificationToken.value, otp)
                 auth.signInWithCredential(credential)
                     .addOnCompleteListener { task ->
@@ -98,15 +106,19 @@ class SignupViewModel @Inject constructor(
                                     "identificationType" to sharedViewModel.user.value?.identificationType,
                                     "identificationNumber" to sharedViewModel.user.value?.identificationNumber,
                                     "isBorrower" to sharedViewModel.user.value?.isBorrower,
-                                ))
+                                )).addOnCompleteListener {
+                                    _loading.value = false
+                                    sharedViewModel.setUserLoggedIn(true)
+                                }
                         } else {
                             Log.w("phoneBook", "signInWithCredential:failure", task.exception)
                         }
+
                     }
             }
             catch(e :Exception)
             {
-
+                e.printStackTrace()
             }
         }
     }
