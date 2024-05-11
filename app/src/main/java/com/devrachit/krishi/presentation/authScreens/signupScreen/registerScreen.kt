@@ -345,7 +345,7 @@ fun registerScreen(navController: NavController) {
 
             SwitchWithIconExample(
                 modifier = Modifier.padding(top = 1020.dp, start = 30.dp),
-                checked,
+                checked=checked,
                 onCheckedChange = { checked = it })
             Text(
                 text = if (viewModel.sharedViewModel.language.collectAsStateWithLifecycle().value == "English")

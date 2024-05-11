@@ -6,9 +6,11 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -41,11 +43,13 @@ import com.devrachit.krishi.common.constants.customFontFamily
 import com.devrachit.krishi.common.util.address
 import com.devrachit.krishi.common.util.isLongAndLettersOnly
 import com.devrachit.krishi.common.util.isNumbersOnlyAndLengthTen
+import com.devrachit.krishi.common.util.isValidOtp
 import com.devrachit.krishi.domain.models.userModel
 import com.devrachit.krishi.navigation.AuthScreens
 import com.devrachit.krishi.presentation.authScreens.Auth
 import com.devrachit.krishi.presentation.authScreens.languageChoiceScreen.components.Heading
 import com.devrachit.krishi.presentation.authScreens.languageChoiceScreen.components.ImageLogo
+import com.devrachit.krishi.presentation.authScreens.loginScreen.components.LoadingDialog
 import com.devrachit.krishi.presentation.authScreens.signupScreen.components.BackBoxSignup2
 import com.devrachit.krishi.presentation.authScreens.signupScreen.components.SignupButton
 import com.devrachit.krishi.presentation.authScreens.signupScreen.components.errorFeild
@@ -66,14 +70,28 @@ fun loginScreen(navController: NavController) {
     var isSignupButtonEnabled by remember { mutableStateOf(false) }
     var timerValue by remember { mutableStateOf(60) }
     var isTimerRunning by remember { mutableStateOf(false) }
-
+    val loading = viewModel.loading.collectAsStateWithLifecycle()
     val context = LocalContext.current
-    val onGetOtpClicked: () -> Unit = {
-        navController.navigate(AuthScreens.OtpScreen.route)
+    val onCreateAccountClick: () -> Unit = {
+        navController.navigate(AuthScreens.RegisterScreen.route){
+            popUpTo(AuthScreens.LoginScreen.route) {
+                inclusive = true
+            }
+        }
     }
 
     val onLoginClicked: () -> Unit = {
-        viewModel.verifyOTP(otpState.value.text)
+        var flag=true
+
+        if(otpState.value.text.isValidOtp()) {
+            viewModel.otpValid.value = true
+        }
+        else {
+            viewModel.otpValid.value = false
+            flag=false
+        }
+        if(flag==true)
+        viewModel.verifyOTP(context,otpState.value.text)
     }
 
     val sendOtp: () -> Unit = {
@@ -138,6 +156,7 @@ fun loginScreen(navController: NavController) {
                 .background(Color.White),
 //            contentAlignment = Alignment.TopCenter
         ) {
+
             BackBoxSignup2()
             Heading(
                 heading = if (viewModel.sharedViewModel.language.collectAsStateWithLifecycle().value == "English") "Login" else "लॉग इन",
@@ -254,23 +273,35 @@ fun loginScreen(navController: NavController) {
             )
 
             SignupButton(
-                text = if (viewModel.sharedViewModel.language.collectAsStateWithLifecycle().value == "English") "SignUp" else "साइन अप",
+                text = if (viewModel.sharedViewModel.language.collectAsStateWithLifecycle().value == "English") "Login" else "लॉग इन",
                 onClick = { onLoginClicked() },
                 modifier = Modifier
                     .padding(top = 810.dp, start = 16.dp, end = 16.dp)
                     .fillMaxWidth(),
                 enabled = isSignupButtonEnabled
             )
-            Text(
-                text = if (viewModel.sharedViewModel.language.collectAsStateWithLifecycle().value == "English") "Create an account? Click Here" else "खाता बनाएं? यहाँ क्लिक करें",
-                modifier = Modifier
-                    .padding(top = 910.dp, start = 16.dp, end = 16.dp, bottom = 200.dp)
-                    .fillMaxWidth()
-                    .clickable { onLoginClicked() },
-                textAlign = TextAlign.Center,
-                fontFamily = customFontFamily,
-                fontSize = 12.sp
+            Row(modifier = Modifier
+                .padding(top = 910.dp, start = 16.dp, end = 16.dp, bottom = 100.dp)
+                .fillMaxWidth(),
+                horizontalArrangement = androidx.compose.foundation.layout.Arrangement.Center
             )
+            {
+                Text(
+                    text = if (viewModel.sharedViewModel.language.collectAsStateWithLifecycle().value == "English") "Create an account? Click Here" else "खाता बनाएं? यहाँ क्लिक करें",
+                    modifier = Modifier
+                        .wrapContentWidth()
+                        .clickable { onCreateAccountClick() },
+                    textAlign = TextAlign.Center,
+                    fontFamily = customFontFamily,
+                    fontSize = 12.sp
+                )
+            }
+            if (loading.value) {
+                LoadingDialog(isShowingDialog = true)
+            }
+            else{
+                LoadingDialog(isShowingDialog =false)
+            }
 
         }
 

@@ -6,6 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -24,10 +25,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.devrachit.krishi.R
+import com.devrachit.krishi.domain.models.SharedViewModel
 import com.devrachit.krishi.presentation.authScreens.Auth
 import com.devrachit.krishi.ui.theme.KrishiTheme
 import com.devrachit.krishi.ui.theme.primaryVariantColor
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -61,7 +66,11 @@ class DashboardActivity: ComponentActivity() {
                         fontFamily = FontFamily(Font(R.font.font1)),
                         fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
                         fontStyle = FontStyle.Normal,
-                        modifier=Modifier.padding(20.dp)
+                        modifier=Modifier.padding(20.dp).clickable{val auth = Firebase.auth
+                            auth.signOut()
+                            val intent = Intent(this@DashboardActivity, Auth::class.java)
+                            startActivity(intent)
+                            finish()}
                     )
                 }
             }

@@ -50,10 +50,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-//            window.statusBarColor = primaryVariantColor1.toArgb()
-//            window.navigationBarColor = primaryVariantColor1.toArgb()
-//            WindowCompat.setDecorFitsSystemWindows(window, false)
-//            WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = true
             KrishiTheme {
                 Column(
                     modifier = Modifier
