@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.devrachit.krishi.presentation.authScreens.OtpScreen.OtpScreen
 import com.devrachit.krishi.presentation.authScreens.languageChoiceScreen.LanguageChoiceScreen
 import com.devrachit.krishi.presentation.authScreens.loginScreen.loginScreen
 import com.devrachit.krishi.presentation.authScreens.signupScreen.registerScreen
@@ -24,6 +25,9 @@ fun authNavHost(navHostController: NavHostController) {
         }
         composable(AuthScreens.LanguageChoiceScreen.route) {
             LanguageChoiceScreen(navController = navHostController)
+        }
+        composable(AuthScreens.OtpScreen.route) {
+            OtpScreen(navController= navHostController)
         }
     }
 }

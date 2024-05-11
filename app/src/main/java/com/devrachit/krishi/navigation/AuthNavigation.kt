@@ -6,4 +6,6 @@ sealed class AuthScreens(val route: String) {
     object RegisterScreen : AuthScreens("RegisterScreen")
 
     object LanguageChoiceScreen : AuthScreens("LanguageChoiceScreen")
+
+    object OtpScreen : AuthScreens("OtpScreen")
 }
