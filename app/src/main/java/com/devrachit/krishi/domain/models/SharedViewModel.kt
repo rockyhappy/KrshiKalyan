@@ -32,5 +32,17 @@ class SharedViewModel @Inject constructor(){
         return language.value
     }
 
+
+    private val _user= MutableStateFlow<userModel>(userModel("","","","","","",true))
+    var user = _user.asStateFlow()
+
+    fun setUser(user: userModel){
+        _user.value = user
+    }
+
+    fun getUser(): userModel{
+        return user.value
+    }
+
 }
 

@@ -7,11 +7,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -51,6 +53,7 @@ import com.devrachit.krishi.common.util.address
 import com.devrachit.krishi.common.util.isLongAndLettersOnly
 import com.devrachit.krishi.common.util.isNumbersOnlyAndLengthTen
 import com.devrachit.krishi.datastore.SaveToDataStore
+import com.devrachit.krishi.domain.models.userModel
 import com.devrachit.krishi.navigation.AuthScreens
 import com.devrachit.krishi.presentation.authScreens.languageChoiceScreen.components.GoButton
 import com.devrachit.krishi.presentation.authScreens.languageChoiceScreen.components.Heading
@@ -84,6 +87,26 @@ fun registerScreen(navController: NavController) {
     var timerValue by remember { mutableStateOf(60) }
     var isTimerRunning by remember { mutableStateOf(false) }
     val context = LocalContext.current
+    var checked by remember { mutableStateOf(true) }
+    val options = listOf(
+        "Aadhar",
+        "Voter ID",
+        "Driving License",
+        "Ration Number",
+        "Passport",
+        "PAN Card"
+    )
+    val options1 = listOf(
+        "आधार",
+        "मतदाता पहचान पत्र",
+        "ड्राइविंग लाइसेंस",
+        "राशन संख्या",
+        "पासपोर्ट",
+        "पैन कार्ड"
+    )
+    var selectedIndex by remember { mutableStateOf(0) }
+
+
     val SignupClicked: () -> Unit = {
         viewModel.verifyOTP(otpNumberState.value.text.toString())
     }
@@ -115,6 +138,14 @@ fun registerScreen(navController: NavController) {
         }
         if (flag == true) {
             viewModel.sendOTP(context, numberState.value.text.toString())
+            viewModel.sharedViewModel.setUser(userModel(
+                name = nameState.value.text,
+                number = numberState.value.text,
+                tempAddress = tempAddressState.value.text,
+                permAddress = permAddressState.value.text,
+                identificationType = options[selectedIndex],
+                identificationNumber = identificationNumberState.value.text,
+                isBorrower = checked ))
             isButtonEnabled = false
             isTimerRunning = true
             viewModel.viewModelScope.launch {
@@ -182,11 +213,14 @@ fun registerScreen(navController: NavController) {
                     cursorColor = if (viewModel.nameValid.value) primaryVariantColor1 else errorColor,
                     unfocusedBorderColor = if (viewModel.nameValid.value) gray else errorColor,
                     unfocusedLabelColor = if (viewModel.nameValid.value) gray else errorColor,
-                    focusedTextColor = if (viewModel.nameValid.value) Color.Black else errorColor,
-                    unfocusedTextColor = if (viewModel.nameValid.value) Color.Black else errorColor
+                    focusedTextColor = Color.Black ,
+                    unfocusedTextColor = Color.Black
                 )
             )
-            errorFeild(text = "Error Fields", modifier = Modifier.padding(top = 470.dp))
+            errorFeild(
+                text = if(viewModel.sharedViewModel.language.collectAsStateWithLifecycle().value == "English") { if (viewModel.nameValid.value) "" else "Recheck" }
+                        else { if(viewModel.nameValid.value) "" else "पुनः जांचें" },
+                modifier = Modifier.padding(top = 470.dp))
             OutlinedTextField(
                 value = numberState.value,
                 onValueChange = { numberState.value = it },
@@ -207,12 +241,15 @@ fun registerScreen(navController: NavController) {
                     cursorColor = if (viewModel.numberValid.value) primaryVariantColor1 else errorColor,
                     unfocusedBorderColor = if (viewModel.numberValid.value) gray else errorColor,
                     unfocusedLabelColor = if (viewModel.numberValid.value) gray else errorColor,
-                    focusedTextColor = if (viewModel.numberValid.value) Color.Black else errorColor,
-                    unfocusedTextColor = if (viewModel.numberValid.value) Color.Black else errorColor
+                    focusedTextColor =  Color.Black ,
+                    unfocusedTextColor = Color.Black
                 ),
                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = androidx.compose.ui.text.input.KeyboardType.Number)
             )
-            errorFeild(text = "Error Fields", modifier = Modifier.padding(top = 570.dp))
+            errorFeild(
+                text = if(viewModel.sharedViewModel.language.collectAsStateWithLifecycle().value == "English") { if (viewModel.numberValid.value) "" else "Recheck" }
+                else { if(viewModel.numberValid.value) "" else "पुनः जांचें" },
+                modifier = Modifier.padding(top = 570.dp))
 
             OutlinedTextField(
                 value = tempAddressState.value,
@@ -234,8 +271,8 @@ fun registerScreen(navController: NavController) {
                     cursorColor = if (viewModel.tempAddressValid.value) primaryVariantColor1 else errorColor,
                     unfocusedBorderColor = if (viewModel.tempAddressValid.value) gray else errorColor,
                     unfocusedLabelColor = if (viewModel.tempAddressValid.value) gray else errorColor,
-                    focusedTextColor = if (viewModel.tempAddressValid.value) Color.Black else errorColor,
-                    unfocusedTextColor = if (viewModel.tempAddressValid.value) Color.Black else errorColor
+                    focusedTextColor =  Color.Black ,
+                    unfocusedTextColor =  Color.Black
                 ),
             )
             errorFeild(text = "Error Fields", modifier = Modifier.padding(top = 670.dp))
@@ -260,29 +297,13 @@ fun registerScreen(navController: NavController) {
                     cursorColor = if (viewModel.permAddressValid.value) primaryVariantColor1 else errorColor,
                     unfocusedBorderColor = if (viewModel.permAddressValid.value) gray else errorColor,
                     unfocusedLabelColor = if (viewModel.permAddressValid.value) gray else errorColor,
-                    focusedTextColor = if (viewModel.permAddressValid.value) Color.Black else errorColor,
-                    unfocusedTextColor = if (viewModel.permAddressValid.value) Color.Black else errorColor
+                    focusedTextColor =  Color.Black ,
+                    unfocusedTextColor =  Color.Black
                 ),
             )
             errorFeild(text = "Error Fields", modifier = Modifier.padding(top = 770.dp))
 
-            val options = listOf(
-                "Aadhar",
-                "Voter ID",
-                "Driving License",
-                "Ration Number",
-                "Passport",
-                "PAN Card"
-            )
-            val options1 = listOf(
-                "आधार",
-                "मतदाता पहचान पत्र",
-                "ड्राइविंग लाइसेंस",
-                "राशन संख्या",
-                "पासपोर्ट",
-                "पैन कार्ड"
-            )
-            var selectedIndex by remember { mutableStateOf(0) }
+
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -316,12 +337,12 @@ fun registerScreen(navController: NavController) {
                     cursorColor = if (viewModel.identificationNumberValid.value) primaryVariantColor1 else errorColor,
                     unfocusedBorderColor = if (viewModel.identificationNumberValid.value) gray else errorColor,
                     unfocusedLabelColor = if (viewModel.identificationNumberValid.value) gray else errorColor,
-                    focusedTextColor = if (viewModel.identificationNumberValid.value) Color.Black else errorColor,
-                    unfocusedTextColor = if (viewModel.identificationNumberValid.value) Color.Black else errorColor
+                    focusedTextColor =  Color.Black ,
+                    unfocusedTextColor =  Color.Black
                 ),
             )
             errorFeild(text = "Error Fields", modifier = Modifier.padding(top = 970.dp))
-            var checked by remember { mutableStateOf(true) }
+
             SwitchWithIconExample(
                 modifier = Modifier.padding(top = 1020.dp, start = 30.dp),
                 checked,
@@ -359,8 +380,8 @@ fun registerScreen(navController: NavController) {
                     cursorColor = if (viewModel.otpNumberState.value) primaryVariantColor1 else errorColor,
                     unfocusedBorderColor = if (viewModel.otpNumberState.value) gray else errorColor,
                     unfocusedLabelColor = if (viewModel.otpNumberState.value) gray else errorColor,
-                    focusedTextColor = if (viewModel.otpNumberState.value) Color.Black else errorColor,
-                    unfocusedTextColor = if (viewModel.otpNumberState.value) Color.Black else errorColor
+                    focusedTextColor = Color.Black ,
+                    unfocusedTextColor = Color.Black
                 ),
                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = androidx.compose.ui.text.input.KeyboardType.Number)
             )
@@ -386,18 +407,22 @@ fun registerScreen(navController: NavController) {
                     .padding(top = 1310.dp, start = 16.dp, end = 16.dp)
                     .fillMaxWidth()
             )
-            Text(
-                text = if (viewModel.sharedViewModel.language.collectAsStateWithLifecycle().value == "English") "Already have an account? Click Here" else "पहले से ही खाता है? यहाँ क्लिक करें",
-                modifier = Modifier
-                    .padding(top = 1410.dp, start = 16.dp, end = 16.dp, bottom = 40.dp)
-                    .fillMaxWidth()
-                    .clickable { onLoginClicked() },
-//                    .clickableWithoutRipple(onLoginClicked),
-                textAlign = TextAlign.Center,
-                fontFamily = customFontFamily,
-                fontSize = 12.sp
+            Row(modifier = Modifier
+                .padding(top = 1410.dp, start = 16.dp, end = 16.dp, bottom = 40.dp))
+            {
+                Text(
+                    text = if (viewModel.sharedViewModel.language.collectAsStateWithLifecycle().value == "English") "Already have an account? Click Here" else "पहले से ही खाता है? यहाँ क्लिक करें",
+                    modifier = Modifier
+                        .wrapContentWidth(align = Alignment.CenterHorizontally)
+                        .clickable { onLoginClicked() },
+                    textAlign = TextAlign.Center,
+                    fontFamily = customFontFamily,
+                    fontSize = 12.sp
 
-            )
+                )
+            }
+
+
 
         }
     }

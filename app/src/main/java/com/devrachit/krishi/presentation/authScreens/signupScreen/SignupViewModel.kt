@@ -17,6 +17,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -32,6 +33,7 @@ class SignupViewModel @Inject constructor(
     val dataStore: DataStore<Preferences>,
     val auth : FirebaseAuth,
     val storage : FirebaseStorage,
+    val db: FirebaseFirestore,
 
     application: Application,
 ) : AndroidViewModel(application){
@@ -87,6 +89,16 @@ class SignupViewModel @Inject constructor(
                         if (task.isSuccessful) {
                             Log.d("phoneBook", "signInWithCredential:success")
                             val user = task.result?.user
+                            db.collection("users").document(user?.uid.toString()).set(
+                                hashMapOf(
+                                    "name" to sharedViewModel.user.value?.name,
+                                    "phoneNumber" to sharedViewModel.user.value?.number,
+                                    "tempAddress" to sharedViewModel.user.value?.tempAddress,
+                                    "permAddress" to sharedViewModel.user.value?.permAddress,
+                                    "identificationType" to sharedViewModel.user.value?.identificationType,
+                                    "identificationNumber" to sharedViewModel.user.value?.identificationNumber,
+                                    "isBorrower" to sharedViewModel.user.value?.isBorrower,
+                                ))
                         } else {
                             Log.w("phoneBook", "signInWithCredential:failure", task.exception)
                         }
