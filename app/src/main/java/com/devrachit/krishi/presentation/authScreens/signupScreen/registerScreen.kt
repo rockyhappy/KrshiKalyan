@@ -1,75 +1,56 @@
 package com.devrachit.krishi.presentation.authScreens.signupScreen
 
 import android.content.Intent
-import android.provider.SyncStateContract
-import android.util.Log
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
 import com.devrachit.krishi.common.constants.customFontFamily
 import com.devrachit.krishi.common.util.address
 import com.devrachit.krishi.common.util.isLongAndLettersOnly
 import com.devrachit.krishi.common.util.isNumbersOnlyAndLengthTen
 import com.devrachit.krishi.datastore.SaveToDataStore
 import com.devrachit.krishi.domain.models.userModel
-import com.devrachit.krishi.navigation.AuthScreens
+import com.devrachit.krishi.navigation.auth.AuthScreens
 import com.devrachit.krishi.presentation.authScreens.Auth
-import com.devrachit.krishi.presentation.authScreens.languageChoiceScreen.components.GoButton
 import com.devrachit.krishi.presentation.authScreens.languageChoiceScreen.components.Heading
 import com.devrachit.krishi.presentation.authScreens.languageChoiceScreen.components.ImageLogo
-import com.devrachit.krishi.presentation.authScreens.languageChoiceScreen.components.LanguageButton
-import com.devrachit.krishi.presentation.authScreens.languageChoiceScreen.components.backBox
 import com.devrachit.krishi.presentation.authScreens.loginScreen.components.LoadingDialog
 import com.devrachit.krishi.presentation.authScreens.signupScreen.components.BackBoxSignup2
 import com.devrachit.krishi.presentation.authScreens.signupScreen.components.CustomDropdown
 import com.devrachit.krishi.presentation.authScreens.signupScreen.components.SignupButton
 import com.devrachit.krishi.presentation.authScreens.signupScreen.components.SwitchWithIconExample
-import com.devrachit.krishi.presentation.authScreens.signupScreen.components.clickableWithoutRipple
 import com.devrachit.krishi.presentation.authScreens.signupScreen.components.errorFeild
 import com.devrachit.krishi.presentation.dashboardScreens.DashboardActivity
 import com.devrachit.krishi.ui.theme.errorColor
@@ -92,6 +73,7 @@ fun registerScreen(navController: NavController) {
     var isButtonEnabled by remember { mutableStateOf(true) }
     var timerValue by remember { mutableStateOf(60) }
     var isTimerRunning by remember { mutableStateOf(false) }
+    var isSignupButtonEnabled by remember { mutableStateOf(false) }
     val context = LocalContext.current
     val loading = viewModel.loading.collectAsStateWithLifecycle()
     var checked by remember { mutableStateOf(true) }
@@ -144,6 +126,7 @@ fun registerScreen(navController: NavController) {
             flag = false
         }
         if (flag == true) {
+            isSignupButtonEnabled = true
             viewModel.sendOTP(context, numberState.value.text.toString())
             viewModel.sharedViewModel.setUser(
                 userModel(
@@ -458,7 +441,9 @@ fun registerScreen(navController: NavController) {
                 onClick = { SignupClicked() },
                 modifier = Modifier
                     .padding(top = 1310.dp, start = 16.dp, end = 16.dp)
-                    .fillMaxWidth()
+                    .fillMaxWidth(),
+
+                enabled = isSignupButtonEnabled
             )
 
             Row(modifier = Modifier

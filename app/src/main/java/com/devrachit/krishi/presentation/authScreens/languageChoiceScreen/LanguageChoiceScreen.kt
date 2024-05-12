@@ -2,38 +2,29 @@ package com.devrachit.krishi.presentation.authScreens.languageChoiceScreen
 
 import android.util.Log
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.devrachit.krishi.datastore.SaveToDataStore
 import com.devrachit.krishi.datastore.readFromDataStore
-import com.devrachit.krishi.navigation.AuthScreens
+import com.devrachit.krishi.navigation.auth.AuthScreens
 import com.devrachit.krishi.presentation.authScreens.languageChoiceScreen.components.GoButton
 import com.devrachit.krishi.presentation.authScreens.languageChoiceScreen.components.Heading
 import com.devrachit.krishi.presentation.authScreens.languageChoiceScreen.components.ImageLogo
 import com.devrachit.krishi.presentation.authScreens.languageChoiceScreen.components.LanguageButton
 import com.devrachit.krishi.presentation.authScreens.languageChoiceScreen.components.backBox
-import kotlinx.coroutines.launch
 
 @Composable
 fun LanguageChoiceScreen(navController: NavController) {
