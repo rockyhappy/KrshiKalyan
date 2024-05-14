@@ -6,6 +6,8 @@ import android.widget.Toast
 import androidx.compose.runtime.mutableStateOf
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.preferencesKey
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.devrachit.krishi.common.util.getActivity
@@ -81,6 +83,7 @@ class LoginViewModel @Inject constructor(
     }
 
     fun verifyOTP(context : Context,otp: String) {
+        var borrower=false
         viewModelScope.launch {
             try {
                 _loading.value=true
@@ -104,6 +107,7 @@ class LoginViewModel @Inject constructor(
                                                 identificationType=document.getString("identificationType")!!,
                                                 isBorrower = document.getBoolean("isBorrower")!!)
                                             sharedViewModel.setUser(userData)
+                                            borrower=sharedViewModel.getUser().isBorrower
                                             println("DocumentSnapshot data: ${document.data}")
                                         } else {
                                             Log.d("phoneBook", "No such document")
@@ -124,11 +128,18 @@ class LoginViewModel @Inject constructor(
                         }
                         _loading.value=false
                     }
+                save("borrower",borrower.toString())
             }
             catch(e: Exception) {
                 e.printStackTrace()
             }
         }
 
+    }
+    private suspend fun save (key:String , value:String){
+        val dataStoreKey= preferencesKey<String>(key)
+        dataStore.edit{temp ->
+            temp[dataStoreKey]=value
+        }
     }
 }

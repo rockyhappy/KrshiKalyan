@@ -1,4 +1,4 @@
-package com.devrachit.krishi.presentation.dashboardScreens.mainScreen
+package com.devrachit.krishi.presentation.dashboardScreens.mainScreenBorrower
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -13,13 +13,13 @@ import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 @HiltViewModel
-class MainScreenViewModel @Inject constructor(
+class MainScreenBorrowerViewModel @Inject constructor(
     val sharedViewModel: SharedViewModel,
     val dataStore: DataStore<Preferences>,
-    val auth: FirebaseAuth,
-    val storage: FirebaseStorage,
+    val auth : FirebaseAuth,
+    val storage : FirebaseStorage,
     val db: FirebaseFirestore,
-) : ViewModel() {
+) :ViewModel(){
     private val _loading = MutableStateFlow(false)
     val loading = _loading.asStateFlow()
 }

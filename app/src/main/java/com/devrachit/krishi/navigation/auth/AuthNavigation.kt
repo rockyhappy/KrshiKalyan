@@ -8,4 +8,6 @@ sealed class AuthScreens(val route: String) {
     object LanguageChoiceScreen : AuthScreens("LanguageChoiceScreen")
 
     object OtpScreen : AuthScreens("OtpScreen")
+
+    object SplashScreen : AuthScreens("SplashScreen")
 }
