@@ -92,7 +92,7 @@ class LoginViewModel @Inject constructor(
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             Log.d("phoneBook", "signInWithCredential:success")
-
+                            sharedViewModel.setUserLoggedIn(true)
                             val uid=auth.currentUser?.uid
                             if (uid != null) {
                                 db.collection("users").document(uid).get()

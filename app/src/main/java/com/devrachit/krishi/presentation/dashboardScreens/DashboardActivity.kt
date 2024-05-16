@@ -73,7 +73,7 @@ class DashboardActivity : ComponentActivity() {
                     DashNavHost(navHostController =navController,DashScreens.MainScreenBorrower.route)
                 }
                 else{
-                    DashNavHost(navHostController =navController,DashScreens.MainScreen.route)
+                    DashNavHost(navHostController =navController,DashScreens.MainScreenBorrower.route)
                 }
 
             }

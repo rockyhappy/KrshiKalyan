@@ -139,7 +139,6 @@ fun loginScreen(navController: NavController) {
             if(viewModel.sharedViewModel.getUser().isBorrower)
             {
                 navController.navigate(DashScreens.MainScreenBorrower.route){
-                    launchSingleTop=true
                     popUpTo(navController.graph.startDestinationId) {
                         inclusive = true
                     }
@@ -148,7 +147,6 @@ fun loginScreen(navController: NavController) {
             else
             {
                 navController.navigate(DashScreens.MainScreen.route){
-                    launchSingleTop=true
                     popUpTo(navController.graph.startDestinationId) {
                         inclusive = true
                     }

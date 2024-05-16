@@ -43,6 +43,7 @@ import com.devrachit.krishi.common.util.isNumbersOnlyAndLengthTen
 import com.devrachit.krishi.datastore.SaveToDataStore
 import com.devrachit.krishi.domain.models.userModel
 import com.devrachit.krishi.navigation.auth.AuthScreens
+import com.devrachit.krishi.navigation.dashboard.DashScreens
 import com.devrachit.krishi.presentation.authScreens.Auth
 import com.devrachit.krishi.presentation.authScreens.languageChoiceScreen.components.Heading
 import com.devrachit.krishi.presentation.authScreens.languageChoiceScreen.components.ImageLogo
@@ -161,9 +162,23 @@ fun registerScreen(navController: NavController) {
     }
     LaunchedEffect(viewModel.sharedViewModel.getUserLoggedIn()) {
         if (viewModel.sharedViewModel.getUserLoggedIn()) {
-            val intent = Intent(context, DashboardActivity::class.java)
-            ContextCompat.startActivity(context, intent, null)
-            (context as Auth).finish()
+            if(viewModel.sharedViewModel.getUser().isBorrower)
+            {
+                navController.navigate(DashScreens.MainScreenBorrower.route){
+                    popUpTo(navController.graph.startDestinationId) {
+                        inclusive = true
+                    }
+                }
+            }
+            else
+            {
+                navController.navigate(DashScreens.MainScreen.route){
+                    popUpTo(navController.graph.startDestinationId) {
+                        inclusive = true
+                    }
+                }
+            }
+
         }
 
     }

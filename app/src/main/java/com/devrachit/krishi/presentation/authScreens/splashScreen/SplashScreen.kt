@@ -1,6 +1,5 @@
 package com.devrachit.krishi.presentation.authScreens.splashScreen
 
-import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -31,13 +30,7 @@ import androidx.navigation.NavController
 import com.devrachit.krishi.R
 import com.devrachit.krishi.navigation.auth.AuthScreens
 import com.devrachit.krishi.navigation.dashboard.DashScreens
-import com.devrachit.krishi.presentation.authScreens.Auth
-import com.devrachit.krishi.presentation.dashboardScreens.DashboardActivity
 import com.devrachit.krishi.ui.theme.primaryVariantColor
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.delay
 
 @Composable
 fun SplashScreen(navController: NavController) {
