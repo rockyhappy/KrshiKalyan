@@ -2,6 +2,7 @@ package com.devrachit.krishi.presentation.dashboardScreens.mainScreen.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,7 +31,7 @@ import com.devrachit.krishi.domain.models.itemModel
 import com.devrachit.krishi.ui.theme.primaryVariantColor1
 
 @Composable
-fun ProductCard(itemModel: itemModel) {
+fun ProductCard(itemModel: itemModel, onDeleteClick: (itemModel) -> Unit){
     Column(
         modifier = Modifier
             .padding(20.dp)
@@ -103,7 +104,7 @@ fun ProductCard(itemModel: itemModel) {
                 )
                 Icon(imageVector = Icons.Rounded.Delete,
                     contentDescription = "Delete Icon",
-                    modifier = Modifier.padding(top = 200.dp, start = 20.dp))
+                    modifier = Modifier.padding(top = 200.dp, start = 20.dp).clickable { onDeleteClick(itemModel) })
             }
 
         }

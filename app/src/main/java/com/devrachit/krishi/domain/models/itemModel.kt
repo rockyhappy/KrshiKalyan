@@ -7,5 +7,5 @@ data class itemModel(
     val price: String,
     val ownerUid : String,
     val borrowerUid : String? = null,
-    val rating : Float = 4.5f,
+    val rating : String= "4.5",
 )

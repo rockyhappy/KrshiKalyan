@@ -52,8 +52,12 @@ class MainScreenViewModel @Inject constructor(
                                 ownerName = document.getString("ownerName")!!,
                                 ownerUid = document.getString("ownerUid")!!,
                                 price = document.getString("price")!!,
+                                borrowerUid = document.getString("borrowerUid")!!,
+                                rating = document.getString("rating")!!,
                             )
-                            uploads.add(itemData)
+                            if(document.getString("borrowerUid") == "null"){
+                                uploads.add(itemData)
+                            }
                             sharedViewModel.setSelfUploads(uploads)
                             println("Item added ${itemData}")
                         }
@@ -72,5 +76,38 @@ class MainScreenViewModel @Inject constructor(
         }
 
 
+    }
+
+    fun deleteItem(item: itemModel) {
+        viewModelScope.launch {
+            try {
+                _loading.value = true
+                db.collection("items")
+                    .whereEqualTo("ownerUid", auth.currentUser?.uid)
+                    .whereEqualTo("name", item.name)
+                    .get()
+                    .addOnSuccessListener { querySnapshot ->
+                        for (document in querySnapshot.documents) {
+                            db.collection("items").document(document.id).delete()
+                                .addOnSuccessListener {
+                                    Log.d("MainScreen", "DocumentSnapshot successfully deleted!")
+                                    sharedViewModel.deleteSelfUploads(item)
+                                }
+                                .addOnFailureListener { e ->
+                                    Log.w("MainScreen", "Error deleting document", e)
+                                }
+                        }
+                    }
+                    .addOnFailureListener { exception ->
+                        exception.printStackTrace()
+                    }
+                    .addOnCompleteListener {
+                        _loading.value = false
+                        _dataFetch.value = true
+                    }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
     }
 }

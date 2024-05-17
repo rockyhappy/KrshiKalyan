@@ -37,6 +37,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.devrachit.krishi.common.constants.customFontFamily
+import com.devrachit.krishi.domain.models.itemModel
 import com.devrachit.krishi.domain.models.userModel
 import com.devrachit.krishi.navigation.dashboard.DashScreens
 import com.devrachit.krishi.presentation.authScreens.loginScreen.components.LoadingDialog
@@ -67,6 +68,11 @@ fun MainScreenLender(navController: NavController) {
             launchSingleTop = true
         }
         scope.launch { drawerState.close()}
+    }
+
+    val onDeleteClick : (itemModel:itemModel) -> Unit = {
+        var item = it
+        viewModel.deleteItem(item)
     }
     LaunchedEffect(key1=true)
     {
@@ -127,7 +133,7 @@ fun MainScreenLender(navController: NavController) {
                 {
                     val items = viewModel.sharedViewModel.getSelfUploads()
                     items(items.size) {
-                        ProductCard(itemModel = items[it])
+                        ProductCard(itemModel = items[it], onDeleteClick = {onDeleteClick.invoke(it)})
                         println("Main Screen ${items[it].name}")
                     }
                 }
