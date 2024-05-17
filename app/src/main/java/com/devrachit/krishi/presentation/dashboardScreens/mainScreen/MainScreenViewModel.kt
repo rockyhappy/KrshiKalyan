@@ -31,6 +31,8 @@ class MainScreenViewModel @Inject constructor(
 
     private val _dataFetch = MutableStateFlow(false)
     val dataFetch = _dataFetch.asStateFlow()
+
+
     fun logout() {
         auth.signOut()
         sharedViewModel.setUserLoggedIn(false)
@@ -104,6 +106,40 @@ class MainScreenViewModel @Inject constructor(
                     .addOnCompleteListener {
                         _loading.value = false
                         _dataFetch.value = true
+                    }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    fun addItem(itemModel:itemModel)
+    {
+        val item=itemModel(
+            imageUrl = itemModel.imageUrl,
+            name = itemModel.name,
+            ownerName = itemModel.ownerName,
+            ownerUid = itemModel.ownerUid,
+            price = itemModel.price,
+            borrowerUid = itemModel.borrowerUid,
+            rating = itemModel.rating,
+        )
+
+        viewModelScope.launch {
+            try {
+                _loading.value = true
+                db.collection("items")
+                    .add(item)
+                    .addOnSuccessListener { documentReference ->
+                        Log.d("MainScreen", "DocumentSnapshot added with ID: ${documentReference.id}")
+                        sharedViewModel.addSelfUploads(item)
+                    }
+                    .addOnFailureListener { e ->
+                        Log.w("MainScreen", "Error adding document", e)
+                    }
+                    .addOnCompleteListener {
+                        _loading.value = false
+//                        _dataFetch.value = true
                     }
             } catch (e: Exception) {
                 e.printStackTrace()

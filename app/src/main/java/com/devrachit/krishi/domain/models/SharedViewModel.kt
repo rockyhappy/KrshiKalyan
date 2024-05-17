@@ -70,6 +70,11 @@ class SharedViewModel @Inject constructor(){
         _selfUploads.value = list
     }
 
+    fun addSelfUploads(itemModel: itemModel){
+        val list = selfUploads.value.toMutableList()
+        list.add(itemModel)
+        _selfUploads.value = list
+    }
     fun getSelfUploads(): List<itemModel>{
         return selfUploads.value
     }

@@ -29,6 +29,10 @@ class SplashScreenViewModel @Inject constructor(
     private val _selected= MutableStateFlow(0)
     val selected = _selected.asStateFlow()
 
+    init{
+        println("uid${auth.currentUser?.uid}")
+    }
+
     fun getUserData()
     {
         println("getUserDataCalled")

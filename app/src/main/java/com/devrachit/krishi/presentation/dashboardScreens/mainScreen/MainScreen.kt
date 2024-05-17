@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.ExitToApp
@@ -69,7 +70,12 @@ fun MainScreenLender(navController: NavController) {
         }
         scope.launch { drawerState.close()}
     }
-
+    val onMyLendsClick : () -> Unit = {
+        navController.navigate(DashScreens.MainScreen.route){
+            launchSingleTop = true
+        }
+        scope.launch { drawerState.close()}
+    }
     val onDeleteClick : (itemModel:itemModel) -> Unit = {
         var item = it
         viewModel.deleteItem(item)
@@ -89,6 +95,7 @@ fun MainScreenLender(navController: NavController) {
                     .padding(16.dp)
             ) {
                 NavigationDrawerHeader()
+                DrawerItem(text = "My Available Lends", onClick = {onMyLendsClick.invoke() }, Icon = Icons.Filled.AccountCircle )
                 DrawerItem(text = "My Borrowers", onClick = {onMyBorrowersClick.invoke() }, Icon = Icons.Filled.Info )
                 DrawerItem(text = "Contact Us", onClick = { onContactUsClick.invoke()}, Icon = Icons.Filled.Call )
                 DrawerItem(text = "Log Out", onClick = { onlogOutClick.invoke()}, Icon = Icons.Filled.ExitToApp )
