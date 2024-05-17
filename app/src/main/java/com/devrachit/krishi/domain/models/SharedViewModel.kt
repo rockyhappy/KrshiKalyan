@@ -36,6 +36,8 @@ class SharedViewModel @Inject constructor(){
     private val _user= MutableStateFlow<userModel>(userModel("","","","","","",true))
     var user = _user.asStateFlow()
 
+
+
     fun setUser(user: userModel){
         _user.value = user
     }
@@ -54,6 +56,17 @@ class SharedViewModel @Inject constructor(){
 
     fun getUserLoggedIn(): Boolean{
         return isUserLoggedIn.value
+    }
+
+    private val _selfUploads = MutableStateFlow<List<itemModel>>(emptyList())
+    var selfUploads = _selfUploads.asStateFlow()
+
+    fun setSelfUploads(uploads: List<itemModel>){
+        _selfUploads.value = uploads
+    }
+
+    fun getSelfUploads(): List<itemModel>{
+        return selfUploads.value
     }
 
 }

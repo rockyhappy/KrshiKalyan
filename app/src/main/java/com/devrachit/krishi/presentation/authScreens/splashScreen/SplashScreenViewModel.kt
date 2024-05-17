@@ -1,5 +1,6 @@
 package com.devrachit.krishi.presentation.authScreens.splashScreen
 
+import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.lifecycle.ViewModel
@@ -42,6 +43,7 @@ class SplashScreenViewModel @Inject constructor(
                 else{
                     println("User is not null")
                     val uid = auth.currentUser?.uid.toString()
+                    Log.d("uid",uid)
                     db.collection("users").document(uid).get().addOnSuccessListener {document ->
                         if(!document.exists()){
                             setSelected(1)
