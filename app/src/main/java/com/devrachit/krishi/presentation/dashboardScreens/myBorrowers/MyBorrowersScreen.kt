@@ -16,6 +16,8 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,6 +32,7 @@ import com.devrachit.krishi.domain.models.userModel
 import com.devrachit.krishi.navigation.dashboard.DashScreens
 import com.devrachit.krishi.presentation.dashboardScreens.mainScreen.components.Heading
 import com.devrachit.krishi.presentation.dashboardScreens.mainScreen.components.ProductCard
+import com.devrachit.krishi.presentation.dashboardScreens.myBorrowers.components.DialogContent
 import com.devrachit.krishi.presentation.dashboardScreens.myBorrowers.components.ProductCard2
 import com.devrachit.krishi.ui.theme.primaryVariantColor1
 import kotlinx.coroutines.launch
@@ -42,6 +45,7 @@ fun MyBorrowersScreen(navController: NavController) {
     val loading = viewModel.loading.collectAsStateWithLifecycle()
     val dataFetch = viewModel.dataFetch.collectAsStateWithLifecycle()
     var items = viewModel.sharedViewModel.getSelfUploads2()
+    val showDialogBox = remember { mutableStateOf(false) }
     val onDeleteClick: (itemModel: itemModel) -> Unit = {
         var item = it
         viewModel.deleteItem(item)
@@ -50,7 +54,17 @@ fun MyBorrowersScreen(navController: NavController) {
     val onItemClick: (itemModel:itemModel) -> Unit = {
         viewModel.fetchBorrowerDetails(it){
             println("Borrower Details fetched ${it.name}")
+            showDialogBox.value=true
+            viewModel.sharedViewModel.setBorrowerDetails(it)
         }
+    }
+    if(showDialogBox.value){
+        DialogContent(
+            isShowingDialog = showDialogBox.value,
+            userDetails =  viewModel.sharedViewModel.getBorrowerDetails(),
+            onDismissRequest = {
+            showDialogBox.value=false
+        })
     }
     if (dataFetch.value) {
         items = viewModel.sharedViewModel.getSelfUploads2()
@@ -67,7 +81,7 @@ fun MyBorrowersScreen(navController: NavController) {
                 .background(Color.White)
         ) {
             item{
-                Heading("My Borrowed Products", Modifier.padding(top = 100.dp, start = 20.dp))
+                Heading("My Borrowed Products", Modifier.padding(top = 70.dp, start = 20.dp))
             }
             items(items.size) {
                 ProductCard2(itemModel = items[it], onDeleteClick = { onDeleteClick.invoke(it) }, onItemClick = { onItemClick.invoke(it) })

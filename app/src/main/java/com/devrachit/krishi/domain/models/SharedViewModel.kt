@@ -100,5 +100,16 @@ class SharedViewModel @Inject constructor(){
         return selfUploads2.value
     }
 
+
+    val _borrowerDetails = MutableStateFlow<userModel>(userModel("","","","","","",true))
+    var borrowerDetails = _borrowerDetails.asStateFlow()
+
+    fun setBorrowerDetails(user: userModel){
+        _borrowerDetails.value = user
+    }
+
+    fun getBorrowerDetails(): userModel{
+        return borrowerDetails.value
+    }
 }
 
