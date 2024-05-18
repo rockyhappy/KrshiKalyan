@@ -1,0 +1,161 @@
+package com.devrachit.krishi.presentation.dashboardScreens.addProduct
+
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
+import coil.compose.rememberAsyncImagePainter
+import com.devrachit.krishi.common.constants.customFontFamily
+import com.devrachit.krishi.presentation.authScreens.loginScreen.components.LoadingDialog
+import com.devrachit.krishi.presentation.authScreens.signupScreen.components.SignupButton
+import com.devrachit.krishi.presentation.authScreens.signupScreen.components.errorFeild
+import com.devrachit.krishi.presentation.dashboardScreens.addProduct.components.SignupButton2
+import com.devrachit.krishi.ui.theme.errorColor
+import com.devrachit.krishi.ui.theme.gray
+import com.devrachit.krishi.ui.theme.primaryVariantColor1
+
+@Composable
+fun AddProductScreen(navController: NavController) {
+    val viewModel: AddProductViewModel = hiltViewModel()
+    val imageUrl by viewModel.imageUrl.collectAsState()
+    val loading = viewModel.loading.collectAsStateWithLifecycle()
+    val nameState = remember { mutableStateOf(TextFieldValue()) }
+    val numberState = remember { mutableStateOf(TextFieldValue()) }
+    val isButtonEnabled = viewModel.nameValid.value && viewModel.numberValid.value &&  viewModel.getImageUrl() != null
+    val launcher =
+        rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) { uri: Uri? ->
+            uri?.let { viewModel.uploadProductImage(it) }
+        }
+
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(top = 60.dp)
+    )
+    {
+        Box(modifier = Modifier
+            .size(200.dp)
+            .clickable { launcher.launch("image/*") }
+            .clip(CircleShape)
+        )
+        {
+            val painter = if (imageUrl != null) {
+                rememberAsyncImagePainter(imageUrl)
+            } else {
+                rememberAsyncImagePainter("https://via.placeholder.com/200")
+            }
+            Image(painter = painter, contentDescription = null, modifier = Modifier.size(200.dp))
+        }
+        Text(
+            text = "Add Image Here",
+            fontSize = 16.sp,
+            color = Color.Black,
+            modifier = Modifier.padding(top = 20.dp)
+        )
+
+        OutlinedTextField(
+            value = nameState.value,
+            onValueChange = { nameState.value = it },
+            shape = RoundedCornerShape(16.dp),
+            singleLine = true,
+            modifier = Modifier
+                .padding(top = 50.dp, start = 16.dp, end = 16.dp)
+                .fillMaxWidth(),
+            label = {
+                Text(
+                    text = if (viewModel.sharedViewModel.language.collectAsStateWithLifecycle().value == "English") "Product Name" else "उत्पाद का नाम",
+                    fontFamily = customFontFamily
+                )
+            },
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = if (viewModel.nameValid.value) primaryVariantColor1 else errorColor,
+                focusedLabelColor = if (viewModel.nameValid.value) primaryVariantColor1 else errorColor,
+                cursorColor = if (viewModel.nameValid.value) primaryVariantColor1 else errorColor,
+                unfocusedBorderColor = if (viewModel.nameValid.value) gray else errorColor,
+                unfocusedLabelColor = if (viewModel.nameValid.value) gray else errorColor,
+                focusedTextColor = Color.Black,
+                unfocusedTextColor = Color.Black
+            )
+        )
+        errorFeild(
+            text = if (viewModel.nameValid.value) "gsdfgad" else "Recheck",
+            modifier = Modifier.padding(top = 10.dp).align(Alignment.Start)
+        )
+        OutlinedTextField(
+            value = numberState.value,
+            onValueChange = { numberState.value = it },
+            shape = RoundedCornerShape(16.dp),
+            singleLine = true,
+            modifier = Modifier
+                .padding(top = 20.dp, start = 16.dp, end = 16.dp)
+                .fillMaxWidth(),
+            label = {
+                Text(
+                    text = if (viewModel.sharedViewModel.language.collectAsStateWithLifecycle().value == "English") "Price Per Day" else "प्रतिदिन मूल्य",
+                    fontFamily = customFontFamily
+                )
+            },
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = if (viewModel.numberValid.value) primaryVariantColor1 else errorColor,
+                focusedLabelColor = if (viewModel.numberValid.value) primaryVariantColor1 else errorColor,
+                cursorColor = if (viewModel.numberValid.value) primaryVariantColor1 else errorColor,
+                unfocusedBorderColor = if (viewModel.numberValid.value) gray else errorColor,
+                unfocusedLabelColor = if (viewModel.numberValid.value) gray else errorColor,
+                focusedTextColor = Color.Black,
+                unfocusedTextColor = Color.Black
+            ),
+            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = androidx.compose.ui.text.input.KeyboardType.Number)
+        )
+        errorFeild(
+            text = if (viewModel.numberValid.value) "dfgsf" else "Recheck",
+            modifier = Modifier.padding(top = 10.dp).align(Alignment.Start)
+        )
+
+        SignupButton2(
+            text = if (viewModel.sharedViewModel.language.collectAsStateWithLifecycle().value == "English") "Login" else "लॉग इन",
+            onClick = { },
+            modifier = Modifier
+                .padding(top = 70.dp, start = 16.dp, end = 16.dp)
+                .fillMaxWidth(),
+            enabled = isButtonEnabled
+        )
+    }
+
+    if (loading.value) {
+        LoadingDialog(isShowingDialog = true)
+    }
+    else{
+        LoadingDialog(isShowingDialog =false)
+    }
+}

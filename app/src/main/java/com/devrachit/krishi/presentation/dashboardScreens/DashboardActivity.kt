@@ -25,23 +25,34 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.createDataStore
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.compose.rememberNavController
 import com.devrachit.krishi.R
+import com.devrachit.krishi.datastore.readFromDataStore
 import com.devrachit.krishi.domain.models.SharedViewModel
+import com.devrachit.krishi.navigation.dashboard.DashNavHost
+import com.devrachit.krishi.navigation.dashboard.DashScreens
 import com.devrachit.krishi.presentation.authScreens.Auth
 import com.devrachit.krishi.ui.theme.KrishiTheme
 import com.devrachit.krishi.ui.theme.primaryVariantColor
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 @ExperimentalMaterial3Api
-class DashboardActivity: ComponentActivity() {
+class DashboardActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -50,29 +61,21 @@ class DashboardActivity: ComponentActivity() {
             WindowCompat.setDecorFitsSystemWindows(window, false)
             WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = true
             KrishiTheme {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(color = primaryVariantColor),
-                    horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally,
-                    verticalArrangement = androidx.compose.foundation.layout.Arrangement.Center
+                val navController = rememberNavController()
+                val dataStore: DataStore<Preferences> = this.createDataStore(name = "user")
+                var some =false
+                LaunchedEffect(true) {
+                    some = readFromDataStore(dataStore,"borrower").toBoolean()
 
-                ) {
-                    Image(painter = painterResource(id = R.drawable.peasant), contentDescription =null )
-                    Text(
-                        text = stringResource(id = R.string.app_name),
-                        color = Color.Black,
-                        fontSize = 30.sp,
-                        fontFamily = FontFamily(Font(R.font.font1)),
-                        fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
-                        fontStyle = FontStyle.Normal,
-                        modifier=Modifier.padding(20.dp).clickable{val auth = Firebase.auth
-                            auth.signOut()
-                            val intent = Intent(this@DashboardActivity, Auth::class.java)
-                            startActivity(intent)
-                            finish()}
-                    )
                 }
+                if(some)
+                {
+                    DashNavHost(navHostController =navController,DashScreens.MainScreenBorrower.route)
+                }
+                else{
+                    DashNavHost(navHostController =navController,DashScreens.MainScreenBorrower.route)
+                }
+
             }
 
         }

@@ -6,6 +6,8 @@ import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.preferencesKey
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -88,6 +90,7 @@ class SignupViewModel @Inject constructor(
 
 
     fun verifyOTP( otp: String) {
+        var borrower= false
         viewModelScope.launch{
             try{
                 _loading.value = true
@@ -109,17 +112,25 @@ class SignupViewModel @Inject constructor(
                                 )).addOnCompleteListener {
                                     _loading.value = false
                                     sharedViewModel.setUserLoggedIn(true)
+                                borrower = sharedViewModel.user.value?.isBorrower!!
                                 }
                         } else {
                             Log.w("phoneBook", "signInWithCredential:failure", task.exception)
                         }
 
                     }
+                save("borrower",borrower.toString())
             }
             catch(e :Exception)
             {
                 e.printStackTrace()
             }
+        }
+    }
+    private suspend fun save (key:String , value:String){
+        val dataStoreKey= preferencesKey<String>(key)
+        dataStore.edit{temp ->
+            temp[dataStoreKey]=value
         }
     }
 

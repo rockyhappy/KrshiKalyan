@@ -13,11 +13,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Krishi"
         tools:targetApi="31">
+
         <activity
-            android:name=".presentation.authScreens.splashScreen.MainActivity"
+            android:name=".presentation.authScreens.Auth"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.Krishi">
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,18 +27,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".presentation.authScreens.Auth"
-            android:exported="true"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustUnspecified">
-        </activity>
-        <activity
             android:name=".presentation.dashboardScreens.DashboardActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustUnspecified">
+            android:windowSoftInputMode="adjustUnspecified"
+            >
         </activity>
     </application>
 

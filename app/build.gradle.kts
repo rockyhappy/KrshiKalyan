@@ -81,7 +81,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.7.0")
     implementation ("androidx.datastore:datastore-preferences:1.0.0-alpha04")
     implementation ("androidx.datastore:datastore-core:1.0.0-alpha04")
-
+    implementation("io.coil-kt:coil-compose:2.5.0")
     implementation ("com.google.dagger:hilt-android:2.50")
     ksp("com.google.dagger:hilt-compiler:2.50")
 

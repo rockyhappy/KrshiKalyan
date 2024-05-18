@@ -3,7 +3,6 @@ package com.devrachit.krishi.presentation.authScreens.loginScreen
 import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -40,12 +39,12 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.devrachit.krishi.common.constants.customFontFamily
-import com.devrachit.krishi.common.util.address
 import com.devrachit.krishi.common.util.isLongAndLettersOnly
 import com.devrachit.krishi.common.util.isNumbersOnlyAndLengthTen
 import com.devrachit.krishi.common.util.isValidOtp
 import com.devrachit.krishi.domain.models.userModel
-import com.devrachit.krishi.navigation.AuthScreens
+import com.devrachit.krishi.navigation.auth.AuthScreens
+import com.devrachit.krishi.navigation.dashboard.DashScreens
 import com.devrachit.krishi.presentation.authScreens.Auth
 import com.devrachit.krishi.presentation.authScreens.languageChoiceScreen.components.Heading
 import com.devrachit.krishi.presentation.authScreens.languageChoiceScreen.components.ImageLogo
@@ -137,9 +136,23 @@ fun loginScreen(navController: NavController) {
 
     LaunchedEffect(viewModel.sharedViewModel.getUserLoggedIn()) {
         if (viewModel.sharedViewModel.getUserLoggedIn()) {
-            val intent = Intent(context, DashboardActivity::class.java)
-            startActivity(context, intent, null)
-            (context as Auth).finish()
+            if(viewModel.sharedViewModel.getUser().isBorrower)
+            {
+                navController.navigate(DashScreens.MainScreenBorrower.route){
+                    popUpTo(navController.graph.startDestinationId) {
+                        inclusive = true
+                    }
+                }
+            }
+            else
+            {
+                navController.navigate(DashScreens.MainScreen.route){
+                    popUpTo(navController.graph.startDestinationId) {
+                        inclusive = true
+                    }
+                }
+            }
+
         }
 
     }
