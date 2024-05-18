@@ -37,7 +37,6 @@ class SplashScreenViewModel @Inject constructor(
     {
         println("getUserDataCalled")
         viewModelScope.launch {
-            delay(1000)
             try{
                 if(auth.currentUser==null)
                 {
