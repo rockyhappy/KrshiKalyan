@@ -37,7 +37,6 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.devrachit.krishi.common.constants.customFontFamily
 import com.devrachit.krishi.domain.models.itemModel
 import com.devrachit.krishi.domain.models.userModel
 import com.devrachit.krishi.navigation.dashboard.DashScreens
@@ -92,7 +91,6 @@ fun MainScreenLender(navController: NavController) {
     {
         viewModel.getSelfUploads()
     }
-
     ModalNavigationDrawer(
         drawerContent = {
             Column(
