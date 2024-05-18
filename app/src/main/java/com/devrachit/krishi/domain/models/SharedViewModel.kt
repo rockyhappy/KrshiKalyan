@@ -79,5 +79,26 @@ class SharedViewModel @Inject constructor(){
         return selfUploads.value
     }
 
+    private val _selfUploads2 = MutableStateFlow<List<itemModel>>(emptyList())
+    var selfUploads2 = _selfUploads2.asStateFlow()
+
+    fun setSelfUploads2(uploads: List<itemModel>){
+        _selfUploads2.value = uploads
+    }
+    fun deleteSelfUploads2(itemModel: itemModel){
+        val list = selfUploads2.value.toMutableList()
+        list.remove(itemModel)
+        _selfUploads2.value = list
+    }
+
+    fun addSelfUploads2(itemModel: itemModel){
+        val list = selfUploads2.value.toMutableList()
+        list.add(itemModel)
+        _selfUploads2.value = list
+    }
+    fun getSelfUploads2(): List<itemModel>{
+        return selfUploads2.value
+    }
+
 }
 

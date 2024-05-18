@@ -65,7 +65,7 @@ fun MainScreenLender(navController: NavController) {
         scope.launch { drawerState.close()}
     }
     val onMyBorrowersClick : () -> Unit = {
-        navController.navigate(DashScreens.MainScreen.route){
+        navController.navigate(DashScreens.MyBorrowersScreen.route){
             launchSingleTop = true
         }
         scope.launch { drawerState.close()}
@@ -79,6 +79,12 @@ fun MainScreenLender(navController: NavController) {
     val onDeleteClick : (itemModel:itemModel) -> Unit = {
         var item = it
         viewModel.deleteItem(item)
+    }
+    val onAddProductClick : () -> Unit = {
+        navController.navigate(DashScreens.AddProductScreen.route){
+            launchSingleTop = true
+        }
+        scope.launch { drawerState.close()}
     }
     LaunchedEffect(key1=true)
     {
@@ -123,7 +129,7 @@ fun MainScreenLender(navController: NavController) {
             },
             containerColor = Color.White,
             floatingActionButton = {
-                FloatingActionButton(onClick = { }, containerColor = primaryVariantColor1) {
+                FloatingActionButton(onClick = { onAddProductClick()}, containerColor = primaryVariantColor1) {
                     Icon(imageVector = Icons.Filled.Add, contentDescription = "Call", tint = Color.White)
                 }
             },

@@ -47,6 +47,7 @@ class MainScreenViewModel @Inject constructor(
                     .get()
                     .addOnSuccessListener { querySnapshot ->
                         val uploads = mutableListOf<itemModel>()
+                        val uploads2 = mutableListOf<itemModel>()
                         for (document in querySnapshot.documents) {
                             var itemData = itemModel(
                                 imageUrl = document.getString("imageUrl")!!,
@@ -60,7 +61,11 @@ class MainScreenViewModel @Inject constructor(
                             if(document.getString("borrowerUid") == "null"){
                                 uploads.add(itemData)
                             }
+                            else{
+                                uploads2.add(itemData)
+                            }
                             sharedViewModel.setSelfUploads(uploads)
+                            sharedViewModel.setSelfUploads2(uploads2)
                             println("Item added ${itemData}")
                         }
                         println("Uploads $uploads")

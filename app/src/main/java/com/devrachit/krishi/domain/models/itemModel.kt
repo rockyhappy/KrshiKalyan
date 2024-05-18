@@ -6,6 +6,6 @@ data class itemModel(
     val ownerName: String,
     val price: String,
     val ownerUid : String,
-    val borrowerUid : String? = null,
+    val borrowerUid : String,
     val rating : String= "4.5",
 )

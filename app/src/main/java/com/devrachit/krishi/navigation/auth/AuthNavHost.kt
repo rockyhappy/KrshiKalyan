@@ -11,8 +11,11 @@ import com.devrachit.krishi.presentation.authScreens.languageChoiceScreen.Langua
 import com.devrachit.krishi.presentation.authScreens.loginScreen.loginScreen
 import com.devrachit.krishi.presentation.authScreens.signupScreen.registerScreen
 import com.devrachit.krishi.presentation.authScreens.splashScreen.SplashScreen
+import com.devrachit.krishi.presentation.dashboardScreens.addProduct.AddProductScreen
 import com.devrachit.krishi.presentation.dashboardScreens.mainScreen.MainScreenLender
 import com.devrachit.krishi.presentation.dashboardScreens.mainScreenBorrower.MainScreenBorrower
+import com.devrachit.krishi.presentation.dashboardScreens.myBorrowers.MyBorrowersScreen
+import com.devrachit.krishi.presentation.dashboardScreens.reviewScreen.ReviewScreen
 
 @ExperimentalMaterial3Api
 @Composable
@@ -41,6 +44,15 @@ fun authNavHost(navHostController: NavHostController) {
         }
         composable(AuthScreens.SplashScreen.route){
             SplashScreen(navController = navHostController)
+        }
+        composable(DashScreens.AddProductScreen.route){
+            AddProductScreen(navController = navHostController)
+        }
+        composable(DashScreens.ReviewScreen.route){
+            ReviewScreen(navController = navHostController)
+        }
+        composable(DashScreens.MyBorrowersScreen.route){
+            MyBorrowersScreen(navController = navHostController)
         }
 
     }
