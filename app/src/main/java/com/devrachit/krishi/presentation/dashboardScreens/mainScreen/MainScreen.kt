@@ -58,6 +58,7 @@ fun MainScreenLender(navController: NavController) {
     val user : userModel= viewModel.sharedViewModel.getUser()
     val loading = viewModel.loading.collectAsStateWithLifecycle()
     val dataFetch = viewModel.dataFetch.collectAsStateWithLifecycle()
+    val items = viewModel.sharedViewModel.selfUploads.collectAsStateWithLifecycle().value
     val onlogOutClick : () -> Unit = {
         scope.launch { drawerState.close()}
     }
@@ -79,6 +80,7 @@ fun MainScreenLender(navController: NavController) {
     val onDeleteClick : (itemModel:itemModel) -> Unit = {
         var item = it
         viewModel.deleteItem(item)
+
     }
     val onAddProductClick : () -> Unit = {
         navController.navigate(DashScreens.AddProductScreen.route){
@@ -144,7 +146,7 @@ fun MainScreenLender(navController: NavController) {
 
                 if(!loading.value && dataFetch.value)
                 {
-                    val items = viewModel.sharedViewModel.getSelfUploads()
+
                     items(items.size) {
                         ProductCard(itemModel = items[it], onDeleteClick = {onDeleteClick.invoke(it)})
                         println("Main Screen ${items[it].name}")

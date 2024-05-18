@@ -36,6 +36,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.devrachit.krishi.common.constants.customFontFamily
+import com.devrachit.krishi.common.util.isLongAndLettersOnly
 import com.devrachit.krishi.presentation.authScreens.loginScreen.components.LoadingDialog
 import com.devrachit.krishi.presentation.authScreens.signupScreen.components.SignupButton
 import com.devrachit.krishi.presentation.authScreens.signupScreen.components.errorFeild
@@ -51,11 +52,22 @@ fun AddProductScreen(navController: NavController) {
     val loading = viewModel.loading.collectAsStateWithLifecycle()
     val nameState = remember { mutableStateOf(TextFieldValue()) }
     val numberState = remember { mutableStateOf(TextFieldValue()) }
-    val isButtonEnabled = viewModel.nameValid.value && viewModel.numberValid.value &&  viewModel.getImageUrl() != null
+    val isButtonEnabled = viewModel.getImageUrl() != null
     val launcher =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) { uri: Uri? ->
             uri?.let { viewModel.uploadProductImage(it) }
         }
+    val onAddProductClicked: () -> Unit = {
+        if(nameState.value.text.isLongAndLettersOnly() && numberState.value.text.isNotEmpty())
+        {
+            viewModel.nameValid.value = true
+            viewModel.addItem(name=nameState.value.text, price=numberState.value.text, imageUrl =  imageUrl.toString())
+        }
+        else{
+            viewModel.nameValid.value = false
+            viewModel.numberValid.value = false
+        }
+    }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -109,7 +121,7 @@ fun AddProductScreen(navController: NavController) {
             )
         )
         errorFeild(
-            text = if (viewModel.nameValid.value) "gsdfgad" else "Recheck",
+            text = if (viewModel.nameValid.value) "" else "Recheck",
             modifier = Modifier.padding(top = 10.dp).align(Alignment.Start)
         )
         OutlinedTextField(
@@ -138,13 +150,13 @@ fun AddProductScreen(navController: NavController) {
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = androidx.compose.ui.text.input.KeyboardType.Number)
         )
         errorFeild(
-            text = if (viewModel.numberValid.value) "dfgsf" else "Recheck",
+            text = if (viewModel.numberValid.value) "" else "Recheck",
             modifier = Modifier.padding(top = 10.dp).align(Alignment.Start)
         )
 
         SignupButton2(
             text = if (viewModel.sharedViewModel.language.collectAsStateWithLifecycle().value == "English") "Login" else "लॉग इन",
-            onClick = { },
+            onClick = { onAddProductClicked.invoke()},
             modifier = Modifier
                 .padding(top = 70.dp, start = 16.dp, end = 16.dp)
                 .fillMaxWidth(),

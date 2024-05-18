@@ -1,12 +1,14 @@
 package com.devrachit.krishi.presentation.dashboardScreens.addProduct
 
 import android.net.Uri
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.devrachit.krishi.domain.models.SharedViewModel
+import com.devrachit.krishi.domain.models.itemModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -57,6 +59,41 @@ class AddProductViewModel @Inject constructor(
                     }
             }
             catch(e:Exception){
+                e.printStackTrace()
+            }
+        }
+    }
+
+
+    fun addItem(price: String, imageUrl: String, name: String)
+    {
+        val item= itemModel(
+            imageUrl = imageUrl,
+            name = name,
+            ownerName = sharedViewModel.getUser().name,
+            ownerUid = auth.currentUser?.uid!!,
+            price = price,
+            borrowerUid = "null",
+            rating = "4.5",
+        )
+
+        viewModelScope.launch {
+            try {
+                _loading.value = true
+                db.collection("items")
+                    .add(item)
+                    .addOnSuccessListener { documentReference ->
+                        Log.d("MainScreen", "DocumentSnapshot added with ID: ${documentReference.id}")
+                        sharedViewModel.addSelfUploads(item)
+                    }
+                    .addOnFailureListener { e ->
+                        Log.w("MainScreen", "Error adding document", e)
+                    }
+                    .addOnCompleteListener {
+                        _loading.value = false
+//                        _dataFetch.value = true
+                    }
+            } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
