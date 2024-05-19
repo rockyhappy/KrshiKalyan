@@ -123,7 +123,7 @@ fun MainScreenBorrower(navController: NavController)
                     text = if(viewModel.sharedViewModel.getLanguage()=="English") "My Requests" else "मेरे अनुरोध",
                     onClick = { onMyRequestClick.invoke()}, Icon = Icons.Filled.Info )
                 DrawerItem(
-                    text = if(viewModel.sharedViewModel.getLanguage()=="English") "My Borrowed Products" else "मेरे उधारी उत्पाद",
+                    text = if(viewModel.sharedViewModel.getLanguage()=="English") "My Borrowed Item" else "मेरे उधारी उत्पाद",
                     onClick = { onMyBorrowedProductsClick.invoke()}, Icon = Icons.Filled.CheckCircle )
                 DrawerItem(
                     text = if(viewModel.sharedViewModel.getLanguage()=="English") "Contact Us" else "संपर्क करें",
