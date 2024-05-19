@@ -35,7 +35,7 @@ import com.devrachit.krishi.presentation.dashboardScreens.mainScreen.components.
 import com.devrachit.krishi.ui.theme.primaryVariantColor1
 
 @Composable
-fun ProductCard3(itemModel: itemModel, onDeleteClick: (itemModel) -> Unit){
+fun ProductCard3(itemModel: itemModel, onRequestBooking: (itemModel) -> Unit){
     Column(
         modifier = Modifier
             .padding(20.dp)
@@ -109,11 +109,8 @@ fun ProductCard3(itemModel: itemModel, onDeleteClick: (itemModel) -> Unit){
                     color = Color.Black,
                     fontFamily = customFontFamily
                 )
-//                Icon(imageVector = Icons.Rounded.Delete,
-//                    contentDescription = "Delete Icon",
-//                    modifier = Modifier.padding(top = 200.dp, start = 20.dp).clickable { onDeleteClick(itemModel) })
             }
-            CustomButton(text = "Request Booking", onClick = { }, modifier=Modifier.padding(top= 140.dp, start = 135.dp))
+            CustomButton(text = "Request Booking", onClick = { onRequestBooking(itemModel)}, modifier=Modifier.padding(top= 140.dp, start = 135.dp))
         }
     }
 }

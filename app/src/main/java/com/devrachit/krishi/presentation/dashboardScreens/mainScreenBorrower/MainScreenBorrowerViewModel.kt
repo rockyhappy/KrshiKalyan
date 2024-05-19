@@ -17,16 +17,17 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 @HiltViewModel
 class MainScreenBorrowerViewModel @Inject constructor(
     val sharedViewModel: SharedViewModel,
     val dataStore: DataStore<Preferences>,
-    val auth : FirebaseAuth,
-    val storage : FirebaseStorage,
+    val auth: FirebaseAuth,
+    val storage: FirebaseStorage,
     val db: FirebaseFirestore,
-) :ViewModel(){
+) : ViewModel() {
     private val _loading = MutableStateFlow(false)
     val loading = _loading.asStateFlow()
 
@@ -38,9 +39,11 @@ class MainScreenBorrowerViewModel @Inject constructor(
 
     private val _items = MutableStateFlow<List<itemModel>>(emptyList())
     val items = _items.asStateFlow()
+
     init {
         observeSearchQuery()
     }
+
     private fun observeSearchQuery() {
         viewModelScope.launch {
             searchQuery
@@ -51,6 +54,7 @@ class MainScreenBorrowerViewModel @Inject constructor(
                 }
         }
     }
+
     fun setSearchQuery(query: String) {
         _searchQuery.value = query
     }
@@ -73,11 +77,19 @@ class MainScreenBorrowerViewModel @Inject constructor(
                                 price = document.getString("price")!!,
                                 borrowerUid = document.getString("borrowerUid")!!,
                                 rating = document.getString("rating")!!,
+                                uid=document.id
                             )
-                            if(document.getString("borrowerUid") == "null" && itemData.name.contains(query, ignoreCase = true)){
+                            if (document.getString("borrowerUid") == "null" && itemData.name.contains(
+                                    query,
+                                    ignoreCase = true
+                                )
+                            ) {
                                 uploads.add(itemData)
-                            }
-                            else if(document.getString("borrowerUid") == auth.currentUser?.uid && itemData.name.contains(query, ignoreCase = true)){
+                            } else if (document.getString("borrowerUid") == auth.currentUser?.uid && itemData.name.contains(
+                                    query,
+                                    ignoreCase = true
+                                )
+                            ) {
                                 uploads2.add(itemData)
                             }
                             sharedViewModel.setSelfUploads(uploads)
@@ -100,5 +112,48 @@ class MainScreenBorrowerViewModel @Inject constructor(
         }
 
 
+    }
+
+    fun addItemToBorrow(item: itemModel) {
+        viewModelScope.launch {
+            try {
+                _loading.value = true
+                val querySnapshot = db.collection("itemRequest")
+                    .whereEqualTo("uid", item.uid)
+                    .get()
+                    .await()
+                if (querySnapshot.isEmpty) {
+                    db.collection("itemRequest").add(
+                        itemModel(
+                            imageUrl = item.imageUrl,
+                            name = item.name,
+                            ownerName = item.ownerName,
+                            ownerUid = item.ownerUid,
+                            price = item.price,
+                            borrowerUid = auth.currentUser!!.uid,
+                            rating = item.rating,
+                            uid = item.uid
+                        )
+                    )
+                        .addOnSuccessListener {
+                            println("Item added successfully: $it")
+                        }
+                        .addOnFailureListener { exception ->
+                            exception.printStackTrace()
+                        }
+                        .addOnCompleteListener {
+                            _loading.value = false
+                        }
+                }
+                else
+                {
+                    _loading.value = false
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                _loading.value = false
+            }
+
+        }
     }
 }

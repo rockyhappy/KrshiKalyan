@@ -41,6 +41,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.devrachit.krishi.domain.models.itemModel
 import com.devrachit.krishi.domain.models.userModel
 import com.devrachit.krishi.presentation.authScreens.loginScreen.components.LoadingDialog
 import com.devrachit.krishi.presentation.dashboardScreens.mainScreen.MainScreenViewModel
@@ -70,10 +71,9 @@ fun MainScreenBorrower(navController: NavController)
     val onContactUsClick : () -> Unit = {
         scope.launch { drawerState.close()}
     }
-//    LaunchedEffect(key1=true)
-//    {
-//        viewModel.getSelfUploads()
-//    }
+    val onRequestBooking : (itemModel: itemModel) -> Unit = {
+        viewModel.addItemToBorrow(it)
+    }
     ModalNavigationDrawer(
         drawerContent = {
             Column(
@@ -112,7 +112,6 @@ fun MainScreenBorrower(navController: NavController)
             containerColor = Color.White,
         ) {
             Log.d("MainScreen Borrower", it.toString())
-//            Heading("My available borrows", Modifier.padding(top=100.dp, start=20.dp))
             LazyColumn(
                 modifier= Modifier
                     .padding(top = 120.dp)
@@ -144,7 +143,7 @@ fun MainScreenBorrower(navController: NavController)
                         )
                     }
                     items(items.size) {
-                        ProductCard3(itemModel = items[it], onDeleteClick = {})
+                        ProductCard3(itemModel = items[it],  onRequestBooking = {onRequestBooking.invoke(it)})
                         println("Main Screen Borrower ${items[it].name}")
                     }
                 }

@@ -67,7 +67,7 @@ class AddProductViewModel @Inject constructor(
 
     fun addItem(price: String, imageUrl: String, name: String)
     {
-        val item= itemModel(
+        var item= itemModel(
             imageUrl = imageUrl,
             name = name,
             ownerName = sharedViewModel.getUser().name,
@@ -80,10 +80,11 @@ class AddProductViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 _loading.value = true
-                db.collection("items")
-                    .add(item)
+                val uniqueId = db.collection("itemRequest").document().id
+                item.uid = uniqueId
+                db.collection("items").document(uniqueId).set(item)
                     .addOnSuccessListener { documentReference ->
-                        Log.d("MainScreen", "DocumentSnapshot added with ID: ${documentReference.id}")
+                        Log.d("MainScreen", "DocumentSnapshot added with ID: ${documentReference}")
                         sharedViewModel.addSelfUploads(item)
                     }
                     .addOnFailureListener { e ->

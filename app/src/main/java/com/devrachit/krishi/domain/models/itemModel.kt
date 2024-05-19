@@ -8,4 +8,5 @@ data class itemModel(
     val ownerUid : String,
     val borrowerUid : String,
     val rating : String= "4.5",
+    var uid : String = ""
 )
