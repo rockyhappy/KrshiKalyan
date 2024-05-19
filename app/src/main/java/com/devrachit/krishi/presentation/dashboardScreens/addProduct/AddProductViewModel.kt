@@ -34,6 +34,10 @@ class AddProductViewModel @Inject constructor(
         return imageUrl.value
     }
 
+    fun setImageUrl(value: String) {
+        _imageUrl.value = value
+    }
+
     private val _loading = MutableStateFlow(false)
     val loading = _loading.asStateFlow()
 
@@ -106,4 +110,40 @@ class AddProductViewModel @Inject constructor(
             }
         }
     }
+
+    val _predef= MutableStateFlow<Map<String, Any>>(mapOf())
+    val preDef = _predef.asStateFlow()
+
+    fun setPreDef(data: Map<String, Any>){
+        _predef.value = data
+    }
+    fun fetchPreDef()
+    {
+        viewModelScope.launch {
+            try{
+                _loading.value = true
+                db.collection("predef").document("EdvCgFzkRHkkGHmpqQFj").get()
+                    .addOnSuccessListener { document ->
+                        if (document != null) {
+                            val data = document.data
+                            if (data != null) {
+                                _predef.value = data
+                                for((key, value) in data){
+                                    Log.d("MainScreen", "$key => $value")}
+                            }
+                        }
+                    }
+                    .addOnFailureListener { exception ->
+                        exception.printStackTrace()
+                    }
+                    .addOnCompleteListener {
+                        _loading.value = false
+                    }
+            }
+            catch (e: Exception){
+                e.printStackTrace()
+            }
+        }
+    }
+
 }
