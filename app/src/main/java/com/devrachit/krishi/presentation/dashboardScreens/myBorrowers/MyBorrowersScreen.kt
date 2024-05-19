@@ -93,4 +93,8 @@ fun MyBorrowersScreen(navController: NavController) {
 
         }
     }
+    fun approveRequest(itemModel:itemModel)
+    {
+
+    }
 }

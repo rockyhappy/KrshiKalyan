@@ -1,6 +1,7 @@
 package com.devrachit.krishi.presentation.dashboardScreens.addProduct
 
 import android.net.Uri
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -27,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -54,6 +56,7 @@ fun AddProductScreen(navController: NavController) {
     val numberState = remember { mutableStateOf(TextFieldValue()) }
     val isButtonEnabled = viewModel.getImageUrl() != null
     val dataFetch= viewModel.dataFetch.collectAsStateWithLifecycle().value
+    val context = LocalContext.current
     val launcher =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) { uri: Uri? ->
             uri?.let { viewModel.uploadProductImage(it) }
@@ -73,7 +76,8 @@ fun AddProductScreen(navController: NavController) {
 
     if(dataFetch)
     {
-        navController.popBackStack()
+        viewModel.setDataFetch(false)
+        Toast.makeText(context, "Product Added Successfully", Toast.LENGTH_SHORT).show()
     }
 
     Column(

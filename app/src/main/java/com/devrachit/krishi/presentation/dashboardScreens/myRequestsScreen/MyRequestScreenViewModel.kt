@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.devrachit.krishi.domain.models.SharedViewModel
 import com.devrachit.krishi.domain.models.itemModel
+import com.devrachit.krishi.domain.models.userModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -28,6 +29,9 @@ class MyRequestScreenViewModel @Inject constructor(
 
     private val _dataFetch = MutableStateFlow(false)
     val dataFetch = _dataFetch.asStateFlow()
+
+    private val _borrowerDetails =MutableStateFlow(userModel("","","","","","",true))
+    val borrowerDetails = _borrowerDetails.asStateFlow()
 
     fun getMyRequests() {
         viewModelScope.launch {
@@ -62,6 +66,29 @@ class MyRequestScreenViewModel @Inject constructor(
                     }
             }
             catch(e:Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+    fun fetchBorrowerDetails(itemModel:itemModel, onResult: (userModel) -> Unit)
+    {
+        viewModelScope.launch {
+            try {
+                db.collection("users").document(itemModel.borrowerUid).get().addOnSuccessListener { document ->
+                    if (document.exists()) {
+                        val userData = userModel(
+                            name = document.getString("name")!!,
+                            number = document.getString("phoneNumber")!!,
+                            tempAddress = document.getString("tempAddress")!!,
+                            permAddress = document.getString("permAddress")!!,
+                            identificationNumber = document.getString("identificationNumber")!!,
+                            identificationType = document.getString("identificationType")!!,
+                            isBorrower = document.getBoolean("isBorrower")!!
+                        )
+                        onResult(userData)
+                    }
+                }
+            } catch (e: Exception) {
                 e.printStackTrace()
             }
         }

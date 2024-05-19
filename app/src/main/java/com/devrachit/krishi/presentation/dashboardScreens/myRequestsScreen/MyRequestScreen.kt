@@ -16,11 +16,14 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.devrachit.krishi.domain.models.itemModel
 import com.devrachit.krishi.domain.models.userModel
 import com.devrachit.krishi.presentation.authScreens.loginScreen.components.LoadingDialog
 import com.devrachit.krishi.presentation.dashboardScreens.madeRequestScreen.components.ProductCard4
 import com.devrachit.krishi.presentation.dashboardScreens.mainScreen.components.Heading
+import com.devrachit.krishi.presentation.dashboardScreens.myBorrowers.components.DialogCon
 import com.devrachit.krishi.presentation.dashboardScreens.myBorrowers.components.DialogContent
+import com.devrachit.krishi.presentation.dashboardScreens.myRequestsScreen.component.ProductCard5
 
 @Composable
 fun MyRequestScreen(navController: NavController) {
@@ -31,13 +34,25 @@ fun MyRequestScreen(navController: NavController) {
     val dataFetch = viewModel.dataFetch.collectAsStateWithLifecycle()
     var items = viewModel.sharedViewModel.borrowerRequests.collectAsStateWithLifecycle().value
     val showDialogBox = remember { mutableStateOf(false) }
+    val showDialogBorrowerDetails = remember { mutableStateOf(false) }
+    var borrowerDetails =remember{ mutableStateOf(userModel("","","","","","",true)) }
     if(showDialogBox.value){
-        DialogContent(
+        DialogCon(
             isShowingDialog = showDialogBox.value,
-            userDetails =  viewModel.sharedViewModel.getBorrowerDetails(),
+            userDetails =  borrowerDetails.value,
             onDismissRequest = {
                 showDialogBox.value=false
             })
+    }
+    val onItemClicked: (itemModel) -> Unit = {
+        viewModel.fetchBorrowerDetails(it){
+            println("Borrower Details fetched ${it.tempAddress}")
+            borrowerDetails.value=it
+            showDialogBox.value=true
+        }
+    }
+    val onApproveClick : (itemModel) -> Unit = {
+//        viewModel.approveRequest(it)
     }
     LaunchedEffect(key1=true) {
         viewModel.getMyRequests()
@@ -56,7 +71,7 @@ fun MyRequestScreen(navController: NavController) {
                 Heading("My Request to borrow", Modifier.padding(top = 70.dp, start = 20.dp))
             }
             items(items.size) {
-                ProductCard4(itemModel = items[it], {})
+                ProductCard5(itemModel = items[it], onItemClick= {onItemClicked(it)}, onApproveClick = {onApproveClick(it)})
                 println("My borrower Screen ${items[it].name}")
             }
 

@@ -40,6 +40,10 @@ class AddProductViewModel @Inject constructor(
     private val _dataFetch = MutableStateFlow(false)
     val dataFetch = _dataFetch.asStateFlow()
 
+    fun setDataFetch(value: Boolean) {
+        _dataFetch.value = value
+    }
+
     val nameValid = mutableStateOf(true)
     val numberValid = mutableStateOf(true)
     fun uploadProductImage(uri: Uri) {
