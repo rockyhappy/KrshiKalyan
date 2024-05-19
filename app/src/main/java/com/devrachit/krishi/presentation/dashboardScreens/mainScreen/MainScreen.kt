@@ -114,11 +114,21 @@ fun MainScreenLender(navController: NavController) {
                     .padding(16.dp)
             ) {
                 NavigationDrawerHeader()
-                DrawerItem(text = "Home", onClick = {onMyLendsClick.invoke() }, Icon = Icons.Filled.AccountCircle  )
-                DrawerItem(text = "My Requests", onClick = {onMyRequestClick.invoke() }, Icon = Icons.Filled.Info  )
-                DrawerItem(text = "My Lent Items", onClick = {onMyBorrowersClick.invoke() }, Icon = Icons.Filled.CheckCircle  )
-                DrawerItem(text = "Contact Us", onClick = { onContactUsClick.invoke()}, Icon = Icons.Filled.Call )
-                DrawerItem(text = "Log Out", onClick = { onlogOutClick.invoke()}, Icon = Icons.Filled.ExitToApp )
+                DrawerItem(
+                    text = if(viewModel.sharedViewModel.getLanguage()=="English") "Home" else "होम",
+                    onClick = {onMyLendsClick.invoke() }, Icon = Icons.Filled.AccountCircle  )
+                DrawerItem(
+                    text = if(viewModel.sharedViewModel.getLanguage()=="English") "My Requests" else "मेरे अनुरोध",
+                    onClick = {onMyRequestClick.invoke() }, Icon = Icons.Filled.Info  )
+                DrawerItem(
+                    text = if(viewModel.sharedViewModel.getLanguage()=="English") "My Borrowers" else "मेरे उधारदाता",
+                    onClick = {onMyBorrowersClick.invoke() }, Icon = Icons.Filled.CheckCircle  )
+                DrawerItem(
+                    text = if(viewModel.sharedViewModel.getLanguage()=="English") "Contact Us" else "संपर्क करें",
+                    onClick = { onContactUsClick.invoke()}, Icon = Icons.Filled.Call )
+                DrawerItem(
+                    text = if(viewModel.sharedViewModel.getLanguage()=="English") "Log Out" else "लॉग आउट",
+                    onClick = { onlogOutClick.invoke()}, Icon = Icons.Filled.ExitToApp )
             }
 
         },
@@ -149,16 +159,20 @@ fun MainScreenLender(navController: NavController) {
             },
             ) {
             Log.d("MainScreen", it.toString())
-            Heading("My available Lends", Modifier.padding(top=100.dp, start=20.dp))
+//            Heading("My available Lends", Modifier.padding(top=100.dp, start=20.dp))
             LazyColumn(
                 modifier= Modifier
-                    .padding(top = 160.dp)
+                    .padding(top = 100.dp)
                     .background(Color.White)
             ) {
 
                 if(!loading.value && dataFetch.value)
                 {
-
+                    item{
+                        Heading(
+                            text= if(viewModel.sharedViewModel.getLanguage()=="English") "My available Lends" else "मेरे उपलब्ध उधार",
+                            Modifier.padding(top = 0.dp, start = 20.dp))
+                    }
                     items(items.size) {
                         ProductCard(itemModel = items[it], onDeleteClick = {onDeleteClick.invoke(it)})
                         println("Main Screen ${items[it].name}")

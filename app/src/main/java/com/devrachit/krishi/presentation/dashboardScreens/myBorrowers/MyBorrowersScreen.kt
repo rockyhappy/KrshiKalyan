@@ -30,8 +30,10 @@ import androidx.navigation.NavController
 import com.devrachit.krishi.domain.models.itemModel
 import com.devrachit.krishi.domain.models.userModel
 import com.devrachit.krishi.navigation.dashboard.DashScreens
+import com.devrachit.krishi.presentation.dashboardScreens.madeRequestScreen.components.ProductCard4
 import com.devrachit.krishi.presentation.dashboardScreens.mainScreen.components.Heading
 import com.devrachit.krishi.presentation.dashboardScreens.mainScreen.components.ProductCard
+import com.devrachit.krishi.presentation.dashboardScreens.myBorrowers.components.DialogCon
 import com.devrachit.krishi.presentation.dashboardScreens.myBorrowers.components.DialogContent
 import com.devrachit.krishi.presentation.dashboardScreens.myBorrowers.components.ProductCard2
 import com.devrachit.krishi.ui.theme.primaryVariantColor1
@@ -39,7 +41,7 @@ import kotlinx.coroutines.launch
 
 
 //this is the screen for the Lender side and the borrowed items are shown on this screen
-//the user can see the items he has lent to others
+
 @Composable
 fun MyBorrowersScreen(navController: NavController) {
     val viewModel: MyBorrowersViewModel = hiltViewModel()
@@ -62,7 +64,7 @@ fun MyBorrowersScreen(navController: NavController) {
         }
     }
     if(showDialogBox.value){
-        DialogContent(
+        DialogCon(
             isShowingDialog = showDialogBox.value,
             userDetails =  viewModel.sharedViewModel.getBorrowerDetails(),
             onDismissRequest = {
@@ -84,17 +86,15 @@ fun MyBorrowersScreen(navController: NavController) {
                 .background(Color.White)
         ) {
             item{
-                Heading("My Borrowed Products", Modifier.padding(top = 70.dp, start = 20.dp))
+                Heading(
+                    text= if(viewModel.sharedViewModel.getLanguage()=="English")"My Borrowers" else "मेरे उधारी",
+                    Modifier.padding(top = 70.dp, start = 20.dp))
             }
             items(items.size) {
-                ProductCard2(itemModel = items[it], onDeleteClick = { onDeleteClick.invoke(it) }, onItemClick = { onItemClick.invoke(it) })
+                ProductCard4(itemModel = items[it],  { onItemClick.invoke(it) })
                 println("My borrower Screen ${items[it].name}")
             }
 
         }
-    }
-    fun approveRequest(itemModel:itemModel)
-    {
-
     }
 }

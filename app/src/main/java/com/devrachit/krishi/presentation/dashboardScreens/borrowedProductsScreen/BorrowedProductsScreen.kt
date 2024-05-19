@@ -40,7 +40,9 @@ fun BorrowedProductsScreen(navController: NavController) {
                 .background(Color.White)
         ) {
             item{
-                Heading("My Borrowed Products", Modifier.padding(top = 70.dp, start = 20.dp))
+                Heading(
+                    text=if(viewModel.sharedViewModel.getLanguage()=="English") "Borrowed Products" else "उधारी उत्पाद",
+                    Modifier.padding(top = 70.dp, start = 20.dp))
             }
             items(items.size) {
                 ProductCard4(itemModel = items[it], {})

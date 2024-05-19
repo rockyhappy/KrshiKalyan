@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.devrachit.krishi.common.constants.customFontFamily
@@ -70,6 +71,8 @@ fun ProductCard2(itemModel: itemModel, onDeleteClick: (itemModel) -> Unit, onIte
                         text = itemModel.name,
                         modifier = Modifier.padding(start = 20.dp, end = 10.dp),
                         fontSize = 25.sp,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
                         fontWeight = FontWeight.Bold,
                         color = Color.Black,
                         fontFamily = customFontFamily
@@ -79,6 +82,8 @@ fun ProductCard2(itemModel: itemModel, onDeleteClick: (itemModel) -> Unit, onIte
                         modifier = Modifier.padding(horizontal = 20.dp),
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Bold,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
                         color = Color.Black,
                         fontFamily = customFontFamily
                     )

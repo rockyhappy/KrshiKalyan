@@ -57,7 +57,9 @@ fun ContactUsScreen(navController: NavController) {
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Heading(text ="Contact Us", modifier =Modifier.padding(bottom=30.dp) )
+                Heading(
+                    text =if(viewModel.sharedViewModel.getLanguage()=="English") "Contact Us" else "हमसे संपर्क करें",
+                    modifier =Modifier.padding(bottom=30.dp) )
 
                 Text(
                     text = "Address: 1234 Main St, Your City, Your State, 123456",
@@ -68,7 +70,9 @@ fun ContactUsScreen(navController: NavController) {
                         .padding(bottom = 30.dp,top=30.dp)
                         .align(Alignment.CenterHorizontally)
                 )
-                SignupButton(text = "Call Us", onClick = { onCallUsClick.invoke() }, modifier=Modifier.padding(top=30.dp))
+                SignupButton(
+                    text = if(viewModel.sharedViewModel.getLanguage()=="English") "Call Us" else "हमें कॉल करें",
+                    onClick = { onCallUsClick.invoke() }, modifier=Modifier.padding(top=30.dp))
             }
         }
     )

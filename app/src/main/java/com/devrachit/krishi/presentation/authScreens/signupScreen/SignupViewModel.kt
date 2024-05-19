@@ -27,6 +27,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -38,7 +39,6 @@ class SignupViewModel @Inject constructor(
     val auth : FirebaseAuth,
     val storage : FirebaseStorage,
     val db: FirebaseFirestore,
-
     application: Application,
 ) : AndroidViewModel(application){
     val nameValid = mutableStateOf(true)
@@ -109,9 +109,11 @@ class SignupViewModel @Inject constructor(
                                     "identificationType" to sharedViewModel.user.value?.identificationType,
                                     "identificationNumber" to sharedViewModel.user.value?.identificationNumber,
                                     "isBorrower" to sharedViewModel.user.value?.isBorrower,
-                                )).addOnCompleteListener {
-                                    _loading.value = false
+                                ))
+                                .addOnSuccessListener {
                                     sharedViewModel.setUserLoggedIn(true)
+                                }.addOnCompleteListener {
+                                    _loading.value = false
                                 borrower = sharedViewModel.user.value?.isBorrower!!
                                 }
                         } else {

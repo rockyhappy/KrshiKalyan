@@ -46,7 +46,9 @@ fun MadeRequestScreen(navController: NavController) {
                 .background(Color.White)
         ) {
             item{
-                Heading("My Request to borrow", Modifier.padding(top = 70.dp, start = 20.dp))
+                Heading(
+                    text=if(viewModel.sharedViewModel.getLanguage()=="English") "Made Requests" else "बनाई गई अनुरोध",
+                    Modifier.padding(top = 70.dp, start = 20.dp))
             }
             items(items.size) {
                 ProductCard4(itemModel = items[it], {})

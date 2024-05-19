@@ -1,5 +1,6 @@
 package com.devrachit.krishi.presentation.dashboardScreens.myRequestsScreen
 
+import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.lifecycle.ViewModel
@@ -14,6 +15,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 @HiltViewModel
@@ -92,5 +94,42 @@ class MyRequestScreenViewModel @Inject constructor(
                 e.printStackTrace()
             }
         }
+    }
+    fun approveRequest(item: itemModel) {
+        viewModelScope.launch {
+            try{
+                _loading.value = true
+                db.collection("items").document(item.uid).update("borrowerUid",item.borrowerUid)
+                    .addOnSuccessListener {
+                        Log.d("MyRequestScreenViewModel", "DocumentSnapshot successfully updated!")
+                        db.collection("itemRequest")
+                            .whereEqualTo("uid",item.uid)
+                            .get()
+                            .addOnSuccessListener { querySnapshot ->
+                                for (document in querySnapshot.documents) {
+                                    db.collection("itemRequest").document(document.id).delete()
+                                }
+                            }
+                            .addOnFailureListener { exception ->
+                                exception.printStackTrace()
+                            }
+                            .addOnCompleteListener {
+                                _loading.value = false
+                            }
+                    }
+                    .addOnFailureListener { e ->
+                        Log.w("MyRequestScreenViewModel", "Error updating document", e)
+                    }
+                    .addOnCompleteListener {
+                        _loading.value = false
+                    }.await()
+                getMyRequests()
+
+            }
+            catch(e:Exception){
+                e.printStackTrace()
+            }
+        }
+
     }
 }
