@@ -43,6 +43,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.devrachit.krishi.domain.models.itemModel
 import com.devrachit.krishi.domain.models.userModel
+import com.devrachit.krishi.navigation.dashboard.DashScreens
 import com.devrachit.krishi.presentation.authScreens.loginScreen.components.LoadingDialog
 import com.devrachit.krishi.presentation.dashboardScreens.mainScreen.MainScreenViewModel
 import com.devrachit.krishi.presentation.dashboardScreens.mainScreen.components.DrawerItem
@@ -74,6 +75,15 @@ fun MainScreenBorrower(navController: NavController)
     val onRequestBooking : (itemModel: itemModel) -> Unit = {
         viewModel.addItemToBorrow(it)
     }
+    val onHomeClick: ()->Unit ={
+        scope.launch { drawerState.close() }
+    }
+    val onMyRequestClick:()->Unit={
+        navController.navigate(DashScreens.MadeRequestScreen.route){
+            launchSingleTop = true
+        }
+        scope.launch { drawerState.close() }
+    }
     ModalNavigationDrawer(
         drawerContent = {
             Column(
@@ -84,8 +94,9 @@ fun MainScreenBorrower(navController: NavController)
                     .padding(16.dp)
             ) {
                 NavigationDrawerHeader()
-                DrawerItem(text = "Home", onClick = { }, Icon = Icons.Filled.AccountCircle )
-                DrawerItem(text = "My borrows", onClick = { }, Icon = Icons.Filled.Info )
+                DrawerItem(text = "Home", onClick = { onHomeClick.invoke() }, Icon = Icons.Filled.AccountCircle )
+                DrawerItem(text = "My Requests", onClick = { onMyRequestClick.invoke()}, Icon = Icons.Filled.Info )
+                DrawerItem(text = "My Borrowed Items", onClick = { }, Icon = Icons.Filled.Info )
                 DrawerItem(text = "Contact Us", onClick = { onContactUsClick.invoke()}, Icon = Icons.Filled.Call )
                 DrawerItem(text = "Log Out", onClick = { onlogOutClick.invoke()}, Icon = Icons.Filled.ExitToApp )
             }

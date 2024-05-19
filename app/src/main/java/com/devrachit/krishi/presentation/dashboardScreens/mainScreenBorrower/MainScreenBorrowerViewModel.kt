@@ -85,11 +85,8 @@ class MainScreenBorrowerViewModel @Inject constructor(
                                 )
                             ) {
                                 uploads.add(itemData)
-                            } else if (document.getString("borrowerUid") == auth.currentUser?.uid && itemData.name.contains(
-                                    query,
-                                    ignoreCase = true
-                                )
-                            ) {
+                            } else if (document.getString("borrowerUid") == auth.currentUser?.uid )
+                            {
                                 uploads2.add(itemData)
                             }
                             sharedViewModel.setSelfUploads(uploads)
