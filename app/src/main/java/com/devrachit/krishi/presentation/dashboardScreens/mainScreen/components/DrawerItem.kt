@@ -23,25 +23,35 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun DrawerItem(text:String, onClick:()->Unit, Icon : ImageVector){
-    Button(
-        onClick = onClick,
-        modifier= Modifier
-            .width(260.dp)
-            .height(50.dp)
-            .background(Color.White)
-        ,
-        colors = ButtonDefaults.buttonColors(containerColor = Color.White)
-    )
-    {
-        Row (
-            horizontalArrangement = Arrangement.Start,
-            verticalAlignment = Alignment.CenterVertically,
-            modifier=Modifier.padding(start=10.dp).fillMaxWidth()
-        ){
-            Icon(imageVector = Icon, contentDescription = "Menu",modifier=Modifier.padding(end=10.dp))
-            Text(text = text, color= Color.Black, modifier= Modifier.padding(horizontal=10.dp))
-        }
+fun DrawerItem(text:String, onClick:()->Unit, Icon : ImageVector, visible:Boolean=true){
+    if(visible) {
+        Button(
+            onClick = onClick,
+            modifier = Modifier
+                .width(260.dp)
+                .height(50.dp)
+                .background(Color.White),
+            colors = ButtonDefaults.buttonColors(containerColor = Color.White),
 
+            )
+        {
+            Row(
+                horizontalArrangement = Arrangement.Start,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.padding(start = 10.dp).fillMaxWidth()
+            ) {
+                Icon(
+                    imageVector = Icon,
+                    contentDescription = "Menu",
+                    modifier = Modifier.padding(end = 10.dp)
+                )
+                Text(
+                    text = text,
+                    color = Color.Black,
+                    modifier = Modifier.padding(horizontal = 10.dp)
+                )
+            }
+
+        }
     }
 }

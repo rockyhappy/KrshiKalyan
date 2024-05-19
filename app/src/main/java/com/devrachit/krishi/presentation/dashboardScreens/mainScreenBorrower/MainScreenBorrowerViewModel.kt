@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.devrachit.krishi.domain.models.SharedViewModel
 import com.devrachit.krishi.domain.models.itemModel
+import com.devrachit.krishi.domain.models.userModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -37,13 +38,18 @@ class MainScreenBorrowerViewModel @Inject constructor(
     private val _searchQuery = MutableStateFlow("")
     val searchQuery = _searchQuery.asStateFlow()
 
-    private val _items = MutableStateFlow<List<itemModel>>(emptyList())
-    val items = _items.asStateFlow()
+//    private val _items = MutableStateFlow<List<itemModel>>(emptyList())
+//    val items = _items.asStateFlow()
 
     init {
         observeSearchQuery()
     }
 
+    fun logout() {
+        auth.signOut()
+        sharedViewModel.setUserLoggedIn(false)
+        sharedViewModel.setUser(userModel("", "", "", "", "", "", true))
+    }
     private fun observeSearchQuery() {
         viewModelScope.launch {
             searchQuery
@@ -91,7 +97,7 @@ class MainScreenBorrowerViewModel @Inject constructor(
                             }
                             sharedViewModel.setSelfUploads(uploads)
                             sharedViewModel.setSelfUploads2(uploads2)
-                            _items.value = uploads + uploads2
+//                            _items.value = uploads + uploads2
                             println("Item added ${itemData}")
                         }
                         println("Uploads1 $uploads")

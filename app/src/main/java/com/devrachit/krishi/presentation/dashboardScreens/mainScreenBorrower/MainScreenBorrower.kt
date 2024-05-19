@@ -44,6 +44,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.devrachit.krishi.domain.models.itemModel
 import com.devrachit.krishi.domain.models.userModel
+import com.devrachit.krishi.navigation.auth.AuthScreens
 import com.devrachit.krishi.navigation.dashboard.DashScreens
 import com.devrachit.krishi.presentation.authScreens.loginScreen.components.LoadingDialog
 import com.devrachit.krishi.presentation.dashboardScreens.mainScreen.MainScreenViewModel
@@ -67,16 +68,28 @@ fun MainScreenBorrower(navController: NavController)
     val dataFetch = viewModel.dataFetch.collectAsStateWithLifecycle()
     val items = viewModel.sharedViewModel.selfUploads.collectAsStateWithLifecycle().value
     val searchQuery = viewModel.searchQuery.collectAsStateWithLifecycle().value
-    val onlogOutClick : () -> Unit = {
-        scope.launch { drawerState.close()}
+    val onLogOutClick : () -> Unit = {
+        viewModel.logout()
+        navController.navigate(AuthScreens.LanguageChoiceScreen.route){
+            popUpTo(AuthScreens.LanguageChoiceScreen.route){
+                inclusive = true
+            }
+        }
     }
     val onContactUsClick : () -> Unit = {
+       navController.navigate(DashScreens.ContactUsScreen.route) {
+           launchSingleTop = true
+       }
         scope.launch { drawerState.close()}
+
     }
     val onRequestBooking : (itemModel: itemModel) -> Unit = {
         viewModel.addItemToBorrow(it)
     }
     val onHomeClick: ()->Unit ={
+        navController.navigate(DashScreens.MainScreenBorrower.route){
+            launchSingleTop = true
+        }
         scope.launch { drawerState.close() }
     }
     val onMyRequestClick:()->Unit={
@@ -105,7 +118,7 @@ fun MainScreenBorrower(navController: NavController)
                 DrawerItem(text = "My Requests", onClick = { onMyRequestClick.invoke()}, Icon = Icons.Filled.Info )
                 DrawerItem(text = "My Borrowed Items", onClick = { onMyBorrowedProductsClick.invoke()}, Icon = Icons.Filled.CheckCircle )
                 DrawerItem(text = "Contact Us", onClick = { onContactUsClick.invoke()}, Icon = Icons.Filled.Call )
-                DrawerItem(text = "Log Out", onClick = { onlogOutClick.invoke()}, Icon = Icons.Filled.ExitToApp )
+                DrawerItem(text = "Log Out", onClick = { onLogOutClick.invoke()}, Icon = Icons.Filled.ExitToApp )
             }
         },
         drawerState = drawerState

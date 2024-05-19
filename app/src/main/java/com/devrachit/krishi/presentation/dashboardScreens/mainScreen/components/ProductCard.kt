@@ -24,19 +24,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.devrachit.krishi.common.constants.customFontFamily
 import com.devrachit.krishi.domain.models.itemModel
+import com.devrachit.krishi.presentation.dashboardScreens.mainScreenBorrower.components.CustomButton
 import com.devrachit.krishi.ui.theme.primaryVariantColor1
 
 @Composable
 fun ProductCard(itemModel: itemModel, onDeleteClick: (itemModel) -> Unit){
+
     Column(
         modifier = Modifier
             .padding(20.dp)
             .fillMaxWidth()
-            .height(250.dp)
+            .height(200.dp)
             .background(color = Color.White)
             .clip(RoundedCornerShape(16.dp))
     )
@@ -46,7 +50,7 @@ fun ProductCard(itemModel: itemModel, onDeleteClick: (itemModel) -> Unit){
                 .fillMaxSize()
                 .clip(RoundedCornerShape(26.dp))
                 .background(color = Color.White)
-                .border(2.dp, primaryVariantColor1,shape= RoundedCornerShape(26.dp))
+                .border(2.dp, primaryVariantColor1, shape = RoundedCornerShape(26.dp))
         )
         {
             Row(
@@ -59,8 +63,8 @@ fun ProductCard(itemModel: itemModel, onDeleteClick: (itemModel) -> Unit){
                     data = itemModel.imageUrl,
                     modifier = Modifier
                         .padding(2.dp)
-                        .clip(CircleShape)
-                        .height(100.dp)
+                        .clip(RoundedCornerShape(26.dp))
+                        .height(200.dp)
                         .width(100.dp)
                 )
                 Column {
@@ -68,6 +72,7 @@ fun ProductCard(itemModel: itemModel, onDeleteClick: (itemModel) -> Unit){
                         text = itemModel.name,
                         modifier = Modifier.padding(start = 20.dp, end = 10.dp),
                         fontSize = 25.sp,
+                        overflow = TextOverflow.Ellipsis,
                         fontWeight = FontWeight.Bold,
                         color = Color.Black,
                         fontFamily = customFontFamily
@@ -83,30 +88,35 @@ fun ProductCard(itemModel: itemModel, onDeleteClick: (itemModel) -> Unit){
                 }
             }
             Text(
-                text = "Price Per Day:  ₹ " + itemModel.price,
-                modifier = Modifier.padding(top = 140.dp, start = 20.dp),
-                fontSize = 20.sp,
+                text = "₹ " + itemModel.price+" /day",
+                modifier = Modifier.padding(top = 80.dp, start = 135.dp),
+                fontSize = 12.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.Black,
                 fontFamily = customFontFamily
             )
             Row (
                 horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier.fillMaxWidth().padding(start=20.dp,end=30.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 135.dp)
             ){
                 Text(
-                    text = "Rating: ${itemModel.rating} ★",
-                    modifier = Modifier.padding(top = 200.dp),
-                    fontSize = 15.sp,
+                    text = "${itemModel.rating} ★",
+                    modifier = Modifier.padding(top = 105.dp),
+                    fontSize = 12.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.Black,
                     fontFamily = customFontFamily
                 )
-                Icon(imageVector = Icons.Rounded.Delete,
-                    contentDescription = "Delete Icon",
-                    modifier = Modifier.padding(top = 200.dp, start = 20.dp).clickable { onDeleteClick(itemModel) })
             }
-
+            CustomButton2(text = "Delete", onClick = { }, modifier=Modifier.padding(top= 140.dp, start = 135.dp))
         }
     }
+}
+
+@Preview
+@Composable
+fun ProductCardPreview(){
+    ProductCard(itemModel("1ahsdfgd","sgjskig","1","1","1","1"), onDeleteClick = {})
 }
