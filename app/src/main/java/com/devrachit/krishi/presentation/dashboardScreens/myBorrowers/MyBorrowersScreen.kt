@@ -44,7 +44,7 @@ fun MyBorrowersScreen(navController: NavController) {
     val user: userModel = viewModel.sharedViewModel.getUser()
     val loading = viewModel.loading.collectAsStateWithLifecycle()
     val dataFetch = viewModel.dataFetch.collectAsStateWithLifecycle()
-    var items = viewModel.sharedViewModel.getSelfUploads2()
+    var items = viewModel.sharedViewModel.selfUploads2.collectAsStateWithLifecycle().value
     val showDialogBox = remember { mutableStateOf(false) }
     val onDeleteClick: (itemModel: itemModel) -> Unit = {
         var item = it

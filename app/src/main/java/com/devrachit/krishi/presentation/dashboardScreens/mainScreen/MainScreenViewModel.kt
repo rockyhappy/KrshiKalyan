@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.devrachit.krishi.domain.models.SharedViewModel
 import com.devrachit.krishi.domain.models.itemModel
+import com.devrachit.krishi.domain.models.userModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -36,8 +37,8 @@ class MainScreenViewModel @Inject constructor(
     fun logout() {
         auth.signOut()
         sharedViewModel.setUserLoggedIn(false)
+        sharedViewModel.setUser(userModel("", "", "", "", "", "", true))
     }
-
     fun getSelfUploads() {
         viewModelScope.launch {
             try {

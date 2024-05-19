@@ -18,4 +18,6 @@ sealed class DashScreens(val route: String) {
     object BorrowedProductScreen : DashScreens("BorrowedProductScreen")
 
     object ContactUsScreen : DashScreens("ContactUsScreen")
+
+    object MyRequestScreen : DashScreens("MyRequestScreen")
 }

@@ -1,5 +1,6 @@
 package com.devrachit.krishi.presentation.dashboardScreens.mainScreenBorrower
 
+import android.content.Intent
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -42,10 +43,12 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import com.devrachit.krishi.domain.models.itemModel
 import com.devrachit.krishi.domain.models.userModel
 import com.devrachit.krishi.navigation.auth.AuthScreens
 import com.devrachit.krishi.navigation.dashboard.DashScreens
+import com.devrachit.krishi.presentation.authScreens.Auth
 import com.devrachit.krishi.presentation.authScreens.loginScreen.components.LoadingDialog
 import com.devrachit.krishi.presentation.dashboardScreens.mainScreen.MainScreenViewModel
 import com.devrachit.krishi.presentation.dashboardScreens.mainScreen.components.DrawerItem
@@ -68,13 +71,12 @@ fun MainScreenBorrower(navController: NavController)
     val dataFetch = viewModel.dataFetch.collectAsStateWithLifecycle()
     val items = viewModel.sharedViewModel.selfUploads.collectAsStateWithLifecycle().value
     val searchQuery = viewModel.searchQuery.collectAsStateWithLifecycle().value
+    val context= navController.context
     val onLogOutClick : () -> Unit = {
         viewModel.logout()
-        navController.navigate(AuthScreens.LanguageChoiceScreen.route){
-            popUpTo(AuthScreens.LanguageChoiceScreen.route){
-                inclusive = true
-            }
-        }
+       val intent = Intent(context, Auth::class.java)
+        context.startActivity(intent)
+        (context as Auth).finish()
     }
     val onContactUsClick : () -> Unit = {
        navController.navigate(DashScreens.ContactUsScreen.route) {

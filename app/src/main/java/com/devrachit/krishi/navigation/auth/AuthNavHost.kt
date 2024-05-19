@@ -18,6 +18,7 @@ import com.devrachit.krishi.presentation.dashboardScreens.madeRequestScreen.Made
 import com.devrachit.krishi.presentation.dashboardScreens.mainScreen.MainScreenLender
 import com.devrachit.krishi.presentation.dashboardScreens.mainScreenBorrower.MainScreenBorrower
 import com.devrachit.krishi.presentation.dashboardScreens.myBorrowers.MyBorrowersScreen
+import com.devrachit.krishi.presentation.dashboardScreens.myRequestsScreen.MyRequestScreen
 import com.devrachit.krishi.presentation.dashboardScreens.reviewScreen.ReviewScreen
 
 @ExperimentalMaterial3Api
@@ -65,6 +66,9 @@ fun authNavHost(navHostController: NavHostController) {
         }
         composable (DashScreens.ContactUsScreen.route){
             ContactUsScreen(navController = navHostController)
+        }
+        composable(DashScreens.MyRequestScreen.route){
+            MyRequestScreen(navController = navHostController)
         }
     }
 }
