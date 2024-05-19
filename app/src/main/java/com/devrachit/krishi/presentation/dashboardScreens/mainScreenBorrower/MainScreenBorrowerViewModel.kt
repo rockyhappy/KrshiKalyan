@@ -95,6 +95,7 @@ class MainScreenBorrowerViewModel @Inject constructor(
                             println("Item added ${itemData}")
                         }
                         println("Uploads1 $uploads")
+                        println("Uploads2 $uploads2")
                     }
                     .addOnFailureListener { exception ->
                         exception.printStackTrace()

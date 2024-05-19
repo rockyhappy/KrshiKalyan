@@ -14,6 +14,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Call
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Menu
@@ -84,6 +85,12 @@ fun MainScreenBorrower(navController: NavController)
         }
         scope.launch { drawerState.close() }
     }
+    val onMyBorrowedProductsClick:()->Unit={
+        navController.navigate(DashScreens.BorrowedProductScreen.route){
+            launchSingleTop = true
+        }
+        scope.launch { drawerState.close() }
+    }
     ModalNavigationDrawer(
         drawerContent = {
             Column(
@@ -96,7 +103,7 @@ fun MainScreenBorrower(navController: NavController)
                 NavigationDrawerHeader()
                 DrawerItem(text = "Home", onClick = { onHomeClick.invoke() }, Icon = Icons.Filled.AccountCircle )
                 DrawerItem(text = "My Requests", onClick = { onMyRequestClick.invoke()}, Icon = Icons.Filled.Info )
-                DrawerItem(text = "My Borrowed Items", onClick = { }, Icon = Icons.Filled.Info )
+                DrawerItem(text = "My Borrowed Items", onClick = { onMyBorrowedProductsClick.invoke()}, Icon = Icons.Filled.CheckCircle )
                 DrawerItem(text = "Contact Us", onClick = { onContactUsClick.invoke()}, Icon = Icons.Filled.Call )
                 DrawerItem(text = "Log Out", onClick = { onlogOutClick.invoke()}, Icon = Icons.Filled.ExitToApp )
             }
