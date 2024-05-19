@@ -110,7 +110,7 @@ fun ProductCard(itemModel: itemModel, onDeleteClick: (itemModel) -> Unit){
                     fontFamily = customFontFamily
                 )
             }
-            CustomButton2(text = "Delete", onClick = { }, modifier=Modifier.padding(top= 140.dp, start = 135.dp))
+            CustomButton2(text = "Delete", onClick = { onDeleteClick.invoke(itemModel)}, modifier=Modifier.padding(top= 140.dp, start = 135.dp))
         }
     }
 }

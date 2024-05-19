@@ -37,6 +37,9 @@ import com.devrachit.krishi.presentation.dashboardScreens.myBorrowers.components
 import com.devrachit.krishi.ui.theme.primaryVariantColor1
 import kotlinx.coroutines.launch
 
+
+//this is the screen for the Lender side and the borrowed items are shown on this screen
+//the user can see the items he has lent to others
 @Composable
 fun MyBorrowersScreen(navController: NavController) {
     val viewModel: MyBorrowersViewModel = hiltViewModel()

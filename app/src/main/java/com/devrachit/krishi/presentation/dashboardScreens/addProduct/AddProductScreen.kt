@@ -53,6 +53,7 @@ fun AddProductScreen(navController: NavController) {
     val nameState = remember { mutableStateOf(TextFieldValue()) }
     val numberState = remember { mutableStateOf(TextFieldValue()) }
     val isButtonEnabled = viewModel.getImageUrl() != null
+    val dataFetch= viewModel.dataFetch.collectAsStateWithLifecycle().value
     val launcher =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) { uri: Uri? ->
             uri?.let { viewModel.uploadProductImage(it) }
@@ -61,12 +62,18 @@ fun AddProductScreen(navController: NavController) {
         if(nameState.value.text.isLongAndLettersOnly() && numberState.value.text.isNotEmpty())
         {
             viewModel.nameValid.value = true
+            viewModel.numberValid.value = true
             viewModel.addItem(name=nameState.value.text, price=numberState.value.text, imageUrl =  imageUrl.toString())
         }
         else{
             viewModel.nameValid.value = false
             viewModel.numberValid.value = false
         }
+    }
+
+    if(dataFetch)
+    {
+        navController.popBackStack()
     }
 
     Column(
@@ -155,7 +162,7 @@ fun AddProductScreen(navController: NavController) {
         )
 
         SignupButton2(
-            text = if (viewModel.sharedViewModel.language.collectAsStateWithLifecycle().value == "English") "Login" else "लॉग इन",
+            text = if (viewModel.sharedViewModel.language.collectAsStateWithLifecycle().value == "English") "Add Product" else "उत्पाद जोड़ें",
             onClick = { onAddProductClicked.invoke()},
             modifier = Modifier
                 .padding(top = 70.dp, start = 16.dp, end = 16.dp)

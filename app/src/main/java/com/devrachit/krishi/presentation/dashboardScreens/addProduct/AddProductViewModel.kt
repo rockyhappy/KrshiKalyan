@@ -37,6 +37,9 @@ class AddProductViewModel @Inject constructor(
     private val _loading = MutableStateFlow(false)
     val loading = _loading.asStateFlow()
 
+    private val _dataFetch = MutableStateFlow(false)
+    val dataFetch = _dataFetch.asStateFlow()
+
     val nameValid = mutableStateOf(true)
     val numberValid = mutableStateOf(true)
     fun uploadProductImage(uri: Uri) {
@@ -92,7 +95,7 @@ class AddProductViewModel @Inject constructor(
                     }
                     .addOnCompleteListener {
                         _loading.value = false
-//                        _dataFetch.value = true
+                        _dataFetch.value = true
                     }
             } catch (e: Exception) {
                 e.printStackTrace()

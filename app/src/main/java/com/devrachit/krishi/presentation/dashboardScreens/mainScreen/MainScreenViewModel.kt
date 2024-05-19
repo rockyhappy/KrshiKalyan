@@ -58,6 +58,7 @@ class MainScreenViewModel @Inject constructor(
                                 price = document.getString("price")!!,
                                 borrowerUid = document.getString("borrowerUid")!!,
                                 rating = document.getString("rating")!!,
+                                uid= document.id
                             )
                             if(document.getString("borrowerUid") == "null"){
                                 uploads.add(itemData)
@@ -89,10 +90,10 @@ class MainScreenViewModel @Inject constructor(
     fun deleteItem(item: itemModel) {
         viewModelScope.launch {
             try {
+
                 _loading.value = true
                 db.collection("items")
-                    .whereEqualTo("ownerUid", auth.currentUser?.uid)
-                    .whereEqualTo("name", item.name)
+                    .whereEqualTo("uid",item.uid)
                     .get()
                     .addOnSuccessListener { querySnapshot ->
                         for (document in querySnapshot.documents) {
