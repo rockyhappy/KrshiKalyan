@@ -37,6 +37,9 @@ import com.devrachit.krishi.presentation.dashboardScreens.myBorrowers.components
 import com.devrachit.krishi.ui.theme.primaryVariantColor1
 import kotlinx.coroutines.launch
 
+
+//this is the screen for the Lender side and the borrowed items are shown on this screen
+//the user can see the items he has lent to others
 @Composable
 fun MyBorrowersScreen(navController: NavController) {
     val viewModel: MyBorrowersViewModel = hiltViewModel()
@@ -44,7 +47,7 @@ fun MyBorrowersScreen(navController: NavController) {
     val user: userModel = viewModel.sharedViewModel.getUser()
     val loading = viewModel.loading.collectAsStateWithLifecycle()
     val dataFetch = viewModel.dataFetch.collectAsStateWithLifecycle()
-    var items = viewModel.sharedViewModel.getSelfUploads2()
+    var items = viewModel.sharedViewModel.selfUploads2.collectAsStateWithLifecycle().value
     val showDialogBox = remember { mutableStateOf(false) }
     val onDeleteClick: (itemModel: itemModel) -> Unit = {
         var item = it
@@ -89,5 +92,9 @@ fun MyBorrowersScreen(navController: NavController) {
             }
 
         }
+    }
+    fun approveRequest(itemModel:itemModel)
+    {
+
     }
 }

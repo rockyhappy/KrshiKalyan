@@ -12,9 +12,13 @@ import com.devrachit.krishi.presentation.authScreens.loginScreen.loginScreen
 import com.devrachit.krishi.presentation.authScreens.signupScreen.registerScreen
 import com.devrachit.krishi.presentation.authScreens.splashScreen.SplashScreen
 import com.devrachit.krishi.presentation.dashboardScreens.addProduct.AddProductScreen
+import com.devrachit.krishi.presentation.dashboardScreens.borrowedProductsScreen.BorrowedProductsScreen
+import com.devrachit.krishi.presentation.dashboardScreens.contactUs.ContactUsScreen
+import com.devrachit.krishi.presentation.dashboardScreens.madeRequestScreen.MadeRequestScreen
 import com.devrachit.krishi.presentation.dashboardScreens.mainScreen.MainScreenLender
 import com.devrachit.krishi.presentation.dashboardScreens.mainScreenBorrower.MainScreenBorrower
 import com.devrachit.krishi.presentation.dashboardScreens.myBorrowers.MyBorrowersScreen
+import com.devrachit.krishi.presentation.dashboardScreens.myRequestsScreen.MyRequestScreen
 import com.devrachit.krishi.presentation.dashboardScreens.reviewScreen.ReviewScreen
 
 @ExperimentalMaterial3Api
@@ -54,6 +58,17 @@ fun authNavHost(navHostController: NavHostController) {
         composable(DashScreens.MyBorrowersScreen.route){
             MyBorrowersScreen(navController = navHostController)
         }
-
+        composable(DashScreens.MadeRequestScreen.route){
+            MadeRequestScreen(navController = navHostController)
+        }
+        composable(DashScreens.BorrowedProductScreen.route){
+            BorrowedProductsScreen(navController = navHostController)
+        }
+        composable (DashScreens.ContactUsScreen.route){
+            ContactUsScreen(navController = navHostController)
+        }
+        composable(DashScreens.MyRequestScreen.route){
+            MyRequestScreen(navController = navHostController)
+        }
     }
 }

@@ -111,5 +111,25 @@ class SharedViewModel @Inject constructor(){
     fun getBorrowerDetails(): userModel{
         return borrowerDetails.value
     }
+
+
+    private val _borrowerMadeRequests = MutableStateFlow<List<itemModel>>(emptyList())
+    var borrowerMadeRequest = _borrowerMadeRequests.asStateFlow()
+
+    fun setBorrowerMadeRequests(requests: List<itemModel>){
+        _borrowerMadeRequests.value = requests
+    }
+
+    fun getBorrowerMadeRequests(): List<itemModel>{
+        return borrowerMadeRequest.value
+    }
+
+    private val _borrowerRequests = MutableStateFlow<List<itemModel>>(emptyList())
+    var borrowerRequests = _borrowerRequests.asStateFlow()
+
+    fun setBorrowerRequests(requests: List<itemModel>){
+        _borrowerRequests.value = requests
+    }
+
 }
 

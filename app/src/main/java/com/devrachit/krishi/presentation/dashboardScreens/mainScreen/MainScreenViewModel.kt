@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.devrachit.krishi.domain.models.SharedViewModel
 import com.devrachit.krishi.domain.models.itemModel
+import com.devrachit.krishi.domain.models.userModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -36,8 +37,8 @@ class MainScreenViewModel @Inject constructor(
     fun logout() {
         auth.signOut()
         sharedViewModel.setUserLoggedIn(false)
+        sharedViewModel.setUser(userModel("", "", "", "", "", "", true))
     }
-
     fun getSelfUploads() {
         viewModelScope.launch {
             try {
@@ -57,6 +58,7 @@ class MainScreenViewModel @Inject constructor(
                                 price = document.getString("price")!!,
                                 borrowerUid = document.getString("borrowerUid")!!,
                                 rating = document.getString("rating")!!,
+                                uid= document.id
                             )
                             if(document.getString("borrowerUid") == "null"){
                                 uploads.add(itemData)
@@ -88,10 +90,10 @@ class MainScreenViewModel @Inject constructor(
     fun deleteItem(item: itemModel) {
         viewModelScope.launch {
             try {
+
                 _loading.value = true
                 db.collection("items")
-                    .whereEqualTo("ownerUid", auth.currentUser?.uid)
-                    .whereEqualTo("name", item.name)
+                    .whereEqualTo("uid",item.uid)
                     .get()
                     .addOnSuccessListener { querySnapshot ->
                         for (document in querySnapshot.documents) {

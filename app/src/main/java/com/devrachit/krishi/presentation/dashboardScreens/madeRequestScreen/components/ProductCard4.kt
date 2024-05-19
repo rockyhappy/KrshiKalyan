@@ -1,4 +1,5 @@
-package com.devrachit.krishi.presentation.dashboardScreens.mainScreen.components
+package com.devrachit.krishi.presentation.dashboardScreens.madeRequestScreen.components
+
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -30,17 +31,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.devrachit.krishi.common.constants.customFontFamily
 import com.devrachit.krishi.domain.models.itemModel
+import com.devrachit.krishi.presentation.dashboardScreens.mainScreen.components.CommonImage
 import com.devrachit.krishi.presentation.dashboardScreens.mainScreenBorrower.components.CustomButton
 import com.devrachit.krishi.ui.theme.primaryVariantColor1
 
 @Composable
-fun ProductCard(itemModel: itemModel, onDeleteClick: (itemModel) -> Unit){
-
+fun ProductCard4(itemModel: itemModel, onRequestBooking: (itemModel) -> Unit){
     Column(
         modifier = Modifier
             .padding(20.dp)
             .fillMaxWidth()
-            .height(200.dp)
+            .height(150.dp)
             .background(color = Color.White)
             .clip(RoundedCornerShape(16.dp))
     )
@@ -48,9 +49,10 @@ fun ProductCard(itemModel: itemModel, onDeleteClick: (itemModel) -> Unit){
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .clip(RoundedCornerShape(26.dp))
+                .clip(RoundedCornerShape(16.dp))
                 .background(color = Color.White)
-                .border(2.dp, primaryVariantColor1, shape = RoundedCornerShape(26.dp))
+                .border(2.dp, primaryVariantColor1, shape = RoundedCornerShape(16.dp))
+                .clickable { onRequestBooking(itemModel) }
         )
         {
             Row(
@@ -63,8 +65,8 @@ fun ProductCard(itemModel: itemModel, onDeleteClick: (itemModel) -> Unit){
                     data = itemModel.imageUrl,
                     modifier = Modifier
                         .padding(2.dp)
-                        .clip(RoundedCornerShape(26.dp))
-                        .height(200.dp)
+                        .clip(RoundedCornerShape(16.dp))
+                        .height(130.dp)
                         .width(100.dp)
                 )
                 Column {
@@ -110,13 +112,12 @@ fun ProductCard(itemModel: itemModel, onDeleteClick: (itemModel) -> Unit){
                     fontFamily = customFontFamily
                 )
             }
-            CustomButton2(text = "Delete", onClick = { onDeleteClick.invoke(itemModel)}, modifier=Modifier.padding(top= 140.dp, start = 135.dp))
         }
     }
 }
 
 @Preview
 @Composable
-fun ProductCardPreview(){
-    ProductCard(itemModel("1ahsdfgd","sgjskig","1","1","1","1"), onDeleteClick = {})
+fun ProductCard4Preview(){
+    ProductCard4(itemModel("https://firebasestorage.googleapis.com/v0/b/krishi-57dd6.appspot.com/o/sample5.jpg?alt=media&token=b8d875e1-4de5-403d-b630-ada85dd02c12","name","Owner","Price","Rating","Image"),{})
 }

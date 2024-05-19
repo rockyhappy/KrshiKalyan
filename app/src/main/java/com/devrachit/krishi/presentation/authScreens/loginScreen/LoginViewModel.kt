@@ -92,13 +92,12 @@ class LoginViewModel @Inject constructor(
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             Log.d("phoneBook", "signInWithCredential:success")
-                            sharedViewModel.setUserLoggedIn(true)
+//                            sharedViewModel.setUserLoggedIn(true)
                             val uid=auth.currentUser?.uid
                             if (uid != null) {
                                 db.collection("users").document(uid).get()
                                     .addOnSuccessListener { document ->
                                         if (document.exists()) {
-                                            sharedViewModel.setUserLoggedIn(true)
                                             val userData= userModel(name=document.getString("name")!!,
                                                 number=document.getString("phoneNumber")!!,
                                                 tempAddress=document.getString("tempAddress")!!,
@@ -107,6 +106,7 @@ class LoginViewModel @Inject constructor(
                                                 identificationType=document.getString("identificationType")!!,
                                                 isBorrower = document.getBoolean("isBorrower")!!)
                                             sharedViewModel.setUser(userData)
+                                            sharedViewModel.setUserLoggedIn(true)
                                             borrower=sharedViewModel.getUser().isBorrower
                                             println("DocumentSnapshot data: ${document.data}")
                                         } else {

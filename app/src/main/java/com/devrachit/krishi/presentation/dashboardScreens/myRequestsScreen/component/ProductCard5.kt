@@ -1,4 +1,4 @@
-package com.devrachit.krishi.presentation.dashboardScreens.mainScreen.components
+package com.devrachit.krishi.presentation.dashboardScreens.myRequestsScreen.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -30,11 +30,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.devrachit.krishi.common.constants.customFontFamily
 import com.devrachit.krishi.domain.models.itemModel
+import com.devrachit.krishi.presentation.dashboardScreens.mainScreen.components.CommonImage
+import com.devrachit.krishi.presentation.dashboardScreens.mainScreen.components.CustomButton2
 import com.devrachit.krishi.presentation.dashboardScreens.mainScreenBorrower.components.CustomButton
 import com.devrachit.krishi.ui.theme.primaryVariantColor1
 
 @Composable
-fun ProductCard(itemModel: itemModel, onDeleteClick: (itemModel) -> Unit){
+fun ProductCard5(itemModel: itemModel, onItemClick: (itemModel) -> Unit , onApproveClick:(itemModel) -> Unit) {
 
     Column(
         modifier = Modifier
@@ -43,6 +45,7 @@ fun ProductCard(itemModel: itemModel, onDeleteClick: (itemModel) -> Unit){
             .height(200.dp)
             .background(color = Color.White)
             .clip(RoundedCornerShape(16.dp))
+            .clickable { onItemClick.invoke(itemModel) }
     )
     {
         Box(
@@ -110,13 +113,13 @@ fun ProductCard(itemModel: itemModel, onDeleteClick: (itemModel) -> Unit){
                     fontFamily = customFontFamily
                 )
             }
-            CustomButton2(text = "Delete", onClick = { onDeleteClick.invoke(itemModel)}, modifier=Modifier.padding(top= 140.dp, start = 135.dp))
+            CustomButton3(text = "Approve", onClick = { onApproveClick.invoke(itemModel)}, modifier=Modifier.padding(top= 140.dp, start = 135.dp))
         }
     }
 }
 
-@Preview
-@Composable
-fun ProductCardPreview(){
-    ProductCard(itemModel("1ahsdfgd","sgjskig","1","1","1","1"), onDeleteClick = {})
-}
+//@Preview
+//@Composable
+//fun ProductCardPreview(){
+//    ProductCard5(itemModel("1ahsdfgd","sgjskig","1","1","1","1"), onDeleteClick = {})
+//}
