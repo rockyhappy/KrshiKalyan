@@ -72,6 +72,7 @@ fun ProductCard(itemModel: itemModel, onDeleteClick: (itemModel) -> Unit){
                         text = itemModel.name,
                         modifier = Modifier.padding(start = 20.dp, end = 10.dp),
                         fontSize = 25.sp,
+                        maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         fontWeight = FontWeight.Bold,
                         color = Color.Black,
@@ -81,6 +82,8 @@ fun ProductCard(itemModel: itemModel, onDeleteClick: (itemModel) -> Unit){
                         text = "Owner Name: " + itemModel.ownerName,
                         modifier = Modifier.padding(horizontal = 20.dp),
                         fontSize = 12.sp,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
                         fontWeight = FontWeight.Bold,
                         color = Color.Black,
                         fontFamily = customFontFamily

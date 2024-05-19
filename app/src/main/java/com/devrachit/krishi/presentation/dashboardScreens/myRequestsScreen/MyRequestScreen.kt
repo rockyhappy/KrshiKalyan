@@ -52,7 +52,7 @@ fun MyRequestScreen(navController: NavController) {
         }
     }
     val onApproveClick : (itemModel) -> Unit = {
-//        viewModel.approveRequest(it)
+        viewModel.approveRequest(it)
     }
     LaunchedEffect(key1=true) {
         viewModel.getMyRequests()
@@ -68,7 +68,9 @@ fun MyRequestScreen(navController: NavController) {
                 .background(Color.White)
         ) {
             item{
-                Heading("My Request to borrow", Modifier.padding(top = 70.dp, start = 20.dp))
+                Heading(
+                    text= if(viewModel.sharedViewModel.getLanguage()=="English") "My Requests" else "मेरे अनुरोध",
+                    Modifier.padding(top = 70.dp, start = 20.dp))
             }
             items(items.size) {
                 ProductCard5(itemModel = items[it], onItemClick= {onItemClicked(it)}, onApproveClick = {onApproveClick(it)})

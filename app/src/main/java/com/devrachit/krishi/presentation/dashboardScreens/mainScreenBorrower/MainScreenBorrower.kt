@@ -116,11 +116,21 @@ fun MainScreenBorrower(navController: NavController)
                     .padding(16.dp)
             ) {
                 NavigationDrawerHeader()
-                DrawerItem(text = "Home", onClick = { onHomeClick.invoke() }, Icon = Icons.Filled.AccountCircle )
-                DrawerItem(text = "My Requests", onClick = { onMyRequestClick.invoke()}, Icon = Icons.Filled.Info )
-                DrawerItem(text = "My Borrowed Items", onClick = { onMyBorrowedProductsClick.invoke()}, Icon = Icons.Filled.CheckCircle )
-                DrawerItem(text = "Contact Us", onClick = { onContactUsClick.invoke()}, Icon = Icons.Filled.Call )
-                DrawerItem(text = "Log Out", onClick = { onLogOutClick.invoke()}, Icon = Icons.Filled.ExitToApp )
+                DrawerItem(
+                    text = if(viewModel.sharedViewModel.getLanguage()=="English") "Home" else "घर",
+                    onClick = { onHomeClick.invoke() }, Icon = Icons.Filled.AccountCircle )
+                DrawerItem(
+                    text = if(viewModel.sharedViewModel.getLanguage()=="English") "My Requests" else "मेरे अनुरोध",
+                    onClick = { onMyRequestClick.invoke()}, Icon = Icons.Filled.Info )
+                DrawerItem(
+                    text = if(viewModel.sharedViewModel.getLanguage()=="English") "My Borrowed Products" else "मेरे उधारी उत्पाद",
+                    onClick = { onMyBorrowedProductsClick.invoke()}, Icon = Icons.Filled.CheckCircle )
+                DrawerItem(
+                    text = if(viewModel.sharedViewModel.getLanguage()=="English") "Contact Us" else "संपर्क करें",
+                    onClick = { onContactUsClick.invoke()}, Icon = Icons.Filled.Call )
+                DrawerItem(
+                    text = if(viewModel.sharedViewModel.getLanguage()=="English") "Log Out" else "लॉग आउट",
+                    onClick = { onLogOutClick.invoke()}, Icon = Icons.Filled.ExitToApp )
             }
         },
         drawerState = drawerState
@@ -154,11 +164,15 @@ fun MainScreenBorrower(navController: NavController)
                 if(!loading.value && dataFetch.value)
                 {
                     item{
-                        Heading("My available borrows", Modifier.padding(top=0.dp, start=20.dp))
+                        Heading(
+                            text=if(viewModel.sharedViewModel.getLanguage()=="English") "My available borrows" else "मेरे उपलब्ध उधार",
+                            Modifier.padding(top=0.dp, start=20.dp))
                         TextField(
                             value = searchQuery,
                             onValueChange = { newValue -> viewModel.setSearchQuery(newValue) },
-                            placeholder = { Text("Search by name") },
+                            placeholder = { Text(
+                                if(viewModel.sharedViewModel.getLanguage()=="English") "Search" else "खोजें",
+                            ) },
                             modifier = Modifier
                                 .padding(horizontal = 16.dp, vertical = 8.dp)
                                 .fillMaxWidth()

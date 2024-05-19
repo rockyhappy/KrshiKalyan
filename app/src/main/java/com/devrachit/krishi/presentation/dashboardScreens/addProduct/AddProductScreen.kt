@@ -77,7 +77,9 @@ fun AddProductScreen(navController: NavController) {
     if(dataFetch)
     {
         viewModel.setDataFetch(false)
-        Toast.makeText(context, "Product Added Successfully", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context,
+            if(viewModel.sharedViewModel.getLanguage()=="English")"Product Added Successfully" else "उत्पाद सफलतापूर्वक जोड़ा गया",
+            Toast.LENGTH_SHORT).show()
     }
 
     Column(
@@ -101,7 +103,7 @@ fun AddProductScreen(navController: NavController) {
             Image(painter = painter, contentDescription = null, modifier = Modifier.size(200.dp))
         }
         Text(
-            text = "Add Image Here",
+            text = if(viewModel.sharedViewModel.language.collectAsStateWithLifecycle().value == "English") "Add Product Image" else "उत्पाद छवि जोड़ें",
             fontSize = 16.sp,
             color = Color.Black,
             modifier = Modifier.padding(top = 20.dp)

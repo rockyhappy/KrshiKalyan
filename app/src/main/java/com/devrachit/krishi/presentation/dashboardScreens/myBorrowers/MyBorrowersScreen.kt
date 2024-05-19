@@ -39,7 +39,7 @@ import kotlinx.coroutines.launch
 
 
 //this is the screen for the Lender side and the borrowed items are shown on this screen
-//the user can see the items he has lent to others
+
 @Composable
 fun MyBorrowersScreen(navController: NavController) {
     val viewModel: MyBorrowersViewModel = hiltViewModel()
@@ -84,7 +84,9 @@ fun MyBorrowersScreen(navController: NavController) {
                 .background(Color.White)
         ) {
             item{
-                Heading("My Borrowed Products", Modifier.padding(top = 70.dp, start = 20.dp))
+                Heading(
+                    text= if(viewModel.sharedViewModel.getLanguage()=="English")"My Borrowers" else "मेरे उधारी",
+                    Modifier.padding(top = 70.dp, start = 20.dp))
             }
             items(items.size) {
                 ProductCard2(itemModel = items[it], onDeleteClick = { onDeleteClick.invoke(it) }, onItemClick = { onItemClick.invoke(it) })
@@ -92,9 +94,5 @@ fun MyBorrowersScreen(navController: NavController) {
             }
 
         }
-    }
-    fun approveRequest(itemModel:itemModel)
-    {
-
     }
 }
