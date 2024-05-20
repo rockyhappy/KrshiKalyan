@@ -37,14 +37,53 @@ The app provides farmers with the following functionalities:
 4. **Request Management**: Lenders and borrowers can manage their lending and borrowing requests, including accepting or rejecting requests.
 
 ## Screenshots
-### Authentication Screens 
 
+### Authentication Screens 
+<div style="display: inline-block; margin-right: 20px; display: flex; justify-content: space-around;">
+<img src="https://github.com/rockyhappy/krishi/assets/115190222/671822cd-e103-49d3-8057-d65400fc80bc" alt="News App Screenshot 1" width="150" >
+<!-- Add space here -->
+<img src="https://github.com/rockyhappy/krishi/assets/115190222/fce1811b-0ef5-4b39-90b8-a265e6dca6c9" alt="News App Screenshot 1" width="150" >
+<!-- Add space here -->
+<img src="https://github.com/rockyhappy/krishi/assets/115190222/26c3bc34-59a3-4b8e-94a5-6c298d734b52" alt="News App Screenshot 1" width="150" >
+<!-- Add space here -->  
+<img src="https://github.com/rockyhappy/krishi/assets/115190222/8836cd7c-f20f-4b48-a3c6-6ab961b00dab" alt="News App Screenshot 1" width="150" >
+<!-- Add space here -->
+</div>
 
 ### Lender's Dashboard
-![Lender Dashboard](lender_dashboard.png)
+
+<div style="display: inline-block; margin-right: 20px; display: flex; justify-content: space-around;">
+<img src="https://github.com/rockyhappy/krishi/assets/115190222/94128517-dd08-4d2d-996b-e4473f14a15c" alt="News App Screenshot 1" width="150" >
+<!-- Add space here -->
+<img src="https://github.com/rockyhappy/krishi/assets/115190222/8dbf59a5-36e3-4932-82a9-20a884bef73e" alt="News App Screenshot 1" width="150" >
+<!-- Add space here -->
+<img src="https://github.com/rockyhappy/krishi/assets/115190222/9f6e04b9-c5b1-4759-9231-d95110ad2d22" alt="News App Screenshot 1" width="150" >
+<!-- Add space here -->  
+<img src="https://github.com/rockyhappy/krishi/assets/115190222/9a4d68b7-05ee-45cf-8222-57303765c7f2" alt="News App Screenshot 1" width="150" >
+<!-- Add space here -->
+<img src="https://github.com/rockyhappy/krishi/assets/115190222/ee63ebd4-3b4d-4f35-b5dc-6502bdbd2344" alt="News App Screenshot 1" width="150" >
+<!--   Add space here -->
+<img src="https://github.com/rockyhappy/krishi/assets/115190222/89b3b461-5caf-44d7-9daf-1c4bb831e1e4" alt="News App Screenshot 1" width="150" >
+<!--   Add space here -->
+</div>
+
+
+
 
 ### Borrower's Dashboard
-![Borrower Dashboard](borrower_dashboard.png)
+<div style="display: inline-block; margin-right: 20px; display: flex; justify-content: space-around;">
+<img src="https://github.com/rockyhappy/krishi/assets/115190222/a8ba10b7-91bf-4112-b315-7b931ed0bf28)" alt="News App Screenshot 1" width="150" >
+<!-- Add space here -->
+<img src="https://github.com/rockyhappy/krishi/assets/115190222/f122a4b9-9090-41ce-9ce1-9b17ae527008" alt="News App Screenshot 1" width="150" >
+<!-- Add space here -->
+<img src="https://github.com/rockyhappy/krishi/assets/115190222/9f6e04b9-c5b1-4759-9231-d95110ad2d22" alt="News App Screenshot 1" width="150" >
+<!-- Add space here -->  
+<img src="https://github.com/rockyhappy/krishi/assets/115190222/268bcb58-c793-44d1-8132-a33810076035" alt="News App Screenshot 1" width="150" >
+<!-- Add space here -->
+<img src="https://github.com/rockyhappy/krishi/assets/115190222/b355f252-f85e-432b-9392-7a536ecdc313" alt="News App Screenshot 1" width="150" >
+<!--   Add space here -->
+</div>
+
 
 ## Dependencies
 Krishi Kalyaan relies on the following key dependencies:
