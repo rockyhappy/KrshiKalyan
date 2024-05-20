@@ -61,9 +61,7 @@ The app provides farmers with the following functionalities:
 <!-- Add space here -->  
 <img src="https://github.com/rockyhappy/krishi/assets/115190222/9a4d68b7-05ee-45cf-8222-57303765c7f2" alt="News App Screenshot 1" width="150" >
 <!-- Add space here -->
-<img src="https://github.com/rockyhappy/krishi/assets/115190222/ee63ebd4-3b4d-4f35-b5dc-6502bdbd2344" alt="News App Screenshot 1" width="150" >
-<!--   Add space here -->
-<img src="https://github.com/rockyhappy/krishi/assets/115190222/89b3b461-5caf-44d7-9daf-1c4bb831e1e4" alt="News App Screenshot 1" width="150" >
+<img src="https://github.com/rockyhappy/krishi/assets/115190222/f7099334-f6e0-4beb-a6cd-394e682b7796" alt="News App Screenshot 1" width="150" >
 <!--   Add space here -->
 </div>
 
