@@ -39,7 +39,7 @@ fun ContactUsScreen(navController: NavController) {
     }
     val onCallUsClick:()->Unit = {
         val intent = Intent(Intent.ACTION_DIAL).apply {
-            data = Uri.parse("tel:+1234567890")
+            data = Uri.parse("tel:+917534015585")
         }
         if (intent.resolveActivity(context.packageManager) != null) {
             context.startActivity(intent)
@@ -62,7 +62,7 @@ fun ContactUsScreen(navController: NavController) {
                     modifier =Modifier.padding(bottom=30.dp) )
 
                 Text(
-                    text = "Address: 1234 Main St, Your City, Your State, 123456",
+                    text = "Address: 1110-FF Sector 5, Wave City, Ghaziabad,  201010",
                     textAlign = androidx.compose.ui.text.style.TextAlign.Center,
                     fontWeight = FontWeight.Normal,
                     fontSize = 16.sp,
