@@ -28,6 +28,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.devrachit.krishi.domain.models.itemModel
+import com.devrachit.krishi.domain.models.itemModel2
 import com.devrachit.krishi.domain.models.userModel
 import com.devrachit.krishi.navigation.dashboard.DashScreens
 import com.devrachit.krishi.presentation.dashboardScreens.madeRequestScreen.components.ProductCard4
@@ -51,12 +52,12 @@ fun MyBorrowersScreen(navController: NavController) {
     val dataFetch = viewModel.dataFetch.collectAsStateWithLifecycle()
     var items = viewModel.sharedViewModel.selfUploads2.collectAsStateWithLifecycle().value
     val showDialogBox = remember { mutableStateOf(false) }
-    val onDeleteClick: (itemModel: itemModel) -> Unit = {
+    val onDeleteClick: (itemModel: itemModel2) -> Unit = {
         var item = it
         viewModel.deleteItem(item)
         viewModel.deleteItem(item)
     }
-    val onItemClick: (itemModel:itemModel) -> Unit = {
+    val onItemClick: (itemModel:itemModel2) -> Unit = {
         viewModel.fetchBorrowerDetails(it){
             println("Borrower Details fetched ${it.name}")
             showDialogBox.value=true

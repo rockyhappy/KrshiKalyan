@@ -5,6 +5,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.lifecycle.ViewModel
 import com.devrachit.krishi.domain.models.SharedViewModel
 import com.devrachit.krishi.domain.models.itemModel
+import com.devrachit.krishi.domain.models.itemModel2
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -34,9 +35,9 @@ class MadeRequestViewModel @Inject constructor(
             .whereEqualTo("borrowerUid", auth.currentUser?.uid)
             .get()
             .addOnSuccessListener { querySnapshot ->
-                val requests = mutableListOf<itemModel>()
+                val requests = mutableListOf<itemModel2>()
                 for (document in querySnapshot.documents) {
-                    var itemData = itemModel(
+                    var itemData = itemModel2(
                         imageUrl = document.getString("imageUrl")!!,
                         name = document.getString("name")!!,
                         ownerName = document.getString("ownerName")!!,
@@ -44,7 +45,9 @@ class MadeRequestViewModel @Inject constructor(
                         price = document.getString("price")!!,
                         borrowerUid = document.getString("borrowerUid")!!,
                         rating = document.getString("rating")!!,
-                        uid= document.getString("uid")!!
+                        uid= document.getString("uid")!!,
+                        days = document.getString("days")!!,
+                        quantity = document.getString("quantity")!!,
                     )
                     requests.add(itemData)
                 }

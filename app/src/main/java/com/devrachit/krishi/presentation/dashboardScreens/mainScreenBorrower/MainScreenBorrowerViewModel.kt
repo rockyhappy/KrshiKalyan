@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.devrachit.krishi.domain.models.SharedViewModel
 import com.devrachit.krishi.domain.models.itemModel
+import com.devrachit.krishi.domain.models.itemModel2
 import com.devrachit.krishi.domain.models.userModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -72,10 +73,10 @@ class MainScreenBorrowerViewModel @Inject constructor(
                 db.collection("items")
                     .get()
                     .addOnSuccessListener { querySnapshot ->
-                        val uploads = mutableListOf<itemModel>()
-                        val uploads2 = mutableListOf<itemModel>()
+                        val uploads = mutableListOf<itemModel2>()
+                        val uploads2 = mutableListOf<itemModel2>()
                         for (document in querySnapshot.documents) {
-                            var itemData = itemModel(
+                            var itemData = itemModel2(
                                 imageUrl = document.getString("imageUrl")!!,
                                 name = document.getString("name")!!,
                                 ownerName = document.getString("ownerName")!!,
@@ -83,7 +84,9 @@ class MainScreenBorrowerViewModel @Inject constructor(
                                 price = document.getString("price")!!,
                                 borrowerUid = document.getString("borrowerUid")!!,
                                 rating = document.getString("rating")!!,
-                                uid=document.id
+                                uid=document.id,
+                                quantity = document.getString("quantity")!!,
+                                days = document.getString("days")!!
                             )
                             if (document.getString("borrowerUid") == "null" && itemData.name.contains(
                                     query,
@@ -118,7 +121,7 @@ class MainScreenBorrowerViewModel @Inject constructor(
 
     }
 
-    fun addItemToBorrow(item: itemModel) {
+    fun addItemToBorrow(item: itemModel2) {
         viewModelScope.launch {
             try {
                 _loading.value = true
@@ -128,7 +131,7 @@ class MainScreenBorrowerViewModel @Inject constructor(
                     .await()
                 if (querySnapshot.isEmpty) {
                     db.collection("itemRequest").add(
-                        itemModel(
+                        itemModel2(
                             imageUrl = item.imageUrl,
                             name = item.name,
                             ownerName = item.ownerName,
@@ -136,7 +139,9 @@ class MainScreenBorrowerViewModel @Inject constructor(
                             price = item.price,
                             borrowerUid = auth.currentUser!!.uid,
                             rating = item.rating,
-                            uid = item.uid
+                            uid = item.uid,
+                            quantity = item.quantity,
+                            days = item.days
                         )
                     )
                         .addOnSuccessListener {

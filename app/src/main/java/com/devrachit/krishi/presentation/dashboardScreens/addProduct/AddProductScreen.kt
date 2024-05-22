@@ -59,6 +59,8 @@ fun AddProductScreen(navController: NavController) {
     val loading = viewModel.loading.collectAsStateWithLifecycle()
     val nameState = remember { mutableStateOf(TextFieldValue()) }
     val numberState = remember { mutableStateOf(TextFieldValue()) }
+    val quantityState = remember { mutableStateOf(TextFieldValue()) }
+    val daysState= remember { mutableStateOf(TextFieldValue()) }
     val isButtonEnabled = viewModel.imageUrl.collectAsStateWithLifecycle().value != null
     val dataFetch= viewModel.dataFetch.collectAsStateWithLifecycle().value
     val context = LocalContext.current
@@ -72,7 +74,7 @@ fun AddProductScreen(navController: NavController) {
         {
             viewModel.nameValid.value = true
             viewModel.numberValid.value = true
-            viewModel.addItem(name=nameState.value.text, price=numberState.value.text, imageUrl =  imageUrl.toString())
+            viewModel.addItem(name=nameState.value.text, price=numberState.value.text, imageUrl =  imageUrl.toString(), quantity = quantityState.value.text, days = daysState.value.text)
         }
         else{
             viewModel.nameValid.value = false
@@ -186,7 +188,68 @@ fun AddProductScreen(navController: NavController) {
                         .padding(top = 10.dp)
                         .align(Alignment.Start)
                 )
-
+                OutlinedTextField(
+                    value = quantityState.value,
+                    onValueChange = { quantityState.value = it },
+                    shape = RoundedCornerShape(16.dp),
+                    singleLine = true,
+                    modifier = Modifier
+                        .padding(top = 20.dp, start = 16.dp, end = 16.dp)
+                        .fillMaxWidth(),
+                    label = {
+                        Text(
+                            text = if (viewModel.sharedViewModel.language.collectAsStateWithLifecycle().value == "English") "Quantity" else "मात्रा",
+                            fontFamily = customFontFamily
+                        )
+                    },
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedBorderColor = if (viewModel.quantityValid.value) primaryVariantColor1 else errorColor,
+                        focusedLabelColor = if (viewModel.quantityValid.value) primaryVariantColor1 else errorColor,
+                        cursorColor = if (viewModel.quantityValid.value) primaryVariantColor1 else errorColor,
+                        unfocusedBorderColor = if (viewModel.quantityValid.value) gray else errorColor,
+                        unfocusedLabelColor = if (viewModel.quantityValid.value) gray else errorColor,
+                        focusedTextColor = Color.Black,
+                        unfocusedTextColor = Color.Black
+                    ),
+                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = androidx.compose.ui.text.input.KeyboardType.Number)
+                )
+                errorFeild(
+                    text = if (viewModel.quantityValid.value) "" else "Recheck",
+                    modifier = Modifier
+                        .padding(top = 10.dp)
+                        .align(Alignment.Start)
+                )
+                OutlinedTextField(
+                    value = daysState.value,
+                    onValueChange = { daysState.value = it },
+                    shape = RoundedCornerShape(16.dp),
+                    singleLine = true,
+                    modifier = Modifier
+                        .padding(top = 20.dp, start = 16.dp, end = 16.dp)
+                        .fillMaxWidth(),
+                    label = {
+                        Text(
+                            text = if (viewModel.sharedViewModel.language.collectAsStateWithLifecycle().value == "English") "Days" else "दिन",
+                            fontFamily = customFontFamily
+                        )
+                    },
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedBorderColor = if (viewModel.quantityValid.value) primaryVariantColor1 else errorColor,
+                        focusedLabelColor = if (viewModel.quantityValid.value) primaryVariantColor1 else errorColor,
+                        cursorColor = if (viewModel.quantityValid.value) primaryVariantColor1 else errorColor,
+                        unfocusedBorderColor = if (viewModel.quantityValid.value) gray else errorColor,
+                        unfocusedLabelColor = if (viewModel.quantityValid.value) gray else errorColor,
+                        focusedTextColor = Color.Black,
+                        unfocusedTextColor = Color.Black
+                    ),
+                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = androidx.compose.ui.text.input.KeyboardType.Number)
+                )
+                errorFeild(
+                    text = if (viewModel.quantityValid.value) "" else "Recheck",
+                    modifier = Modifier
+                        .padding(top = 10.dp)
+                        .align(Alignment.Start)
+                )
                 SignupButton2(
                     text = if (viewModel.sharedViewModel.language.collectAsStateWithLifecycle().value == "English") "Add Product" else "उत्पाद जोड़ें",
                     onClick = { onAddProductClicked.invoke()},

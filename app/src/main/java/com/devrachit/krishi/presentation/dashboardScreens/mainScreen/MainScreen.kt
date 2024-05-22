@@ -40,6 +40,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.devrachit.krishi.domain.models.itemModel
+import com.devrachit.krishi.domain.models.itemModel2
 import com.devrachit.krishi.domain.models.userModel
 import com.devrachit.krishi.navigation.dashboard.DashScreens
 import com.devrachit.krishi.presentation.authScreens.Auth
@@ -83,7 +84,7 @@ fun MainScreenLender(navController: NavController) {
     val onMyLendsClick : () -> Unit = {
         scope.launch { drawerState.close()}
     }
-    val onDeleteClick : (itemModel:itemModel) -> Unit = {
+    val onDeleteClick : (itemModel: itemModel2) -> Unit = {
         var item = it
         viewModel.deleteItem(item)
 

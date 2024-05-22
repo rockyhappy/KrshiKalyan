@@ -31,12 +31,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.devrachit.krishi.common.constants.customFontFamily
 import com.devrachit.krishi.domain.models.itemModel
+import com.devrachit.krishi.domain.models.itemModel2
 import com.devrachit.krishi.presentation.dashboardScreens.mainScreen.components.CommonImage
 import com.devrachit.krishi.presentation.dashboardScreens.mainScreenBorrower.components.CustomButton
 import com.devrachit.krishi.ui.theme.primaryVariantColor1
 
 @Composable
-fun ProductCard4(itemModel: itemModel, onRequestBooking: (itemModel) -> Unit){
+fun ProductCard4(itemModel: itemModel2, onRequestBooking: (itemModel2) -> Unit){
     Column(
         modifier = Modifier
             .padding(20.dp)
@@ -119,8 +120,8 @@ fun ProductCard4(itemModel: itemModel, onRequestBooking: (itemModel) -> Unit){
     }
 }
 
-@Preview
-@Composable
-fun ProductCard4Preview(){
-    ProductCard4(itemModel("https://firebasestorage.googleapis.com/v0/b/krishi-57dd6.appspot.com/o/sample5.jpg?alt=media&token=b8d875e1-4de5-403d-b630-ada85dd02c12","name","Owner","Price","Rating","Image"),{})
-}
+//@Preview
+//@Composable
+//fun ProductCard4Preview(){
+//    ProductCard4(itemModel("https://firebasestorage.googleapis.com/v0/b/krishi-57dd6.appspot.com/o/sample5.jpg?alt=media&token=b8d875e1-4de5-403d-b630-ada85dd02c12","name","Owner","Price","Rating","Image"),{})
+//}

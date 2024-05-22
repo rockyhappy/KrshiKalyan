@@ -45,6 +45,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import com.devrachit.krishi.domain.models.itemModel
+import com.devrachit.krishi.domain.models.itemModel2
 import com.devrachit.krishi.domain.models.userModel
 import com.devrachit.krishi.navigation.auth.AuthScreens
 import com.devrachit.krishi.navigation.dashboard.DashScreens
@@ -85,7 +86,7 @@ fun MainScreenBorrower(navController: NavController)
         scope.launch { drawerState.close()}
 
     }
-    val onRequestBooking : (itemModel: itemModel) -> Unit = {
+    val onRequestBooking : (itemModel: itemModel2) -> Unit = {
         viewModel.addItemToBorrow(it)
     }
     val onHomeClick: ()->Unit ={

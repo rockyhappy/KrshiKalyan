@@ -58,45 +58,45 @@ class SharedViewModel @Inject constructor(){
         return isUserLoggedIn.value
     }
 
-    private val _selfUploads = MutableStateFlow<List<itemModel>>(emptyList())
+    private val _selfUploads = MutableStateFlow<List<itemModel2>>(emptyList())
     var selfUploads = _selfUploads.asStateFlow()
 
-    fun setSelfUploads(uploads: List<itemModel>){
+    fun setSelfUploads(uploads: List<itemModel2>){
         _selfUploads.value = uploads
     }
-    fun deleteSelfUploads(itemModel: itemModel){
+    fun deleteSelfUploads(itemModel: itemModel2){
         val list = selfUploads.value.toMutableList()
         list.remove(itemModel)
         _selfUploads.value = list
     }
 
-    fun addSelfUploads(itemModel: itemModel){
+    fun addSelfUploads(itemModel: itemModel2){
         val list = selfUploads.value.toMutableList()
         list.add(itemModel)
         _selfUploads.value = list
     }
-    fun getSelfUploads(): List<itemModel>{
+    fun getSelfUploads(): List<itemModel2>{
         return selfUploads.value
     }
 
-    private val _selfUploads2 = MutableStateFlow<List<itemModel>>(emptyList())
+    private val _selfUploads2 = MutableStateFlow<List<itemModel2>>(emptyList())
     var selfUploads2 = _selfUploads2.asStateFlow()
 
-    fun setSelfUploads2(uploads: List<itemModel>){
+    fun setSelfUploads2(uploads: List<itemModel2>){
         _selfUploads2.value = uploads
     }
-    fun deleteSelfUploads2(itemModel: itemModel){
+    fun deleteSelfUploads2(itemModel: itemModel2){
         val list = selfUploads2.value.toMutableList()
         list.remove(itemModel)
         _selfUploads2.value = list
     }
 
-    fun addSelfUploads2(itemModel: itemModel){
+    fun addSelfUploads2(itemModel: itemModel2){
         val list = selfUploads2.value.toMutableList()
         list.add(itemModel)
         _selfUploads2.value = list
     }
-    fun getSelfUploads2(): List<itemModel>{
+    fun getSelfUploads2(): List<itemModel2>{
         return selfUploads2.value
     }
 
@@ -113,21 +113,21 @@ class SharedViewModel @Inject constructor(){
     }
 
 
-    private val _borrowerMadeRequests = MutableStateFlow<List<itemModel>>(emptyList())
+    private val _borrowerMadeRequests = MutableStateFlow<List<itemModel2>>(emptyList())
     var borrowerMadeRequest = _borrowerMadeRequests.asStateFlow()
 
-    fun setBorrowerMadeRequests(requests: List<itemModel>){
+    fun setBorrowerMadeRequests(requests: List<itemModel2>){
         _borrowerMadeRequests.value = requests
     }
 
-    fun getBorrowerMadeRequests(): List<itemModel>{
+    fun getBorrowerMadeRequests(): List<itemModel2>{
         return borrowerMadeRequest.value
     }
 
-    private val _borrowerRequests = MutableStateFlow<List<itemModel>>(emptyList())
+    private val _borrowerRequests = MutableStateFlow<List<itemModel2>>(emptyList())
     var borrowerRequests = _borrowerRequests.asStateFlow()
 
-    fun setBorrowerRequests(requests: List<itemModel>){
+    fun setBorrowerRequests(requests: List<itemModel2>){
         _borrowerRequests.value = requests
     }
 

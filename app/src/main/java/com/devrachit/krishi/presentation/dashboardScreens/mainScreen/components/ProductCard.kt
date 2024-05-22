@@ -30,17 +30,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.devrachit.krishi.common.constants.customFontFamily
 import com.devrachit.krishi.domain.models.itemModel
+import com.devrachit.krishi.domain.models.itemModel2
 import com.devrachit.krishi.presentation.dashboardScreens.mainScreenBorrower.components.CustomButton
 import com.devrachit.krishi.ui.theme.primaryVariantColor1
 
 @Composable
-fun ProductCard(itemModel: itemModel, onDeleteClick: (itemModel) -> Unit){
+fun ProductCard(itemModel: itemModel2, onDeleteClick: (itemModel2) -> Unit){
 
     Column(
         modifier = Modifier
             .padding(20.dp)
             .fillMaxWidth()
-            .height(200.dp)
+            .height(220.dp)
             .background(color = Color.White)
             .clip(RoundedCornerShape(16.dp))
     )
@@ -71,7 +72,7 @@ fun ProductCard(itemModel: itemModel, onDeleteClick: (itemModel) -> Unit){
                     Text(
                         text = itemModel.name,
                         modifier = Modifier.padding(start = 20.dp, end = 10.dp),
-                        fontSize = 25.sp,
+                        fontSize = 20.sp,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         fontWeight = FontWeight.Bold,
@@ -81,7 +82,7 @@ fun ProductCard(itemModel: itemModel, onDeleteClick: (itemModel) -> Unit){
                     Text(
                         text = "Owner Name: " + itemModel.ownerName,
                         modifier = Modifier.padding(horizontal = 20.dp),
-                        fontSize = 12.sp,
+                        fontSize = 10.sp,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         fontWeight = FontWeight.Bold,
@@ -92,8 +93,8 @@ fun ProductCard(itemModel: itemModel, onDeleteClick: (itemModel) -> Unit){
             }
             Text(
                 text = "₹ " + itemModel.price+" /day",
-                modifier = Modifier.padding(top = 80.dp, start = 135.dp),
-                fontSize = 12.sp,
+                modifier = Modifier.padding(top = 70.dp, start = 135.dp),
+                fontSize = 10.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.Black,
                 fontFamily = customFontFamily
@@ -106,20 +107,36 @@ fun ProductCard(itemModel: itemModel, onDeleteClick: (itemModel) -> Unit){
             ){
                 Text(
                     text = "${itemModel.rating} ★",
-                    modifier = Modifier.padding(top = 105.dp),
-                    fontSize = 12.sp,
+                    modifier = Modifier.padding(top = 90.dp),
+                    fontSize = 10.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.Black,
                     fontFamily = customFontFamily
                 )
             }
-            CustomButton2(text = "Delete", onClick = { onDeleteClick.invoke(itemModel)}, modifier=Modifier.padding(top= 140.dp, start = 135.dp))
+            Text(
+                text = "Quantity: "+"${itemModel.quantity} ",
+                modifier = Modifier.padding(top = 110.dp,start= 135.dp),
+                fontSize = 10.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.Black,
+                fontFamily = customFontFamily
+            )
+            Text(
+                text = "Days: "+"${itemModel.quantity} ",
+                modifier = Modifier.padding(top = 130.dp,start= 135.dp),
+                fontSize = 10.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.Black,
+                fontFamily = customFontFamily
+            )
+            CustomButton2(text = "Delete", onClick = { onDeleteClick.invoke(itemModel)}, modifier=Modifier.padding(top= 160.dp, start = 135.dp))
         }
     }
 }
 
-@Preview
-@Composable
-fun ProductCardPreview(){
-    ProductCard(itemModel("1ahsdfgd","sgjskig","1","1","1","1"), onDeleteClick = {})
-}
+//@Preview
+//@Composable
+//fun ProductCardPreview(){
+//    ProductCard(itemModel("1ahsdfgd","sgjskig","1","1","1","1"), onDeleteClick = {})
+//}

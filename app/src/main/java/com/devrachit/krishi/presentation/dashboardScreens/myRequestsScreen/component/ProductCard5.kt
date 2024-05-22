@@ -30,13 +30,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.devrachit.krishi.common.constants.customFontFamily
 import com.devrachit.krishi.domain.models.itemModel
+import com.devrachit.krishi.domain.models.itemModel2
 import com.devrachit.krishi.presentation.dashboardScreens.mainScreen.components.CommonImage
 import com.devrachit.krishi.presentation.dashboardScreens.mainScreen.components.CustomButton2
 import com.devrachit.krishi.presentation.dashboardScreens.mainScreenBorrower.components.CustomButton
 import com.devrachit.krishi.ui.theme.primaryVariantColor1
 
 @Composable
-fun ProductCard5(itemModel: itemModel, onItemClick: (itemModel) -> Unit , onApproveClick:(itemModel) -> Unit) {
+fun ProductCard5(itemModel: itemModel2, onItemClick: (itemModel2) -> Unit , onApproveClick:(itemModel2) -> Unit) {
 
     Column(
         modifier = Modifier
