@@ -55,8 +55,9 @@ fun BorrowedProductsScreen(navController: NavController) {
 
     }
     val onItemClicked: (itemModel2) -> Unit = {
+        println("Borrowed Item Clicked ${it.paid}")
         viewModel.fetchOwnerDetails(it){
-            println("Borrower Details fetched ${it.tempAddress}")
+            println("Borrower Details fetched ${it}")
             ownerDetails.value=it
             showDialogBox.value=true
         }
@@ -92,7 +93,7 @@ fun BorrowedProductsScreen(navController: NavController) {
                     Modifier.padding(top = 70.dp, start = 20.dp))
             }
             items(items.size) {
-                if(items[it].isPaid)
+                if(items[it].paid==true)
                     ProductCard9(itemModel = items[it], {onReviewClick.invoke(it)},{onItemClicked.invoke(it)})
                 else
                     ProductCard8(itemModel = items[it], {onPayClick.invoke(it)},{onItemClicked.invoke(it) })

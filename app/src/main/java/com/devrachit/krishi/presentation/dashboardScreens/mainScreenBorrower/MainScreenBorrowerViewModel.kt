@@ -86,7 +86,8 @@ class MainScreenBorrowerViewModel @Inject constructor(
                                 rating = document.getString("rating")!!,
                                 uid=document.id,
                                 quantity = document.getString("quantity")!!,
-                                days = document.getString("days")!!
+                                days = document.getString("days")!!,
+                                paid=document.getBoolean("paid")!!
                             )
                             if (document.getString("borrowerUid") == "null" && itemData.name.contains(
                                     query,

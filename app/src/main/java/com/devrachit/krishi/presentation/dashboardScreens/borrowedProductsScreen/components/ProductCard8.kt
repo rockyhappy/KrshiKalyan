@@ -128,7 +128,7 @@ fun ProductCard8(itemModel: itemModel2, onRequestBooking: (itemModel2) -> Unit ,
                 fontFamily = customFontFamily
             )
             Text(
-                text = "Days: "+"${itemModel.quantity} units",
+                text = "Days: "+"${itemModel.days} units",
                 modifier = Modifier.padding(top = 130.dp, start=135.dp),
                 fontSize = 10.sp,
                 fontWeight = FontWeight.Bold,

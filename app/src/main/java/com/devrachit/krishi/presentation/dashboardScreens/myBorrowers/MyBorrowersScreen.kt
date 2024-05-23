@@ -74,7 +74,7 @@ fun MyBorrowersScreen(navController: NavController) {
                 )
             }
             items(items.size) {
-                if (items[it].isPaid)
+                if (items[it].paid)
                     ProductCard4(itemModel = items[it], { onItemClick.invoke(it) })
                 else
                     ProductCard4(itemModel = items[it], { onItemClick.invoke(it) })

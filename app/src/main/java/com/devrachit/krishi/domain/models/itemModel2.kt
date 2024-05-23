@@ -11,5 +11,5 @@ data class itemModel2(
     var uid : String = "",
     var quantity : String = "",
     var days : String = "",
-    var isPaid : Boolean = false
+    var paid : Boolean = false
 )

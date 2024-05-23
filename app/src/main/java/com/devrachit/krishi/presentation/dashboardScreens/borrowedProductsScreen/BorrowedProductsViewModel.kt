@@ -99,8 +99,9 @@ class BorrowedProductsViewModel @Inject constructor(
     fun updatePaymentStatus(paymentId: String, itemModel:itemModel2) {
         viewModelScope.launch {
             try {
-                db.collection("items").document(itemModel.uid).update("isPaid",true).addOnSuccessListener {
+                db.collection("items").document(itemModel.uid).update("paid",true).addOnSuccessListener {
                     println("Payment Successful")
+                     sharedViewModel.selfUploads2.value.get(sharedViewModel.selfUploads2.value.indexOf(itemModel)).paid=true
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
