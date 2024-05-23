@@ -1,4 +1,4 @@
-package com.devrachit.krishi.presentation.dashboardScreens.mainScreenBorrower.components
+package com.devrachit.krishi.presentation.dashboardScreens.borrowedProductsScreen.components
 
 
 import androidx.compose.foundation.background
@@ -18,6 +18,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Star
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -33,10 +34,12 @@ import com.devrachit.krishi.common.constants.customFontFamily
 import com.devrachit.krishi.domain.models.itemModel
 import com.devrachit.krishi.domain.models.itemModel2
 import com.devrachit.krishi.presentation.dashboardScreens.mainScreen.components.CommonImage
+import com.devrachit.krishi.presentation.dashboardScreens.mainScreenBorrower.components.CustomButton
+import com.devrachit.krishi.presentation.dashboardScreens.myRequestsScreen.component.CustomButton3
 import com.devrachit.krishi.ui.theme.primaryVariantColor1
 
 @Composable
-fun ProductCard3(itemModel: itemModel2, onRequestBooking: (itemModel2) -> Unit){
+fun ProductCard9(itemModel: itemModel2, onRequestBooking: (itemModel2) -> Unit , onItemClick:(itemModel2) -> Unit){
     Column(
         modifier = Modifier
             .padding(20.dp)
@@ -44,14 +47,16 @@ fun ProductCard3(itemModel: itemModel2, onRequestBooking: (itemModel2) -> Unit){
             .height(220.dp)
             .background(color = Color.White)
             .clip(RoundedCornerShape(16.dp))
+            .clickable { onItemClick(itemModel) }
     )
     {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .clip(RoundedCornerShape(26.dp))
+                .clip(RoundedCornerShape(16.dp))
                 .background(color = Color.White)
-                .border(2.dp, primaryVariantColor1, shape = RoundedCornerShape(26.dp))
+                .border(2.dp, primaryVariantColor1, shape = RoundedCornerShape(16.dp))
+                .clickable { onItemClick(itemModel) }
         )
         {
             Row(
@@ -64,8 +69,8 @@ fun ProductCard3(itemModel: itemModel2, onRequestBooking: (itemModel2) -> Unit){
                     data = itemModel.imageUrl,
                     modifier = Modifier
                         .padding(2.dp)
-                        .clip(RoundedCornerShape(26.dp))
-                        .height(200.dp)
+                        .clip(RoundedCornerShape(16.dp))
+                        .height(130.dp)
                         .width(100.dp)
                 )
                 Column {
@@ -83,6 +88,8 @@ fun ProductCard3(itemModel: itemModel2, onRequestBooking: (itemModel2) -> Unit){
                         text = "Owner Name: " + itemModel.ownerName,
                         modifier = Modifier.padding(horizontal = 20.dp),
                         fontSize = 10.sp,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
                         fontWeight = FontWeight.Bold,
                         color = Color.Black,
                         fontFamily = customFontFamily
@@ -113,28 +120,22 @@ fun ProductCard3(itemModel: itemModel2, onRequestBooking: (itemModel2) -> Unit){
                 )
             }
             Text(
-                text = "Quantity: "+ itemModel.quantity,
-                modifier = Modifier.padding(top = 108.dp, start= 135.dp),
+                text = "Quantity: "+"${itemModel.quantity} units",
+                modifier = Modifier.padding(top = 110.dp, start=135.dp),
                 fontSize = 10.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.Black,
                 fontFamily = customFontFamily
             )
             Text(
-                text = "Days: ${itemModel.days}",
-                modifier = Modifier.padding(top = 125.dp, start = 135.dp),
+                text = "Days: "+"${itemModel.quantity} units",
+                modifier = Modifier.padding(top = 130.dp, start=135.dp),
                 fontSize = 10.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.Black,
                 fontFamily = customFontFamily
             )
-            CustomButton(text = "Request Booking", onClick = { onRequestBooking(itemModel)}, modifier=Modifier.padding(top= 160.dp, start = 135.dp))
+            CustomButton3(text = "Review", onClick = { onRequestBooking.invoke(itemModel)}, modifier=Modifier.padding(top= 160.dp, start = 135.dp))
         }
     }
 }
-
-//@Preview
-//@Composable
-//fun ProductCard3Preview(){
-//    ProductCard3(itemModel("https://firebasestorage.googleapis.com/v0/b/krishi-57dd6.appspot.com/o/sample5.jpg?alt=media&token=b8d875e1-4de5-403d-b630-ada85dd02c12","name","Owner","Price","Rating","Image"),{})
-//}

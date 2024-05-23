@@ -38,20 +38,20 @@ fun MyBorrowersScreen(navController: NavController) {
         viewModel.deleteItem(item)
         viewModel.deleteItem(item)
     }
-    val onItemClick: (itemModel:itemModel2) -> Unit = {
-        viewModel.fetchBorrowerDetails(it){
+    val onItemClick: (itemModel: itemModel2) -> Unit = {
+        viewModel.fetchBorrowerDetails(it) {
             println("Borrower Details fetched ${it.name}")
-            showDialogBox.value=true
+            showDialogBox.value = true
             viewModel.sharedViewModel.setBorrowerDetails(it)
         }
     }
-    if(showDialogBox.value){
+    if (showDialogBox.value) {
         DialogCon(
             isShowingDialog = showDialogBox.value,
-            userDetails =  viewModel.sharedViewModel.getBorrowerDetails(),
+            userDetails = viewModel.sharedViewModel.getBorrowerDetails(),
             onDismissRequest = {
-            showDialogBox.value=false
-        })
+                showDialogBox.value = false
+            })
     }
     if (dataFetch.value) {
         items = viewModel.sharedViewModel.getSelfUploads2()
@@ -67,13 +67,17 @@ fun MyBorrowersScreen(navController: NavController) {
                 .padding(top = 0.dp)
                 .background(Color.White)
         ) {
-            item{
+            item {
                 Heading(
-                    text= if(viewModel.sharedViewModel.getLanguage()=="English")"My Borrowers" else "मेरे उधारी",
-                    Modifier.padding(top = 70.dp, start = 20.dp))
+                    text = if (viewModel.sharedViewModel.getLanguage() == "English") "My Borrowers" else "मेरे उधारी",
+                    Modifier.padding(top = 70.dp, start = 20.dp)
+                )
             }
             items(items.size) {
-                ProductCard4(itemModel = items[it],  { onItemClick.invoke(it) })
+                if (items[it].isPaid)
+                    ProductCard4(itemModel = items[it], { onItemClick.invoke(it) })
+                else
+                    ProductCard4(itemModel = items[it], { onItemClick.invoke(it) })
                 println("My borrower Screen ${items[it].name}")
             }
 
