@@ -13,7 +13,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.ExitToApp
@@ -21,7 +20,6 @@ import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ModalNavigationDrawer
@@ -33,7 +31,8 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -43,19 +42,15 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import androidx.navigation.NavGraph.Companion.findStartDestination
-import com.devrachit.krishi.domain.models.itemModel
 import com.devrachit.krishi.domain.models.itemModel2
 import com.devrachit.krishi.domain.models.userModel
-import com.devrachit.krishi.navigation.auth.AuthScreens
 import com.devrachit.krishi.navigation.dashboard.DashScreens
 import com.devrachit.krishi.presentation.authScreens.Auth
 import com.devrachit.krishi.presentation.authScreens.loginScreen.components.LoadingDialog
-import com.devrachit.krishi.presentation.dashboardScreens.mainScreen.MainScreenViewModel
 import com.devrachit.krishi.presentation.dashboardScreens.mainScreen.components.DrawerItem
 import com.devrachit.krishi.presentation.dashboardScreens.mainScreen.components.Heading
+import com.devrachit.krishi.presentation.dashboardScreens.mainScreen.components.LogoutConfirmationDialog
 import com.devrachit.krishi.presentation.dashboardScreens.mainScreen.components.NavigationDrawerHeader
-import com.devrachit.krishi.presentation.dashboardScreens.mainScreen.components.ProductCard
 import com.devrachit.krishi.presentation.dashboardScreens.mainScreenBorrower.components.ProductCard3
 import com.devrachit.krishi.ui.theme.primaryVariantColor1
 import kotlinx.coroutines.launch
@@ -78,6 +73,16 @@ fun MainScreenBorrower(navController: NavController)
        val intent = Intent(context, Auth::class.java)
         context.startActivity(intent)
         (context as Auth).finish()
+    }
+    val showLogoutDialog = remember { mutableStateOf(false) }
+    val onConfirmLogout : () -> Unit = {
+        viewModel.logout()
+        val intent = Intent(context, Auth::class.java)
+        context.startActivity(intent)
+        (context as Auth).finish()
+    }
+    val onlogOutClick: () -> Unit = {
+        showLogoutDialog.value = true
     }
     val onContactUsClick : () -> Unit = {
        navController.navigate(DashScreens.ContactUsScreen.route) {
@@ -131,7 +136,7 @@ fun MainScreenBorrower(navController: NavController)
                     onClick = { onContactUsClick.invoke()}, Icon = Icons.Filled.Call )
                 DrawerItem(
                     text = if(viewModel.sharedViewModel.getLanguage()=="English") "Log Out" else "लॉग आउट",
-                    onClick = { onLogOutClick.invoke()}, Icon = Icons.Filled.ExitToApp )
+                    onClick = { onlogOutClick.invoke()}, Icon = Icons.Filled.ExitToApp )
             }
         },
         drawerState = drawerState
@@ -202,6 +207,17 @@ fun MainScreenBorrower(navController: NavController)
         }
         else{
             LoadingDialog(isShowingDialog =false)
+        }
+        if (showLogoutDialog.value) {
+            LogoutConfirmationDialog(
+                onConfirm = {
+                    showLogoutDialog.value = false
+                    onConfirmLogout()
+                },
+                onDismiss = {
+                    showLogoutDialog.value = false
+                }
+            )
         }
     }
 }

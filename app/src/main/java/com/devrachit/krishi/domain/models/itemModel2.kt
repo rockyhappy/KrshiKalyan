@@ -10,5 +10,6 @@ data class itemModel2(
     val rating : String= "4.5",
     var uid : String = "",
     var quantity : String = "",
-    var days : String = ""
+    var days : String = "",
+    var isPaid : Boolean = false
 )
