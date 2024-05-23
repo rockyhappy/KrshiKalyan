@@ -23,6 +23,7 @@ import com.devrachit.krishi.domain.models.userModel
 import com.devrachit.krishi.presentation.authScreens.loginScreen.components.LoadingDialog
 import com.devrachit.krishi.presentation.dashboardScreens.borrowedProductsScreen.components.ProductCard8
 import com.devrachit.krishi.presentation.dashboardScreens.borrowedProductsScreen.components.ProductCard9
+import com.devrachit.krishi.presentation.dashboardScreens.borrowedProductsScreen.components.ReviewDialog
 import com.devrachit.krishi.presentation.dashboardScreens.madeRequestScreen.components.ProductCard4
 import com.devrachit.krishi.presentation.dashboardScreens.mainScreen.components.Heading
 import com.devrachit.krishi.presentation.dashboardScreens.myBorrowers.components.DialogCon
@@ -40,6 +41,7 @@ fun BorrowedProductsScreen(navController: NavController) {
     var ownerDetails =remember{ mutableStateOf(userModel("","","","","","",true)) }
     val paymentSuccess = viewModel.paymentState.collectAsStateWithLifecycle().value
     val itemSelected = remember { mutableStateOf(itemModel2("","","","","","","","","")) }
+    val showReviewDialog = remember { mutableStateOf(false) }
     LaunchedEffect(paymentSuccess) {
         when (paymentSuccess) {
             is PaymentState.Success -> {
@@ -63,7 +65,8 @@ fun BorrowedProductsScreen(navController: NavController) {
         }
     }
     val onReviewClick: (itemModel2) -> Unit = {
-        viewModel.reviewProduct(it)
+        itemSelected.value=it
+        showReviewDialog.value=true
     }
     val onPayClick : (itemModel2) -> Unit = {
         itemSelected.value=it
@@ -76,6 +79,18 @@ fun BorrowedProductsScreen(navController: NavController) {
             onDismissRequest = {
                 showDialogBox.value=false
             })
+    }
+    if(showReviewDialog.value)
+    {
+        ReviewDialog(
+            isShowingDialog = showReviewDialog.value,
+            onDismissRequest = {
+                showReviewDialog.value=false
+            },
+            onSubmitReview = {review,rating->
+            }
+        )
+
     }
     Scaffold(
         containerColor = Color.White,

@@ -101,7 +101,11 @@ class BorrowedProductsViewModel @Inject constructor(
             try {
                 db.collection("items").document(itemModel.uid).update("paid",true).addOnSuccessListener {
                     println("Payment Successful")
-                     sharedViewModel.selfUploads2.value.get(sharedViewModel.selfUploads2.value.indexOf(itemModel)).paid=true
+                     sharedViewModel.selfUploads2.value.forEach {
+                         if (it.uid == itemModel.uid) {
+                             it.paid = true
+                         }
+                     }
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -113,9 +117,7 @@ class BorrowedProductsViewModel @Inject constructor(
     {
         viewModelScope.launch {
             try {
-//                db.collection("items").document(itemModel.uid).update("isReviewed",true).addOnSuccessListener {
                     println("Review Successful")
-//                }
             } catch (e: Exception) {
                 e.printStackTrace()
             }
