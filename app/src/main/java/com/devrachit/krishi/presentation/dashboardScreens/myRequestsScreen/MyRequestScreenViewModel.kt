@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.devrachit.krishi.domain.models.SharedViewModel
 import com.devrachit.krishi.domain.models.itemModel
+import com.devrachit.krishi.domain.models.itemModel2
 import com.devrachit.krishi.domain.models.userModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -43,9 +44,9 @@ class MyRequestScreenViewModel @Inject constructor(
                     .whereEqualTo("ownerUid", auth.currentUser?.uid)
                     .get()
                     .addOnSuccessListener { querySnapshot ->
-                        val requests = mutableListOf<itemModel>()
+                        val requests = mutableListOf<itemModel2>()
                         for (document in querySnapshot.documents) {
-                            var itemData = itemModel(
+                            var itemData = itemModel2(
                                 imageUrl = document.getString("imageUrl")!!,
                                 name = document.getString("name")!!,
                                 ownerName = document.getString("ownerName")!!,
@@ -53,7 +54,9 @@ class MyRequestScreenViewModel @Inject constructor(
                                 price = document.getString("price")!!,
                                 borrowerUid = document.getString("borrowerUid")!!,
                                 rating = document.getString("rating")!!,
-                                uid= document.getString("uid")!!
+                                uid= document.getString("uid")!!,
+                                days = document.getString("days")!!,
+                                quantity = document.getString("quantity")!!,
                             )
                             requests.add(itemData)
                         }
@@ -72,7 +75,7 @@ class MyRequestScreenViewModel @Inject constructor(
             }
         }
     }
-    fun fetchBorrowerDetails(itemModel:itemModel, onResult: (userModel) -> Unit)
+    fun fetchBorrowerDetails(itemModel:itemModel2, onResult: (userModel) -> Unit)
     {
         viewModelScope.launch {
             try {
@@ -95,7 +98,7 @@ class MyRequestScreenViewModel @Inject constructor(
             }
         }
     }
-    fun approveRequest(item: itemModel) {
+    fun approveRequest(item: itemModel2) {
         viewModelScope.launch {
             try{
                 _loading.value = true

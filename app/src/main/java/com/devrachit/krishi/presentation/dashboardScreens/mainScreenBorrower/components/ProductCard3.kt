@@ -31,16 +31,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.devrachit.krishi.common.constants.customFontFamily
 import com.devrachit.krishi.domain.models.itemModel
+import com.devrachit.krishi.domain.models.itemModel2
 import com.devrachit.krishi.presentation.dashboardScreens.mainScreen.components.CommonImage
 import com.devrachit.krishi.ui.theme.primaryVariantColor1
 
 @Composable
-fun ProductCard3(itemModel: itemModel, onRequestBooking: (itemModel) -> Unit){
+fun ProductCard3(itemModel: itemModel2, onRequestBooking: (itemModel2) -> Unit){
     Column(
         modifier = Modifier
             .padding(20.dp)
             .fillMaxWidth()
-            .height(200.dp)
+            .height(220.dp)
             .background(color = Color.White)
             .clip(RoundedCornerShape(16.dp))
     )
@@ -71,7 +72,7 @@ fun ProductCard3(itemModel: itemModel, onRequestBooking: (itemModel) -> Unit){
                     Text(
                         text = itemModel.name,
                         modifier = Modifier.padding(start = 20.dp, end = 10.dp),
-                        fontSize = 25.sp,
+                        fontSize = 20.sp,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         fontWeight = FontWeight.Bold,
@@ -81,7 +82,7 @@ fun ProductCard3(itemModel: itemModel, onRequestBooking: (itemModel) -> Unit){
                     Text(
                         text = "Owner Name: " + itemModel.ownerName,
                         modifier = Modifier.padding(horizontal = 20.dp),
-                        fontSize = 12.sp,
+                        fontSize = 10.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.Black,
                         fontFamily = customFontFamily
@@ -90,8 +91,8 @@ fun ProductCard3(itemModel: itemModel, onRequestBooking: (itemModel) -> Unit){
             }
             Text(
                 text = "₹ " + itemModel.price+" /day",
-                modifier = Modifier.padding(top = 80.dp, start = 135.dp),
-                fontSize = 12.sp,
+                modifier = Modifier.padding(top = 70.dp, start = 135.dp),
+                fontSize = 10.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.Black,
                 fontFamily = customFontFamily
@@ -104,20 +105,36 @@ fun ProductCard3(itemModel: itemModel, onRequestBooking: (itemModel) -> Unit){
             ){
                 Text(
                     text = "${itemModel.rating} ★",
-                    modifier = Modifier.padding(top = 105.dp),
-                    fontSize = 12.sp,
+                    modifier = Modifier.padding(top = 90.dp),
+                    fontSize = 10.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.Black,
                     fontFamily = customFontFamily
                 )
             }
-            CustomButton(text = "Request Booking", onClick = { onRequestBooking(itemModel)}, modifier=Modifier.padding(top= 140.dp, start = 135.dp))
+            Text(
+                text = "Quantity: "+ itemModel.quantity,
+                modifier = Modifier.padding(top = 108.dp, start= 135.dp),
+                fontSize = 10.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.Black,
+                fontFamily = customFontFamily
+            )
+            Text(
+                text = "Days: ${itemModel.days}",
+                modifier = Modifier.padding(top = 125.dp, start = 135.dp),
+                fontSize = 10.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.Black,
+                fontFamily = customFontFamily
+            )
+            CustomButton(text = "Request Booking", onClick = { onRequestBooking(itemModel)}, modifier=Modifier.padding(top= 160.dp, start = 135.dp))
         }
     }
 }
 
-@Preview
-@Composable
-fun ProductCard3Preview(){
-    ProductCard3(itemModel("https://firebasestorage.googleapis.com/v0/b/krishi-57dd6.appspot.com/o/sample5.jpg?alt=media&token=b8d875e1-4de5-403d-b630-ada85dd02c12","name","Owner","Price","Rating","Image"),{})
-}
+//@Preview
+//@Composable
+//fun ProductCard3Preview(){
+//    ProductCard3(itemModel("https://firebasestorage.googleapis.com/v0/b/krishi-57dd6.appspot.com/o/sample5.jpg?alt=media&token=b8d875e1-4de5-403d-b630-ada85dd02c12","name","Owner","Price","Rating","Image"),{})
+//}

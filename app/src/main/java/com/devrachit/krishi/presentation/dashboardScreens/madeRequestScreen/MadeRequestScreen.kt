@@ -16,11 +16,13 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.devrachit.krishi.domain.models.itemModel2
 import com.devrachit.krishi.domain.models.userModel
 import com.devrachit.krishi.presentation.authScreens.loginScreen.components.LoadingDialog
 import com.devrachit.krishi.presentation.dashboardScreens.madeRequestScreen.components.ProductCard4
 import com.devrachit.krishi.presentation.dashboardScreens.mainScreen.components.Heading
 import com.devrachit.krishi.presentation.dashboardScreens.mainScreenBorrower.components.ProductCard3
+import com.devrachit.krishi.presentation.dashboardScreens.myBorrowers.components.DialogCon
 import com.devrachit.krishi.presentation.dashboardScreens.myBorrowers.components.ProductCard2
 
 @Composable
@@ -32,8 +34,24 @@ fun MadeRequestScreen(navController: NavController) {
     val dataFetch = viewModel.dataFetch.collectAsStateWithLifecycle()
     var items = viewModel.sharedViewModel.borrowerMadeRequest.collectAsStateWithLifecycle().value
     val showDialogBox = remember { mutableStateOf(false) }
+    var ownerDetails =remember{ mutableStateOf(userModel("","","","","","",true)) }
     LaunchedEffect(key1=true) {
         viewModel.getMyRequests()
+    }
+    val onItemClicked: (itemModel2) -> Unit = {
+        viewModel.fetchOwnerDetails(it){
+            println("Borrower Details fetched ${it.tempAddress}")
+            ownerDetails.value=it
+            showDialogBox.value=true
+        }
+    }
+    if(showDialogBox.value){
+        DialogCon(
+            isShowingDialog = showDialogBox.value,
+            userDetails =  ownerDetails.value,
+            onDismissRequest = {
+                showDialogBox.value=false
+            })
     }
     Scaffold(
         containerColor = Color.White,
@@ -51,7 +69,7 @@ fun MadeRequestScreen(navController: NavController) {
                     Modifier.padding(top = 70.dp, start = 20.dp))
             }
             items(items.size) {
-                ProductCard4(itemModel = items[it], {})
+                ProductCard4(itemModel = items[it], {onItemClicked.invoke(it)})
                 println("My borrower Screen ${items[it].name}")
             }
 

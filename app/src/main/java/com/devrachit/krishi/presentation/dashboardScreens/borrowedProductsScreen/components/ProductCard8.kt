@@ -1,4 +1,4 @@
-package com.devrachit.krishi.presentation.dashboardScreens.madeRequestScreen.components
+package com.devrachit.krishi.presentation.dashboardScreens.borrowedProductsScreen.components
 
 
 import androidx.compose.foundation.background
@@ -39,7 +39,7 @@ import com.devrachit.krishi.presentation.dashboardScreens.myRequestsScreen.compo
 import com.devrachit.krishi.ui.theme.primaryVariantColor1
 
 @Composable
-fun ProductCard4(itemModel: itemModel2, onRequestBooking: (itemModel2) -> Unit){
+fun ProductCard8(itemModel: itemModel2, onRequestBooking: (itemModel2) -> Unit , onItemClick:(itemModel2) -> Unit){
     Column(
         modifier = Modifier
             .padding(20.dp)
@@ -47,7 +47,7 @@ fun ProductCard4(itemModel: itemModel2, onRequestBooking: (itemModel2) -> Unit){
             .height(220.dp)
             .background(color = Color.White)
             .clip(RoundedCornerShape(16.dp))
-            .clickable { onRequestBooking(itemModel) }
+            .clickable { onItemClick(itemModel) }
     )
     {
         Box(
@@ -56,7 +56,7 @@ fun ProductCard4(itemModel: itemModel2, onRequestBooking: (itemModel2) -> Unit){
                 .clip(RoundedCornerShape(16.dp))
                 .background(color = Color.White)
                 .border(2.dp, primaryVariantColor1, shape = RoundedCornerShape(16.dp))
-                .clickable { onRequestBooking(itemModel) }
+                .clickable { onItemClick(itemModel) }
         )
         {
             Row(
@@ -128,20 +128,14 @@ fun ProductCard4(itemModel: itemModel2, onRequestBooking: (itemModel2) -> Unit){
                 fontFamily = customFontFamily
             )
             Text(
-                text = "Days: "+"${itemModel.quantity} units",
+                text = "Days: "+"${itemModel.days} units",
                 modifier = Modifier.padding(top = 130.dp, start=135.dp),
                 fontSize = 10.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.Black,
                 fontFamily = customFontFamily
             )
-            CustomButton3(text = "Get Details", onClick = { onRequestBooking.invoke(itemModel)}, modifier=Modifier.padding(top= 160.dp, start = 135.dp))
+            CustomButton3(text = "Pay Now", onClick = { onRequestBooking.invoke(itemModel)}, modifier=Modifier.padding(top= 160.dp, start = 135.dp))
         }
     }
 }
-
-//@Preview
-//@Composable
-//fun ProductCard4Preview(){
-//    ProductCard4(itemModel("https://firebasestorage.googleapis.com/v0/b/krishi-57dd6.appspot.com/o/sample5.jpg?alt=media&token=b8d875e1-4de5-403d-b630-ada85dd02c12","name","Owner","Price","Rating","Image"),{})
-//}

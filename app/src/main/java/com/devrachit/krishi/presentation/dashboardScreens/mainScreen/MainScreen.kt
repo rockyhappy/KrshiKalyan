@@ -30,6 +30,8 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -40,12 +42,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.devrachit.krishi.domain.models.itemModel
+import com.devrachit.krishi.domain.models.itemModel2
 import com.devrachit.krishi.domain.models.userModel
 import com.devrachit.krishi.navigation.dashboard.DashScreens
 import com.devrachit.krishi.presentation.authScreens.Auth
 import com.devrachit.krishi.presentation.authScreens.loginScreen.components.LoadingDialog
 import com.devrachit.krishi.presentation.dashboardScreens.mainScreen.components.DrawerItem
 import com.devrachit.krishi.presentation.dashboardScreens.mainScreen.components.Heading
+import com.devrachit.krishi.presentation.dashboardScreens.mainScreen.components.LogoutConfirmationDialog
 import com.devrachit.krishi.presentation.dashboardScreens.mainScreen.components.NavigationDrawerHeader
 import com.devrachit.krishi.presentation.dashboardScreens.mainScreen.components.ProductCard
 import com.devrachit.krishi.ui.theme.primaryVariantColor1
@@ -62,11 +66,15 @@ fun MainScreenLender(navController: NavController) {
     val dataFetch = viewModel.dataFetch.collectAsStateWithLifecycle()
     val items = viewModel.sharedViewModel.selfUploads.collectAsStateWithLifecycle().value
     val context= navController.context
-    val onlogOutClick : () -> Unit = {
+    val showLogoutDialog = remember { mutableStateOf(false) }
+    val onConfirmLogout : () -> Unit = {
         viewModel.logout()
         val intent = Intent(context, Auth::class.java)
         context.startActivity(intent)
         (context as Auth).finish()
+    }
+    val onlogOutClick: () -> Unit = {
+        showLogoutDialog.value = true
     }
     val onContactUsClick : () -> Unit = {
         navController.navigate(DashScreens.ContactUsScreen.route) {
@@ -83,7 +91,7 @@ fun MainScreenLender(navController: NavController) {
     val onMyLendsClick : () -> Unit = {
         scope.launch { drawerState.close()}
     }
-    val onDeleteClick : (itemModel:itemModel) -> Unit = {
+    val onDeleteClick : (itemModel: itemModel2) -> Unit = {
         var item = it
         viewModel.deleteItem(item)
 
@@ -185,6 +193,17 @@ fun MainScreenLender(navController: NavController) {
         }
         else{
             LoadingDialog(isShowingDialog =false)
+        }
+        if (showLogoutDialog.value) {
+            LogoutConfirmationDialog(
+                onConfirm = {
+                    showLogoutDialog.value = false
+                    onConfirmLogout()
+                },
+                onDismiss = {
+                    showLogoutDialog.value = false
+                }
+            )
         }
     }
 }

@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.devrachit.krishi.domain.models.SharedViewModel
 import com.devrachit.krishi.domain.models.itemModel
+import com.devrachit.krishi.domain.models.itemModel2
 import com.devrachit.krishi.domain.models.userModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -35,7 +36,7 @@ class MyBorrowersViewModel @Inject constructor(
     fun setDataFetch(value: Boolean) {
         _dataFetch.value = value
     }
-    fun deleteItem(item: itemModel) {
+    fun deleteItem(item: itemModel2) {
         viewModelScope.launch {
             try {
                 _loading.value = true
@@ -68,7 +69,7 @@ class MyBorrowersViewModel @Inject constructor(
         }
     }
 
-    fun fetchBorrowerDetails(itemModel:itemModel, onResult: (userModel) -> Unit)
+    fun fetchBorrowerDetails(itemModel:itemModel2, onResult: (userModel) -> Unit)
     {
         viewModelScope.launch {
             try {
@@ -81,7 +82,7 @@ class MyBorrowersViewModel @Inject constructor(
                             permAddress = document.getString("permAddress")!!,
                             identificationNumber = document.getString("identificationNumber")!!,
                             identificationType = document.getString("identificationType")!!,
-                            isBorrower = document.getBoolean("isBorrower")!!
+                            isBorrower = document.getBoolean("isBorrower")!!,
                         )
                         onResult(userData)
                     }

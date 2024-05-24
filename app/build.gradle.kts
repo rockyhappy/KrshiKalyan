@@ -96,4 +96,5 @@ dependencies {
 
     //For compose navigation testing
     implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
+    implementation("com.razorpay:checkout:1.6.36")
 }

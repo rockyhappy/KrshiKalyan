@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.devrachit.krishi.domain.models.SharedViewModel
 import com.devrachit.krishi.domain.models.itemModel
+import com.devrachit.krishi.domain.models.itemModel2
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -50,6 +51,8 @@ class AddProductViewModel @Inject constructor(
 
     val nameValid = mutableStateOf(true)
     val numberValid = mutableStateOf(true)
+    val quantityValid = mutableStateOf(true)
+    val daysValid = mutableStateOf(true)
     fun uploadProductImage(uri: Uri) {
         val userId = auth.currentUser?.uid ?: return
         val storageRef = storage.reference.child("product_images/${userId}/${uri.lastPathSegment}")
@@ -76,9 +79,9 @@ class AddProductViewModel @Inject constructor(
     }
 
 
-    fun addItem(price: String, imageUrl: String, name: String)
+    fun addItem(price: String, imageUrl: String, name: String, quantity :String, days: String)
     {
-        var item= itemModel(
+        var item= itemModel2(
             imageUrl = imageUrl,
             name = name,
             ownerName = sharedViewModel.getUser().name,
@@ -86,6 +89,8 @@ class AddProductViewModel @Inject constructor(
             price = price,
             borrowerUid = "null",
             rating = "4.5",
+            quantity = if(quantity.isEmpty()) "1" else quantity ,
+            days = if(days.isEmpty()) "10" else days
         )
 
         viewModelScope.launch {

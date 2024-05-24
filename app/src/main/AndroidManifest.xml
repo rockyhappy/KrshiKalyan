@@ -35,6 +35,7 @@
             android:windowSoftInputMode="adjustUnspecified"
             >
         </activity>
+        <activity android:name="com.razorpay.CheckoutActivity"/>
     </application>
 
 </manifest>

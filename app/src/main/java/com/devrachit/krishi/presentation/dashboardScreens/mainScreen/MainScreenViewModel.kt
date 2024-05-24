@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.devrachit.krishi.domain.models.SharedViewModel
 import com.devrachit.krishi.domain.models.itemModel
+import com.devrachit.krishi.domain.models.itemModel2
 import com.devrachit.krishi.domain.models.userModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -47,10 +48,10 @@ class MainScreenViewModel @Inject constructor(
                     .whereEqualTo("ownerUid", auth.currentUser?.uid)
                     .get()
                     .addOnSuccessListener { querySnapshot ->
-                        val uploads = mutableListOf<itemModel>()
-                        val uploads2 = mutableListOf<itemModel>()
+                        val uploads = mutableListOf<itemModel2>()
+                        val uploads2 = mutableListOf<itemModel2>()
                         for (document in querySnapshot.documents) {
-                            var itemData = itemModel(
+                            var itemData = itemModel2(
                                 imageUrl = document.getString("imageUrl")!!,
                                 name = document.getString("name")!!,
                                 ownerName = document.getString("ownerName")!!,
@@ -58,7 +59,9 @@ class MainScreenViewModel @Inject constructor(
                                 price = document.getString("price")!!,
                                 borrowerUid = document.getString("borrowerUid")!!,
                                 rating = document.getString("rating")!!,
-                                uid= document.id
+                                uid= document.id,
+                                quantity = document.getString("quantity")!!,
+                                days = document.getString("days")!!
                             )
                             if(document.getString("borrowerUid") == "null"){
                                 uploads.add(itemData)
@@ -87,10 +90,9 @@ class MainScreenViewModel @Inject constructor(
 
     }
 
-    fun deleteItem(item: itemModel) {
+    fun deleteItem(item: itemModel2) {
         viewModelScope.launch {
             try {
-
                 _loading.value = true
                 db.collection("items")
                     .whereEqualTo("uid",item.uid)
@@ -120,9 +122,9 @@ class MainScreenViewModel @Inject constructor(
         }
     }
 
-    fun addItem(itemModel:itemModel)
+    fun addItem(itemModel:itemModel2)
     {
-        val item=itemModel(
+        val item=itemModel2(
             imageUrl = itemModel.imageUrl,
             name = itemModel.name,
             ownerName = itemModel.ownerName,
@@ -130,6 +132,8 @@ class MainScreenViewModel @Inject constructor(
             price = itemModel.price,
             borrowerUid = itemModel.borrowerUid,
             rating = itemModel.rating,
+            quantity = itemModel.quantity,
+            days = itemModel.days
         )
 
         viewModelScope.launch {

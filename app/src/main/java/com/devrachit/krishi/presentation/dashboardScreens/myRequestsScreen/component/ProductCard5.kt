@@ -30,19 +30,21 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.devrachit.krishi.common.constants.customFontFamily
 import com.devrachit.krishi.domain.models.itemModel
+import com.devrachit.krishi.domain.models.itemModel2
 import com.devrachit.krishi.presentation.dashboardScreens.mainScreen.components.CommonImage
 import com.devrachit.krishi.presentation.dashboardScreens.mainScreen.components.CustomButton2
 import com.devrachit.krishi.presentation.dashboardScreens.mainScreenBorrower.components.CustomButton
+import com.devrachit.krishi.presentation.dashboardScreens.myBorrowers.components.CustomButton10
 import com.devrachit.krishi.ui.theme.primaryVariantColor1
 
 @Composable
-fun ProductCard5(itemModel: itemModel, onItemClick: (itemModel) -> Unit , onApproveClick:(itemModel) -> Unit) {
+fun ProductCard5(itemModel: itemModel2, onItemClick: (itemModel2) -> Unit , onApproveClick:(itemModel2) -> Unit) {
 
     Column(
         modifier = Modifier
             .padding(20.dp)
             .fillMaxWidth()
-            .height(200.dp)
+            .height(230.dp)
             .background(color = Color.White)
             .clip(RoundedCornerShape(16.dp))
             .clickable { onItemClick.invoke(itemModel) }
@@ -74,7 +76,7 @@ fun ProductCard5(itemModel: itemModel, onItemClick: (itemModel) -> Unit , onAppr
                     Text(
                         text = itemModel.name,
                         modifier = Modifier.padding(start = 20.dp, end = 10.dp),
-                        fontSize = 25.sp,
+                        fontSize = 20.sp,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         fontWeight = FontWeight.Bold,
@@ -84,7 +86,7 @@ fun ProductCard5(itemModel: itemModel, onItemClick: (itemModel) -> Unit , onAppr
                     Text(
                         text = "Owner Name: " + itemModel.ownerName,
                         modifier = Modifier.padding(horizontal = 20.dp),
-                        fontSize = 12.sp,
+                        fontSize = 10.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.Black,
                         fontFamily = customFontFamily
@@ -93,8 +95,8 @@ fun ProductCard5(itemModel: itemModel, onItemClick: (itemModel) -> Unit , onAppr
             }
             Text(
                 text = "₹ " + itemModel.price+" /day",
-                modifier = Modifier.padding(top = 80.dp, start = 135.dp),
-                fontSize = 12.sp,
+                modifier = Modifier.padding(top = 70.dp, start = 135.dp),
+                fontSize = 10.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.Black,
                 fontFamily = customFontFamily
@@ -107,14 +109,42 @@ fun ProductCard5(itemModel: itemModel, onItemClick: (itemModel) -> Unit , onAppr
             ){
                 Text(
                     text = "${itemModel.rating} ★",
-                    modifier = Modifier.padding(top = 105.dp),
-                    fontSize = 12.sp,
+                    modifier = Modifier.padding(top = 90.dp),
+                    fontSize = 10.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.Black,
                     fontFamily = customFontFamily
                 )
             }
-            CustomButton3(text = "Approve", onClick = { onApproveClick.invoke(itemModel)}, modifier=Modifier.padding(top= 140.dp, start = 135.dp))
+            Text(
+                text = "Quantity: "+"${itemModel.quantity} ",
+                modifier = Modifier.padding(top = 108.dp, start = 135.dp),
+                fontSize = 10.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.Black,
+                fontFamily = customFontFamily
+            )
+            Text(
+                text = "Days: "+"${itemModel.days} ",
+                modifier = Modifier.padding(top = 125.dp, start = 135.dp),
+                fontSize = 10.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.Black,
+                fontFamily = customFontFamily
+            )
+            Row(
+                modifier = Modifier
+                    .padding(top = 160.dp)
+                    .fillMaxWidth()
+                    .padding(start = 120.dp),
+                horizontalArrangement = Arrangement.Absolute.Left
+            )
+            {
+                CustomButton10(text = "Approve", onClick = { onApproveClick.invoke(itemModel)})
+                CustomButton10(text = "Details", onClick = { onItemClick.invoke(itemModel)}, modifier=Modifier.padding(start=10.dp))
+            }
+
+
         }
     }
 }

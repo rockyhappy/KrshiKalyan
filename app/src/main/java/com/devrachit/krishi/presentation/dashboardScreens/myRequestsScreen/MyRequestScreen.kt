@@ -17,6 +17,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.devrachit.krishi.domain.models.itemModel
+import com.devrachit.krishi.domain.models.itemModel2
 import com.devrachit.krishi.domain.models.userModel
 import com.devrachit.krishi.presentation.authScreens.loginScreen.components.LoadingDialog
 import com.devrachit.krishi.presentation.dashboardScreens.madeRequestScreen.components.ProductCard4
@@ -44,14 +45,14 @@ fun MyRequestScreen(navController: NavController) {
                 showDialogBox.value=false
             })
     }
-    val onItemClicked: (itemModel) -> Unit = {
+    val onItemClicked: (itemModel2) -> Unit = {
         viewModel.fetchBorrowerDetails(it){
             println("Borrower Details fetched ${it.tempAddress}")
             borrowerDetails.value=it
             showDialogBox.value=true
         }
     }
-    val onApproveClick : (itemModel) -> Unit = {
+    val onApproveClick : (itemModel2) -> Unit = {
         viewModel.approveRequest(it)
     }
     LaunchedEffect(key1=true) {
