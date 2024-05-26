@@ -38,8 +38,13 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.devrachit.krishi.common.constants.customFontFamily
 import com.devrachit.krishi.common.util.address
+import com.devrachit.krishi.common.util.isAadharValid
+import com.devrachit.krishi.common.util.isDrivingLicenseValid
 import com.devrachit.krishi.common.util.isLongAndLettersOnly
 import com.devrachit.krishi.common.util.isNumbersOnlyAndLengthTen
+import com.devrachit.krishi.common.util.isPANValid
+import com.devrachit.krishi.common.util.isRationNumberValid
+import com.devrachit.krishi.common.util.isVoterIdValid
 import com.devrachit.krishi.datastore.SaveToDataStore
 import com.devrachit.krishi.domain.models.userModel
 import com.devrachit.krishi.navigation.auth.AuthScreens
@@ -59,6 +64,7 @@ import com.devrachit.krishi.ui.theme.gray
 import com.devrachit.krishi.ui.theme.primaryVariantColor1
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.selects.select
 
 @ExperimentalMaterial3Api
 @Composable
@@ -83,7 +89,6 @@ fun registerScreen(navController: NavController) {
         "Voter ID",
         "Driving License",
         "Ration Number",
-        "Passport",
         "PAN Card"
     )
     val options1 = listOf(
@@ -91,7 +96,6 @@ fun registerScreen(navController: NavController) {
         "मतदाता पहचान पत्र",
         "ड्राइविंग लाइसेंस",
         "राशन संख्या",
-        "पासपोर्ट",
         "पैन कार्ड"
     )
     var selectedIndex by remember { mutableStateOf(0) }
@@ -124,6 +128,36 @@ fun registerScreen(navController: NavController) {
         } else {
             viewModel.tempAddressValid.value = false
             viewModel.permAddressValid.value = false
+            flag = false
+        }
+        if(selectedIndex==0 && identificationNumberState.value.text.isAadharValid())
+        {
+            viewModel.identificationNumberValid.value = true
+            flag = true
+        }
+        else if(selectedIndex==1 && identificationNumberState.value.text.isVoterIdValid())
+        {
+            viewModel.identificationNumberValid.value = true
+            flag = true
+        }
+        else if(selectedIndex==2 && identificationNumberState.value.text.isDrivingLicenseValid())
+        {
+            viewModel.identificationNumberValid.value = true
+            flag = true
+        }
+        else if(selectedIndex==3 && identificationNumberState.value.text.isRationNumberValid())
+        {
+            viewModel.identificationNumberValid.value = true
+            flag = true
+        }
+        else if(selectedIndex==4 && identificationNumberState.value.text.isPANValid())
+        {
+            viewModel.identificationNumberValid.value = true
+            flag=true
+        }
+        else
+        {
+            viewModel.identificationNumberValid.value = false
             flag = false
         }
         if (flag == true) {
