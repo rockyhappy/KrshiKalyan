@@ -29,12 +29,30 @@ Krishi Kalyaan employs Coil for efficient image loading and caching. Coil is a l
 ### Local Data Storage
 The app uses Datastore for local data storage, enabling offline access to essential information. Datastore provides a reliable and efficient way to store and retrieve data locally on the device, ensuring that users can access critical data even when they are offline or have limited connectivity. This enhances the app's usability and reliability, especially in rural areas with unreliable internet access.
 
+### RazorPay Payment Wall
+The application comes along with a well integrated payment wall to allow the user for a proper flow of simplification. The user is highly authenticated and the safety of payment is ensured. 
+
 ## Usage
 The app provides farmers with the following functionalities:
 1. **Login/Signup**: Farmers can log in or sign up using their phone numbers. OTP services provide easy authentication.
 2. **Choose Role**: Users can choose to be either lenders or borrowers.
 3. **Product Listing**: Farmers can list farming items they want to lend or borrow from a predefined list or by adding new products.
 4. **Request Management**: Lenders and borrowers can manage their lending and borrowing requests, including accepting or rejecting requests.
+5. **Online Payment**: The application comes along with the payment wall for the ease of the user
+
+
+## Dependencies
+Krishi Kalyaan relies on the following key dependencies:
+- **Firebase Auth**: For user authentication via phone number. 
+- **Firebase Firestore**: For real-time data storage and synchronization.
+- **Firebase Storage**: For managing images of farming items.
+- **Play Integrity App Check**: For ensuring app integrity and security.
+- **Dagger Hilt**: For streamlined dependency management.
+- **Kotlin Symbolic Programming (KSP)**: For efficient code generation.
+- **Coil**: For efficient image loading and caching.
+- **Datastore**: For local data storage.
+- **RazorPay**: For the integration of online payment 
+
 
 ## Screenshots
 
@@ -82,17 +100,58 @@ The app provides farmers with the following functionalities:
 <!--   Add space here -->
 </div>
 
+## Video Demonstration
+https://github.com/rockyhappy/krishi/assets/115190222/fbf23231-13ad-4f77-9d28-ce522e2681ad
 
-## Dependencies
-Krishi Kalyaan relies on the following key dependencies:
-- **Firebase Auth**: For user authentication via phone number. 
-- **Firebase Firestore**: For real-time data storage and synchronization.
-- **Firebase Storage**: For managing images of farming items.
-- **Play Integrity App Check**: For ensuring app integrity and security.
-- **Dagger Hilt**: For streamlined dependency management.
-- **Kotlin Symbolic Programming (KSP)**: For efficient code generation.
-- **Coil**: For efficient image loading and caching.
-- **Datastore**: For local data storage.
+
+https://github.com/rockyhappy/krishi/assets/115190222/15c32800-bd40-44bf-ade5-b835e6c6e6c7
+
+
+
+https://github.com/rockyhappy/krishi/assets/115190222/689a0398-0117-4a7a-92a0-63a8eae1e398
+
+
+
+https://github.com/rockyhappy/krishi/assets/115190222/6d1cbd8a-6a88-4ef0-84cf-aaf56fbc88f3
+
+
+
+https://github.com/rockyhappy/krishi/assets/115190222/6e82cba8-8f8d-41d3-86fe-6c946f9afef4
+
+
+
+https://github.com/rockyhappy/krishi/assets/115190222/72789548-d569-4c2a-b9ee-492632ba6c22
+
+
+
+https://github.com/rockyhappy/krishi/assets/115190222/0e931aa5-e874-4826-9799-148c5342d64a
+
+
+
+https://github.com/rockyhappy/krishi/assets/115190222/df3aca9f-c9f4-43bd-96c4-aafaa88b5dd3
+
+
+
+https://github.com/rockyhappy/krishi/assets/115190222/55e18304-3335-4e3e-9285-42c69af48403
+
+
+
+https://github.com/rockyhappy/krishi/assets/115190222/00c3153c-2c18-4b06-ba51-875a9247bbc4
+
+
+
+https://github.com/rockyhappy/krishi/assets/115190222/814bcd50-59cb-4b72-9409-c16cdba6d616
+
+
+
+https://github.com/rockyhappy/krishi/assets/115190222/2f127f2c-6b14-487f-953f-df6545477c78
+
+
+
+https://github.com/rockyhappy/krishi/assets/115190222/8f298a3c-4f78-4454-965e-95a57b1d4345
+
+
+
 
 ## Getting Started
 To start using Krishi Kalyaan:
